@@ -1,0 +1,8 @@
+
+[all]
+pygls>=1.0
+lsprotocol>=2023.0
+
+[lsp]
+pygls>=1.0
+lsprotocol>=2023.0

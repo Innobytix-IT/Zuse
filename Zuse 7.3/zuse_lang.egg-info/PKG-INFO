@@ -1,0 +1,31 @@
+Metadata-Version: 2.4
+Name: zuse-lang
+Version: 7.1.0
+Summary: Zuse — Die mehrsprachige Bildungs-Programmiersprache
+Author-email: Manuel <zuse@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/ManuelR-T/Zuse
+Project-URL: Documentation, https://github.com/ManuelR-T/Zuse/tree/main/docs
+Project-URL: Repository, https://github.com/ManuelR-T/Zuse
+Project-URL: Issues, https://github.com/ManuelR-T/Zuse/issues
+Keywords: programming-language,education,multilingual,transpiler,german
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Education
+Classifier: Topic :: Software Development :: Compilers
+Classifier: Topic :: Software Development :: Interpreters
+Classifier: Natural Language :: German
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Provides-Extra: lsp
+Requires-Dist: pygls>=1.0; extra == "lsp"
+Requires-Dist: lsprotocol>=2023.0; extra == "lsp"
+Provides-Extra: all
+Requires-Dist: pygls>=1.0; extra == "all"
+Requires-Dist: lsprotocol>=2023.0; extra == "all"
