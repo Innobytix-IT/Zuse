@@ -1,7 +1,12 @@
 # ZUSE v7.3 — Multilingual Edition
 
+![Version](https://img.shields.io/badge/Version-7.3-blue) ![Language](https://img.shields.io/badge/Made_with-Python-yellow) ![Status](https://img.shields.io/badge/Status-Stable-green) ![Tests](https://img.shields.io/badge/Tests-1086+-brightgreen)
+
+
 **Die mehrsprachige, transpilierende Programmiersprache für Bildung und Industrie.**
 *Built on the power of Python.*
+
+**Zuse** is an object-oriented, transpiling programming language designed to break the barrier between "Learning Languages" (like Scratch) and "Pro Languages" (like Python/C++).
 
 ---
 
