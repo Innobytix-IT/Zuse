@@ -1,0 +1,20 @@
+# Lektion 3: Einfacher Rechner
+# Arithmetik und Benutzereingabe
+
+AUSGABE "=== Zuse Taschenrechner ==="
+
+a = EINGABE_ZAHL("Erste Zahl: ")
+b = EINGABE_ZAHL("Zweite Zahl: ")
+
+AUSGABE "Addition:       " + str(a + b)
+AUSGABE "Subtraktion:    " + str(a - b)
+AUSGABE "Multiplikation: " + str(a * b)
+
+WENN b != 0 DANN
+    AUSGABE "Division:       " + str(a / b)
+    AUSGABE "Rest (Modulo):  " + str(a % b)
+SONST
+    AUSGABE "Division durch 0 nicht moeglich!"
+ENDE WENN
+
+AUSGABE "Potenz:         " + str(a ^ b)

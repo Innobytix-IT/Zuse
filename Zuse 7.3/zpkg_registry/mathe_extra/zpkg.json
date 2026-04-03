@@ -1,0 +1,9 @@
+{
+    "name": "mathe_extra",
+    "version": "1.0.0",
+    "autor": "Zuse Team",
+    "beschreibung": "Zusätzliche Mathe-Funktionen: Fibonacci, Fakultät, Primzahl-Test",
+    "abhaengigkeiten": {},
+    "sprache": "deutsch",
+    "hauptdatei": "mathe_extra.zuse"
+}

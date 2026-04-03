@@ -1,0 +1,64 @@
+# Lektion 13: Bankkonto (OOP)
+# Klassen mit Zustandsverwaltung
+
+KLASSE Konto:
+    DEFINIERE ERSTELLE(inhaber, startguthaben=0):
+        MEIN.inhaber = inhaber
+        MEIN.kontostand = startguthaben
+        MEIN.historie = []
+        MEIN.buchung("Eroeffnung", startguthaben)
+    ENDE FUNKTION
+
+    DEFINIERE buchung(typ, betrag):
+        eintrag = typ + ": " + str(betrag) + " EUR"
+        MEIN.historie = ANHAENGEN(MEIN.historie, eintrag)
+    ENDE FUNKTION
+
+    DEFINIERE einzahlen(betrag):
+        WENN betrag <= 0 DANN
+            AUSGABE "Betrag muss positiv sein!"
+            ERGEBNIS IST falsch
+        ENDE WENN
+        MEIN.kontostand = MEIN.kontostand + betrag
+        MEIN.buchung("Einzahlung", betrag)
+        AUSGABE "+" + str(betrag) + " EUR eingezahlt."
+        ERGEBNIS IST wahr
+    ENDE FUNKTION
+
+    DEFINIERE abheben(betrag):
+        WENN betrag <= 0 DANN
+            AUSGABE "Betrag muss positiv sein!"
+            ERGEBNIS IST falsch
+        ENDE WENN
+        WENN betrag > MEIN.kontostand DANN
+            AUSGABE "Nicht genug Guthaben! (Verfuegbar: " + str(MEIN.kontostand) + " EUR)"
+            ERGEBNIS IST falsch
+        ENDE WENN
+        MEIN.kontostand = MEIN.kontostand - betrag
+        MEIN.buchung("Abhebung", betrag)
+        AUSGABE "-" + str(betrag) + " EUR abgehoben."
+        ERGEBNIS IST wahr
+    ENDE FUNKTION
+
+    DEFINIERE stand():
+        AUSGABE MEIN.inhaber + ": " + str(MEIN.kontostand) + " EUR"
+    ENDE FUNKTION
+
+    DEFINIERE kontoauszug():
+        AUSGABE "=== Kontoauszug fuer " + MEIN.inhaber + " ==="
+        SCHLEIFE FÜR zeile IN MEIN.historie MACHE
+            AUSGABE "  " + zeile
+        ENDE SCHLEIFE
+        AUSGABE "  Aktuell: " + str(MEIN.kontostand) + " EUR"
+        AUSGABE "==========================="
+    ENDE FUNKTION
+ENDE KLASSE
+
+# Demo
+konto = Konto("Max Mustermann", 500)
+konto.einzahlen(200)
+konto.abheben(150)
+konto.abheben(100)
+konto.abheben(1000)
+konto.stand()
+konto.kontoauszug()

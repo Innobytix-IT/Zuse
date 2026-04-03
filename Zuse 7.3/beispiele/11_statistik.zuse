@@ -1,0 +1,33 @@
+# Lektion 11: Statistik
+# Listen-Funktionen und Mathematik
+
+noten = [2, 1, 3, 2, 4, 1, 2, 3, 5, 2, 1, 3]
+AUSGABE "Noten: " + str(noten)
+AUSGABE "Anzahl: " + str(len(noten))
+
+# Durchschnitt
+durchschnitt = SUMME(noten) / len(noten)
+AUSGABE "Durchschnitt: " + str(RUNDEN(durchschnitt, 2))
+
+# Minimum und Maximum
+sortiert = SORTIEREN(noten)
+AUSGABE "Beste Note: " + str(sortiert[0])
+AUSGABE "Schlechteste Note: " + str(sortiert[len(sortiert) - 1])
+
+# Bestanden / Durchgefallen
+bestanden = FILTERN(noten, AKTION(n): n <= 4)
+durchgefallen = FILTERN(noten, AKTION(n): n > 4)
+AUSGABE "Bestanden: " + str(len(bestanden))
+AUSGABE "Durchgefallen: " + str(len(durchgefallen))
+
+# Haeufigkeit
+AUSGABE ""
+AUSGABE "=== Notenverteilung ==="
+SCHLEIFE FÜR note IN BEREICH(1, 6) MACHE
+    anzahl = len(FILTERN(noten, AKTION(n): n == note))
+    balken = ""
+    SCHLEIFE FÜR j IN BEREICH(anzahl) MACHE
+        balken = balken + "#"
+    ENDE SCHLEIFE
+    AUSGABE str(note) + ": " + balken + " (" + str(anzahl) + "x)"
+ENDE SCHLEIFE

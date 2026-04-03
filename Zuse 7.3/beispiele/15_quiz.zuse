@@ -1,0 +1,74 @@
+# Lektion 15: Quiz-Spiel
+# Alles zusammen: Listen, Schleifen, Bedingungen, Funktionen
+
+AUSGABE "=== Zuse Wissens-Quiz ==="
+AUSGABE ""
+
+punkte = 0
+gesamt = 0
+
+DEFINIERE frage(text, antworten, korrekt):
+    AUSGABE text
+    SCHLEIFE FÜR i IN BEREICH(len(antworten)) MACHE
+        AUSGABE "  " + str(i + 1) + ") " + antworten[i]
+    ENDE SCHLEIFE
+
+    wahl = EINGABE_ZAHL("Deine Antwort (1-" + str(len(antworten)) + "): ")
+
+    WENN wahl == korrekt DANN
+        AUSGABE "Richtig!"
+        ERGEBNIS IST wahr
+    SONST
+        AUSGABE "Falsch! Richtig war: " + antworten[korrekt - 1]
+        ERGEBNIS IST falsch
+    ENDE WENN
+ENDE FUNKTION
+
+# Frage 1
+WENN frage("Wer erfand den ersten Computer?", ["Alan Turing", "Konrad Zuse", "Steve Jobs", "Bill Gates"], 2) DANN
+    punkte = punkte + 1
+ENDE WENN
+gesamt = gesamt + 1
+AUSGABE ""
+
+# Frage 2
+WENN frage("Was gibt AUSGABE 2 + 3 aus?", ["23", "5", "2 + 3", "Fehler"], 2) DANN
+    punkte = punkte + 1
+ENDE WENN
+gesamt = gesamt + 1
+AUSGABE ""
+
+# Frage 3
+WENN frage("Welches Keyword startet eine Funktion in Zuse?", ["FUNKTION", "DEFINIERE", "DEF", "METHODE"], 2) DANN
+    punkte = punkte + 1
+ENDE WENN
+gesamt = gesamt + 1
+AUSGABE ""
+
+# Frage 4
+WENN frage("Was bedeutet OOP?", ["Online Oriented Programming", "Object Oriented Programming", "Open Office Platform", "Ohne Ordentliche Planung"], 2) DANN
+    punkte = punkte + 1
+ENDE WENN
+gesamt = gesamt + 1
+AUSGABE ""
+
+# Frage 5
+WENN frage("Welche Schleife prueft die Bedingung vor jedem Durchlauf?", ["FUER", "SOLANGE", "SCHLEIFE", "WIEDERHOLE"], 2) DANN
+    punkte = punkte + 1
+ENDE WENN
+gesamt = gesamt + 1
+
+# Ergebnis
+AUSGABE ""
+AUSGABE "========================"
+AUSGABE "Ergebnis: " + str(punkte) + " von " + str(gesamt) + " richtig"
+prozent = int(punkte / gesamt * 100)
+WENN prozent >= 80 DANN
+    AUSGABE "Ausgezeichnet!"
+SONST WENN prozent >= 60 DANN
+    AUSGABE "Gut gemacht!"
+SONST WENN prozent >= 40 DANN
+    AUSGABE "Geht so. Uebe weiter!"
+SONST
+    AUSGABE "Mehr lernen! Schau dir das Tutorial an."
+ENDE WENN

@@ -1,0 +1,16 @@
+# Lektion 2: Variablen
+# Werte speichern und verwenden
+
+name = "Zuse"
+version = 7
+pi = 3.14159
+
+AUSGABE "Sprache: " + name
+AUSGABE "Version: " + str(version)
+AUSGABE "Pi ist ungefaehr " + str(pi)
+
+# Variablen veraendern
+punkte = 0
+punkte = punkte + 10
+punkte = punkte + 5
+AUSGABE "Punkte: " + str(punkte)

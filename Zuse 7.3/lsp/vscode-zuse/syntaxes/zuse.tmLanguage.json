@@ -1,0 +1,43 @@
+{
+    "scopeName": "source.zuse",
+    "name": "Zuse",
+    "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#numbers" },
+        { "include": "#keywords" },
+        { "include": "#builtins" },
+        { "include": "#constants" },
+        { "include": "#operators" }
+    ],
+    "repository": {
+        "comments": {
+            "match": "#.*$",
+            "name": "comment.line.number-sign.zuse"
+        },
+        "strings": {
+            "match": "\"[^\"]*\"",
+            "name": "string.quoted.double.zuse"
+        },
+        "numbers": {
+            "match": "\\b\\d+(\\.\\d+)?\\b",
+            "name": "constant.numeric.zuse"
+        },
+        "keywords": {
+            "match": "\\b(AUSGABE|DEFINIERE|ENDE FUNKTION|ENDE WENN|ENDE SOLANGE|ENDE FUR|ENDE KLASSE|ENDE VERSUCHE|ERGEBNIS IST|WENN|DANN|SONST WENN|SONST|SOLANGE|MACHE|FUR|IN|KLASSE|MEIN|VERSUCHE|FANGE|ABBRUCH|WEITER|BENUTZE|ALS|AKTION|GLOBAL|PRINT|DEFINE|IF|THEN|ELSE|WHILE|DO|FOR|CLASS|SELF|TRY|CATCH|BREAK|CONTINUE|IMPORT|AS|LAMBDA|END)\\b",
+            "name": "keyword.control.zuse"
+        },
+        "builtins": {
+            "match": "\\b(WURZEL|SINUS|COSINUS|TANGENS|RUNDEN|ABSOLUT|POTENZ|LOGARITHMUS|MINIMUM|MAXIMUM|SUMME|BODEN|DECKE|ZUFALL|ZUFALL_BEREICH|GROSSBUCHSTABEN|KLEINBUCHSTABEN|ERSETZE|TEILE|TRIMME|ENTHAELT|LAENGE|FINDE|BEGINNT_MIT|ENDET_MIT|VERBINDE|SORTIEREN|FILTERN|UMWANDELN|UMKEHREN|FLACH|EINDEUTIG|AUFZAEHLEN|ANHAENGEN|LESE_DATEI|SCHREIBE_DATEI|EXISTIERT|LESE_ZEILEN|BEREICH|FORMAT|str|int|float|len|typ|Spielfeld)\\b",
+            "name": "support.function.zuse"
+        },
+        "constants": {
+            "match": "\\b(wahr|falsch|PI|E|true|false|verdadero|falso|vrai|faux|vero|falso|verdadeiro)\\b",
+            "name": "constant.language.zuse"
+        },
+        "operators": {
+            "match": "(==|!=|>=|<=|>|<|\\+|-|\\*|/|%|\\^|=|und|oder|nicht|and|or|not|y|o|no|et|ou|non|e|ou|nao)",
+            "name": "keyword.operator.zuse"
+        }
+    }
+}

@@ -1,0 +1,6 @@
+# Lektion 1: Hallo Welt!
+# Dein erstes Zuse-Programm
+
+AUSGABE "Hallo Welt!"
+AUSGABE "Willkommen bei Zuse!"
+AUSGABE "Ich kann rechnen: " + str(2 + 3)

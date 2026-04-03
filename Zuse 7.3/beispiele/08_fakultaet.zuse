@@ -1,0 +1,24 @@
+# Lektion 8: Fakultaet
+# Rekursion und grosse Zahlen
+
+DEFINIERE fakultaet(n):
+    WENN n <= 1 DANN
+        ERGEBNIS IST 1
+    ENDE WENN
+    ERGEBNIS IST n * fakultaet(n - 1)
+ENDE FUNKTION
+
+AUSGABE "=== Fakultaet ==="
+SCHLEIFE FÜR i IN BEREICH(13) MACHE
+    AUSGABE str(i) + "! = " + str(fakultaet(i))
+ENDE SCHLEIFE
+
+# Anwendung: Binomialkoeffizient "n ueber k"
+DEFINIERE n_ueber_k(n, k):
+    ERGEBNIS IST fakultaet(n) / (fakultaet(k) * fakultaet(n - k))
+ENDE FUNKTION
+
+AUSGABE ""
+AUSGABE "=== Binomialkoeffizient ==="
+AUSGABE "6 ueber 2 = " + str(n_ueber_k(6, 2))
+AUSGABE "10 ueber 3 = " + str(n_ueber_k(10, 3))

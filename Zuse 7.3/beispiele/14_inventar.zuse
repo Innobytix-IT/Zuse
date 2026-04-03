@@ -1,0 +1,76 @@
+# Lektion 14: Inventar-System (OOP)
+# Woerterbuecher und Klassen kombiniert
+
+KLASSE Gegenstand:
+    DEFINIERE ERSTELLE(name, gewicht, wert):
+        MEIN.name = name
+        MEIN.gewicht = gewicht
+        MEIN.wert = wert
+    ENDE FUNKTION
+
+    DEFINIERE beschreibung():
+        ERGEBNIS IST MEIN.name + " (" + str(MEIN.gewicht) + "kg, " + str(MEIN.wert) + " Gold)"
+    ENDE FUNKTION
+ENDE KLASSE
+
+KLASSE Inventar:
+    DEFINIERE ERSTELLE(max_gewicht):
+        MEIN.max_gewicht = max_gewicht
+        MEIN.items = []
+    ENDE FUNKTION
+
+    DEFINIERE aktuelles_gewicht():
+        gesamt = 0
+        SCHLEIFE FÜR item IN MEIN.items MACHE
+            gesamt = gesamt + item.gewicht
+        ENDE SCHLEIFE
+        ERGEBNIS IST gesamt
+    ENDE FUNKTION
+
+    DEFINIERE hinzufuegen(item):
+        WENN MEIN.aktuelles_gewicht() + item.gewicht > MEIN.max_gewicht DANN
+            AUSGABE "Zu schwer! " + item.name + " passt nicht mehr rein."
+            ERGEBNIS IST falsch
+        ENDE WENN
+        MEIN.items = ANHAENGEN(MEIN.items, item)
+        AUSGABE item.name + " eingepackt!"
+        ERGEBNIS IST wahr
+    ENDE FUNKTION
+
+    DEFINIERE anzeigen():
+        AUSGABE "=== Inventar ==="
+        WENN len(MEIN.items) == 0 DANN
+            AUSGABE "  (leer)"
+        SONST
+            SCHLEIFE FÜR item IN MEIN.items MACHE
+                AUSGABE "  - " + item.beschreibung()
+            ENDE SCHLEIFE
+        ENDE WENN
+        AUSGABE "Gewicht: " + str(MEIN.aktuelles_gewicht()) + "/" + str(MEIN.max_gewicht) + " kg"
+        AUSGABE "=============="
+    ENDE FUNKTION
+
+    DEFINIERE gesamtwert():
+        gesamt = 0
+        SCHLEIFE FÜR item IN MEIN.items MACHE
+            gesamt = gesamt + item.wert
+        ENDE SCHLEIFE
+        ERGEBNIS IST gesamt
+    ENDE FUNKTION
+ENDE KLASSE
+
+# Demo
+rucksack = Inventar(20)
+
+schwert = Gegenstand("Schwert", 5, 100)
+schild = Gegenstand("Schild", 8, 80)
+trank = Gegenstand("Heiltrank", 1, 25)
+ruestung = Gegenstand("Ruestung", 15, 200)
+
+rucksack.hinzufuegen(schwert)
+rucksack.hinzufuegen(schild)
+rucksack.hinzufuegen(trank)
+rucksack.hinzufuegen(ruestung)
+
+rucksack.anzeigen()
+AUSGABE "Gesamtwert: " + str(rucksack.gesamtwert()) + " Gold"

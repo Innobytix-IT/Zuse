@@ -1,0 +1,22 @@
+# Lektion 4: Zahlenraten
+# Schleifen und Bedingungen
+
+AUSGABE "=== Zahlenraten ==="
+AUSGABE "Ich denke an eine Zahl zwischen 1 und 100."
+
+geheim = ZUFALL_BEREICH(1, 100)
+versuche = 0
+
+SOLANGE wahr MACHE
+    tipp = EINGABE_ZAHL("Dein Tipp: ")
+    versuche = versuche + 1
+
+    WENN tipp == geheim DANN
+        AUSGABE "Richtig! Du hast " + str(versuche) + " Versuche gebraucht."
+        ABBRUCH
+    SONST WENN tipp < geheim DANN
+        AUSGABE "Zu niedrig! Versuch es nochmal."
+    SONST
+        AUSGABE "Zu hoch! Versuch es nochmal."
+    ENDE WENN
+ENDE SCHLEIFE

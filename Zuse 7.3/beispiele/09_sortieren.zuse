@@ -1,0 +1,25 @@
+# Lektion 9: Listen sortieren
+# Algorithmen verstehen
+
+# Bubble Sort selbst implementiert
+DEFINIERE bubble_sort(liste):
+    n = len(liste)
+    SCHLEIFE FÜR i IN BEREICH(n) MACHE
+        SCHLEIFE FÜR j IN BEREICH(0, n - i - 1) MACHE
+            WENN liste[j] > liste[j + 1] DANN
+                liste[j], liste[j + 1] = liste[j + 1], liste[j]
+            ENDE WENN
+        ENDE SCHLEIFE
+    ENDE SCHLEIFE
+    ERGEBNIS IST liste
+ENDE FUNKTION
+
+zahlen = [64, 34, 25, 12, 22, 11, 90]
+AUSGABE "Vorher:  " + str(zahlen)
+AUSGABE "Nachher: " + str(bubble_sort(zahlen))
+
+# Mit der eingebauten SORTIEREN-Funktion
+namen = ["Zara", "Anna", "Max", "Ben", "Lisa"]
+AUSGABE ""
+AUSGABE "Namen vorher:  " + str(namen)
+AUSGABE "Namen sortiert: " + str(SORTIEREN(namen))

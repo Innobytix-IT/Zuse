@@ -1,0 +1,9 @@
+{
+    "name": "text_werkzeuge",
+    "version": "1.0.0",
+    "autor": "Zuse Team",
+    "beschreibung": "Text-Hilfsfunktionen: Umkehren, Zählen, Wiederholen",
+    "abhaengigkeiten": {},
+    "sprache": "deutsch",
+    "hauptdatei": "text_werkzeuge.zuse"
+}

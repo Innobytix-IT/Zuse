@@ -1,0 +1,41 @@
+# Lektion 10: Suchen in Listen
+# Lineare und binaere Suche
+
+# Lineare Suche
+DEFINIERE lineare_suche(liste, ziel):
+    SCHLEIFE FÜR i IN BEREICH(len(liste)) MACHE
+        WENN liste[i] == ziel DANN
+            ERGEBNIS IST i
+        ENDE WENN
+    ENDE SCHLEIFE
+    ERGEBNIS IST -1
+ENDE FUNKTION
+
+# Binaere Suche (Liste muss sortiert sein!)
+DEFINIERE binaere_suche(liste, ziel):
+    links = 0
+    rechts = len(liste) - 1
+
+    SOLANGE links <= rechts MACHE
+        mitte = int((links + rechts) / 2)
+        WENN liste[mitte] == ziel DANN
+            ERGEBNIS IST mitte
+        SONST WENN liste[mitte] < ziel DANN
+            links = mitte + 1
+        SONST
+            rechts = mitte - 1
+        ENDE WENN
+    ENDE SCHLEIFE
+    ERGEBNIS IST -1
+ENDE FUNKTION
+
+zahlen = [3, 7, 12, 19, 25, 33, 41, 50, 68, 77, 89, 95]
+AUSGABE "Liste: " + str(zahlen)
+
+ziel = 33
+pos = binaere_suche(zahlen, ziel)
+WENN pos >= 0 DANN
+    AUSGABE str(ziel) + " gefunden an Position " + str(pos)
+SONST
+    AUSGABE str(ziel) + " nicht gefunden"
+ENDE WENN

@@ -1,0 +1,26 @@
+# Lektion 6: Primzahlen
+# Verschachtelte Schleifen und Logik
+
+DEFINIERE ist_primzahl(n):
+    WENN n < 2 DANN
+        ERGEBNIS IST falsch
+    ENDE WENN
+    SCHLEIFE FÜR i IN BEREICH(2, n) MACHE
+        WENN n % i == 0 DANN
+            ERGEBNIS IST falsch
+        ENDE WENN
+    ENDE SCHLEIFE
+    ERGEBNIS IST wahr
+ENDE FUNKTION
+
+AUSGABE "Primzahlen von 1 bis 50:"
+
+primzahlen = []
+SCHLEIFE FÜR zahl IN BEREICH(1, 51) MACHE
+    WENN ist_primzahl(zahl) DANN
+        primzahlen = ANHAENGEN(primzahlen, zahl)
+    ENDE WENN
+ENDE SCHLEIFE
+
+AUSGABE VERBINDE(UMWANDELN(primzahlen, AKTION(x): str(x)), ", ")
+AUSGABE "Anzahl: " + str(len(primzahlen))

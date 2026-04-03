@@ -1,0 +1,78 @@
+# Lektion 12: Tierwelt (OOP)
+# Klassen und Vererbung
+
+KLASSE Tier:
+    DEFINIERE ERSTELLE(name, art, stimme):
+        MEIN.name = name
+        MEIN.art = art
+        MEIN.stimme = stimme
+        MEIN.hunger = 50
+    ENDE FUNKTION
+
+    DEFINIERE vorstellen():
+        AUSGABE MEIN.name + " ist ein " + MEIN.art
+    ENDE FUNKTION
+
+    DEFINIERE sprechen():
+        AUSGABE MEIN.name + " sagt: " + MEIN.stimme + "!"
+    ENDE FUNKTION
+
+    DEFINIERE fuettern(menge):
+        MEIN.hunger = MEIN.hunger - menge
+        WENN MEIN.hunger < 0 DANN
+            MEIN.hunger = 0
+        ENDE WENN
+        AUSGABE MEIN.name + " wurde gefuettert. Hunger: " + str(MEIN.hunger)
+    ENDE FUNKTION
+ENDE KLASSE
+
+KLASSE Hund(Tier):
+    DEFINIERE ERSTELLE(name):
+        ELTERN.ERSTELLE(name, "Hund", "Wuff")
+        MEIN.tricks = []
+    ENDE FUNKTION
+
+    DEFINIERE trick_lernen(trick):
+        MEIN.tricks = ANHAENGEN(MEIN.tricks, trick)
+        AUSGABE MEIN.name + " hat '" + trick + "' gelernt!"
+    ENDE FUNKTION
+
+    DEFINIERE tricks_zeigen():
+        WENN len(MEIN.tricks) == 0 DANN
+            AUSGABE MEIN.name + " kennt noch keine Tricks."
+        SONST
+            AUSGABE MEIN.name + " kann: " + VERBINDE(MEIN.tricks, ", ")
+        ENDE WENN
+    ENDE FUNKTION
+ENDE KLASSE
+
+KLASSE Katze(Tier):
+    DEFINIERE ERSTELLE(name):
+        ELTERN.ERSTELLE(name, "Katze", "Miau")
+        MEIN.leben = 9
+    ENDE FUNKTION
+
+    DEFINIERE schnurren():
+        AUSGABE MEIN.name + " schnurrt zufrieden... *rrrrr*"
+    ENDE FUNKTION
+ENDE KLASSE
+
+# Tiere erstellen
+rex = Hund("Rex")
+minka = Katze("Minka")
+
+rex.vorstellen()
+minka.vorstellen()
+
+rex.sprechen()
+minka.sprechen()
+
+rex.trick_lernen("Sitz")
+rex.trick_lernen("Platz")
+rex.trick_lernen("Pfote")
+rex.tricks_zeigen()
+
+minka.schnurren()
+
+rex.fuettern(30)
+minka.fuettern(20)

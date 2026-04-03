@@ -1,0 +1,27 @@
+DEFINIERE umkehren(text):
+    ergebnis = ""
+    i = LAENGE(text) - 1
+    SOLANGE i >= 0 MACHE
+        ergebnis = ergebnis + text[i]
+        i = i - 1
+    ENDE SCHLEIFE
+    ERGEBNIS IST ergebnis
+ENDE FUNKTION
+
+DEFINIERE zaehle(text, zeichen):
+    anzahl = 0
+    FÜR i IN BEREICH(LAENGE(text)) MACHE
+        WENN text[i] == zeichen DANN
+            anzahl = anzahl + 1
+        ENDE WENN
+    ENDE SCHLEIFE
+    ERGEBNIS IST anzahl
+ENDE FUNKTION
+
+DEFINIERE wiederhole(text, n):
+    ergebnis = ""
+    FÜR i IN BEREICH(n) MACHE
+        ergebnis = ergebnis + text
+    ENDE SCHLEIFE
+    ERGEBNIS IST ergebnis
+ENDE FUNKTION

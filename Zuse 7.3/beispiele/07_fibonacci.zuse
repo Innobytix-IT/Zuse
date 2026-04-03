@@ -1,0 +1,34 @@
+# Lektion 7: Fibonacci-Zahlen
+# Rekursion verstehen
+
+# Rekursive Version
+DEFINIERE fib(n):
+    WENN n <= 1 DANN
+        ERGEBNIS IST n
+    ENDE WENN
+    ERGEBNIS IST fib(n - 1) + fib(n - 2)
+ENDE FUNKTION
+
+AUSGABE "=== Fibonacci (rekursiv) ==="
+SCHLEIFE FÜR i IN BEREICH(12) MACHE
+    AUSGABE "fib(" + str(i) + ") = " + str(fib(i))
+ENDE SCHLEIFE
+
+# Iterative Version (schneller)
+DEFINIERE fib_schnell(n):
+    WENN n <= 1 DANN
+        ERGEBNIS IST n
+    ENDE WENN
+    a = 0
+    b = 1
+    SCHLEIFE FÜR i IN BEREICH(2, n + 1) MACHE
+        a, b = b, a + b
+    ENDE SCHLEIFE
+    ERGEBNIS IST b
+ENDE FUNKTION
+
+AUSGABE ""
+AUSGABE "=== Fibonacci (iterativ) ==="
+SCHLEIFE FÜR i IN BEREICH(20) MACHE
+    AUSGABE "fib(" + str(i) + ") = " + str(fib_schnell(i))
+ENDE SCHLEIFE

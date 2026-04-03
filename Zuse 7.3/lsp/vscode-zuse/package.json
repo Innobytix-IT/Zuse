@@ -1,0 +1,39 @@
+{
+    "name": "zuse-language",
+    "displayName": "Zuse Language Support",
+    "description": "Syntax-Highlighting, Diagnosen und Autovervollständigung für die Zuse Programmiersprache",
+    "version": "1.0.0",
+    "publisher": "zuse-lang",
+    "engines": { "vscode": "^1.75.0" },
+    "categories": ["Programming Languages"],
+    "activationEvents": ["onLanguage:zuse"],
+    "main": "./extension.js",
+    "contributes": {
+        "languages": [{
+            "id": "zuse",
+            "aliases": ["Zuse", "zuse"],
+            "extensions": [".zuse"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "zuse",
+            "scopeName": "source.zuse",
+            "path": "./syntaxes/zuse.tmLanguage.json"
+        }],
+        "configuration": {
+            "title": "Zuse",
+            "properties": {
+                "zuse.server.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Pfad zum Zuse Language Server (zuse_server.py)"
+                },
+                "zuse.server.python": {
+                    "type": "string",
+                    "default": "python",
+                    "description": "Python-Interpreter für den Language Server"
+                }
+            }
+        }
+    }
+}

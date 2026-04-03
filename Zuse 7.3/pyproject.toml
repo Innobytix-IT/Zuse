@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zuse-lang"
+version = "7.3.0"
+description = "Zuse — Die mehrsprachige Bildungs-Programmiersprache"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Manuel", email = "zuse@example.com"},
+]
+keywords = ["programming-language", "education", "multilingual", "transpiler", "german"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Software Development :: Interpreters",
+    "Natural Language :: German",
+]
+
+[project.optional-dependencies]
+lsp = ["pygls>=1.0", "lsprotocol>=2023.0"]
+all = ["pygls>=1.0", "lsprotocol>=2023.0"]
+
+[project.urls]
+Homepage = "https://github.com/ManuelR-T/Zuse"
+Documentation = "https://github.com/ManuelR-T/Zuse/tree/main/docs"
+Repository = "https://github.com/ManuelR-T/Zuse"
+Issues = "https://github.com/ManuelR-T/Zuse/issues"
+
+[project.scripts]
+zuse = "zuse_cli:main"
+
+[tool.setuptools]
+packages = ["backends", "lsp"]
+py-modules = [
+    "zuse_cli",
+    "interpreter",
+    "lexer",
+    "parser",
+    "transpiler",
+    "language_loader",
+    "visitor",
+    "symbol_table",
+    "semantic_analyzer",
+    "ir",
+    "optimizer",
+    "debugger",
+    "spielfeld",
+    "spielfeld_web",
+    "maler_web",
+    "error_i18n",
+    "error_messages",
+    "error_hints",
+    "builtin_i18n",
+    "zpkg_core",
+    "zpkg",
+    "zuse_studio",
+    "zuse_debug",
+    "add_language",
+    "main",
+]
+
+[tool.setuptools.package-data]
+"*" = ["sprachen/*.json", "bibliothek/*.zuse", "zpkg_registry/**/*", "playground/*.html", "playground/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

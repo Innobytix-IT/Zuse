@@ -1,0 +1,44 @@
+DEFINIERE fibonacci(n):
+    WENN n < 2 DANN
+        ERGEBNIS IST n
+    ENDE WENN
+    a = 0
+    b = 1
+    FÜR i IN BEREICH(n - 1) MACHE
+        temp = b
+        b = a + b
+        a = temp
+    ENDE SCHLEIFE
+    ERGEBNIS IST b
+ENDE FUNKTION
+
+DEFINIERE fakultaet(n):
+    WENN n <= 1 DANN
+        ERGEBNIS IST 1
+    ENDE WENN
+    ergebnis = 1
+    FÜR i IN BEREICH(1, n + 1) MACHE
+        ergebnis = ergebnis * i
+    ENDE SCHLEIFE
+    ERGEBNIS IST ergebnis
+ENDE FUNKTION
+
+DEFINIERE ist_primzahl(n):
+    WENN n < 2 DANN
+        ERGEBNIS IST falsch
+    ENDE WENN
+    WENN n < 4 DANN
+        ERGEBNIS IST wahr
+    ENDE WENN
+    WENN n % 2 == 0 DANN
+        ERGEBNIS IST falsch
+    ENDE WENN
+    i = 3
+    SOLANGE i * i <= n MACHE
+        WENN n % i == 0 DANN
+            ERGEBNIS IST falsch
+        ENDE WENN
+        i = i + 2
+    ENDE SCHLEIFE
+    ERGEBNIS IST wahr
+ENDE FUNKTION

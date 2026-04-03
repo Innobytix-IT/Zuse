@@ -1,0 +1,20 @@
+# Lektion 5: FizzBuzz
+# Klassisches Programmier-Raetsel
+
+# Regeln:
+# - Durch 3 teilbar → "Fizz"
+# - Durch 5 teilbar → "Buzz"
+# - Durch beide teilbar → "FizzBuzz"
+# - Sonst → die Zahl selbst
+
+SCHLEIFE FÜR i IN BEREICH(1, 51) MACHE
+    WENN i % 15 == 0 DANN
+        AUSGABE "FizzBuzz"
+    SONST WENN i % 3 == 0 DANN
+        AUSGABE "Fizz"
+    SONST WENN i % 5 == 0 DANN
+        AUSGABE "Buzz"
+    SONST
+        AUSGABE i
+    ENDE WENN
+ENDE SCHLEIFE
