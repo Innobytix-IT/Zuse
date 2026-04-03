@@ -1,47 +1,66 @@
-
-# ZUSE 🖥️
+# ZUSE v7.3
 > **"Simple because 'Simple' is simple."**
 
-![Version](https://img.shields.io/badge/Version-6.x-blue) ![Language](https://img.shields.io/badge/Made_with-Python-yellow) ![Status](https://img.shields.io/badge/Status-Stable-green)
+![Version](https://img.shields.io/badge/Version-7.3-blue) ![Language](https://img.shields.io/badge/Made_with-Python-yellow) ![Status](https://img.shields.io/badge/Status-Stable-green) ![Tests](https://img.shields.io/badge/Tests-1086+-brightgreen)
 
-**Zuse** is an object-oriented, interpreted programming language designed to break the barrier between "Learning Languages" (like Scratch) and "Pro Languages" (like Python/C++).
+**Zuse** is an object-oriented, transpiling programming language designed to break the barrier between "Learning Languages" (like Scratch) and "Pro Languages" (like Python/C++).
 
-It enables programming in your native language (DE, EN, ES, PT, FR, IT) and offers a seamless transition from simple graphics programming to controlling complex hardware.
+It enables programming in your native language (DE, EN, ES, FR, IT, PT), offers a seamless transition from simple graphics programming to controlling complex hardware, and transpiles Zuse code into 5 target languages.
 
 ---
 
-## 🚀 Features
+## Features
 
-*   **🌍 Multilingual:** The interpreter understands 6 languages natively (German, English, Spanish, Portuguese, French, Italian).
-*   **🛡️ Dual Mode:**
+*   **Multilingual:** The interpreter understands 6 languages natively (German, English, Spanish, French, Italian, Portuguese).
+*   **Dual Mode:**
     *   **Learning Mode:** Sandbox environment for kids/beginners (safe commands only).
     *   **Pro Mode ("God Mode"):** Full access to the Python Runtime (including hardware control).
-*   **🧠 Environment Aware:** Zuse automatically detects whether it is running inside the IDE or as a standalone application and adapts window management dynamically.
-*   **🎨 Zuse Studio:** A custom IDE with syntax highlighting, live translation, and GUI-Block-Mode.
+*   **5 Transpiler Backends:** Translate Zuse code into Python, JavaScript, Java, C#, or WebAssembly.
+*   **Game Engine (Spielfeld):** Full 2D game engine with sprites, collision detection, keyboard/mouse input, and game loop (60 FPS).
+*   **Turtle Graphics (Painter):** Draw stars, spirals, and fractals — in your native language.
+*   **Zuse Studio:** A custom IDE with syntax highlighting, debugger, live translation, and integrated transpiler.
+*   **Debugger:** Breakpoints, step-by-step execution, variable inspection.
+*   **LSP Server:** Language Server Protocol for VS Code and other editors (go-to-definition, hover docs).
+*   **Semantic Analysis:** Detects variable shadowing, unreachable code, and duplicate parameters.
+*   **Web Playground:** Run Zuse in the browser — no installation needed (Pyodide + CodeMirror).
+*   **Package Manager (zpkg):** Install and share packages with SemVer versioning.
+*   **Environment Aware:** Zuse automatically detects whether it is running inside the IDE, as a standalone application, or in the browser, and adapts dynamically.
+*   **50+ built-in functions:** Math, text, lists, files, random, type checking, formatting.
+*   **1086+ automated tests** across 31 test modules.
 
 ---
 
-## 🛠️ System Architecture
+## System Architecture
 
-Zuse is based on a **3-Layer Architecture**:
+Zuse is based on a **multi-stage pipeline architecture**:
 
-### 1. The Core (Interpreter)
-The engine (`interpreter.py`) is based on Python. It features a **Smart Import Mechanism** that prevents language libraries from being loaded twice and recognizes constructors across languages (`ERSTELLE`, `NEW`, `CREAR`, etc.).
+### 1. The Core (Lexer → Parser → AST)
+The **Lexer** (`lexer.py`) recognizes keywords via interchangeable language mappings (JSON) and generates canonical tokens. The **Parser** (`parser.py`) produces a language-independent AST (Abstract Syntax Tree).
 
-### 2. The IDE (Zuse Studio)
-The Studio (`zuse_studio.py`) is thread-safe and includes **Pre-Flight-Check** logic. It warns the user before execution if graphical commands are used but the necessary GUI Mode is not activated.
+### 2. The Interpreter (Visitor Pattern)
+The engine (`interpreter.py`) executes the AST. It features a **Smart Import Mechanism**, a **Sentinel Pattern** for safe attribute access, and recognizes constructors across languages (`ERSTELLE`, `CREATE`, `CREAR`, `CREER`, `CREA`, `CRIAR`).
 
-### 3. The Standard Library (Smart Layer)
-The `.zuse` files in the `bibliothek/` folder are intelligent wrappers.
-*   **Example `CLASS Window`:** Encapsulates `tkinter`. Automatically decides whether to create a `tk.Tk()` (Standalone) or a `tk.Toplevel()` (Studio) and forces keyboard focus in Studio (`grab_set`).
-*   **Example `CLASS Painter`:** Encapsulates `turtle`. Includes an "Anti-Zombie-Fix" (`clearscreen` + `_RUNNING=True`) to prevent crashes during restarts.
+### 3. The Transpiler (5 Backends)
+The AST is translated by specialized backends into **Python**, **JavaScript**, **Java**, **C#**, or **WebAssembly**. Java and C# backends use **variable tracking** to prevent duplicate declarations.
+
+### 4. The IDE (Zuse Studio)
+The Studio (`zuse_studio.py`) is thread-safe and features learning/pro mode, a **debugger** with breakpoints, **pre-flight check** logic, and integrated transpiler controls.
+
+### 5. The Standard Library (6 Languages)
+The `.zuse` files in the `bibliothek/` folder provide **Painter** (turtle graphics) and **Game Engine** (2D games) in all 6 languages.
+
+### 6. Additional Tools
+*   **LSP Server** (`zuse_lsp_server.py`) for editor integration
+*   **Semantic Analysis** for code quality checks
+*   **Web Playground** (`playground/`) for the browser
+*   **Package Manager** (`zpkg_core.py`) for package management
 
 ---
 
-## 📚 Syntax Examples (English)
+## Syntax Examples (English)
 
 ### Hello World & Logic
-```text
+```zuse
 text = "Hello Zuse"
 number = 42
 
@@ -53,45 +72,93 @@ END IF
 ```
 
 ### Loops
-```text
-LOOP FOR i IN [1, 2, 3] DO
-    PRINT "Iteration: " + str(i)
+```zuse
+LOOP FOR i IN RANGE(5) DO
+    PRINT "Iteration: " + AS_TEXT(i)
 END LOOP
 ```
 
-### Object Orientation
-```text
-CLASS Robot:
-    DEFINE NEW(name):
-        SELF.name = name
+### Functions with Lambda
+```zuse
+DEFINE square(x)
+    RESULT IS x ^ 2
+END FUNCTION
+
+numbers = [1, 2, 3, 4, 5]
+even = FILTER(numbers, LAMBDA(x): x % 2 == 0)
+PRINT even    # [2, 4]
+```
+
+### Object Orientation with Inheritance
+```zuse
+CLASS Animal:
+    DEFINE CREATE(name):
+        MY.name = name
     END FUNCTION
 
-    DEFINE hello():
-        PRINT "I am " + SELF.name
+    DEFINE speak():
+        PRINT MY.name + " makes a sound."
     END FUNCTION
 END CLASS
 
-r1 = Robot("ZuseBot")
-r1.hello()
+CLASS Dog(Animal):
+    DEFINE speak():
+        PRINT MY.name + " says: Woof!"
+    END FUNCTION
+END CLASS
+
+buddy = Dog("Buddy")
+buddy.speak()    # Buddy says: Woof!
+```
+
+### Error Handling
+```zuse
+TRY
+    result = 10 / 0
+CATCH error
+    PRINT "Error: " + error
+END TRY
 ```
 
 ### Graphics (The Painter)
-```text
-IMPORT english
-pablo = Painter()
+```zuse
+IMPORT english AS lib
+brush = lib.Painter()
 
-pablo.color("blue")
-pablo.width(5)
+brush.color("blue")
+brush.thickness(5)
 
-LOOP FOR i IN [1, 2, 3, 4] DO
-    pablo.move(100)
-    pablo.turn_right(90)
+LOOP FOR i IN RANGE(4) DO
+    brush.forward(100)
+    brush.turn_right(90)
 END LOOP
+
+brush.done()
+```
+
+### Game Engine (Spielfeld)
+```zuse
+IMPORT english AS lib
+
+game = lib.GameField("My Game", 800, 600, "black")
+player = game.new_sprite(400, 300, 30, 30, "blue")
+
+DEFINE update()
+    IF game.key_pressed("Left") THEN
+        player.move(-5, 0)
+    END IF
+    IF game.key_pressed("Right") THEN
+        player.move(5, 0)
+    END IF
+END FUNCTION
+
+game.game_loop(update, 60)
+game.start()
 ```
 
 ---
 
-## 🕹️ Usage
+## Usage
 
 ### Start the IDE
 ```bash
@@ -103,36 +170,68 @@ python zuse_studio.py
 python main.py my_script.zuse english
 ```
 
+### Start the Web Playground
+```bash
+python playground/server.py
+```
+
 ---
 
-## 🔌 Hardware & Deployment
+## Hardware & Deployment
 
 Thanks to **Pro Mode**, Zuse can access hardware directly.
 
 **Example: Controlling Arduino**
-```text
+```zuse
 IMPORT pyfirmata
 board = pyfirmata.Arduino("COM3")
 led = board.get_pin("d:13:o")
 led.write(1)
 ```
 
-**Current Projects:**
-*   **Infotainment PeugeotDash / Car-PC:** An Arduino shutdown controller is being built for this, with logic written in Zuse.
+---
+
+## Transpiler — Translate Zuse Code
+
+```zuse
+# This Zuse program...
+DEFINE factorial(n)
+    IF n <= 1 THEN
+        RESULT IS 1
+    ELSE
+        RESULT IS n * factorial(n - 1)
+    END IF
+END FUNCTION
+```
+
+...becomes **JavaScript**:
+```javascript
+function factorial(n) {
+    if (n <= 1) { return 1; }
+    else { return n * factorial(n - 1); }
+}
+```
+
+...or **Java**:
+```java
+static Object factorial(Object n) {
+    if ((int)n <= 1) { return 1; }
+    else { return (int)n * (int)factorial((int)n - 1); }
+}
+```
 
 ---
 
-## 🗺️ Roadmap (Zuse: The Universal Vision)
+## Roadmap (Zuse: The Universal Vision)
 
-*   [x] **v1.0 (v6.9):** Stable Interpreter, IDE, Libraries (DE/EN/ES/PT/FR/IT).
-*   [ ] **v2.0 (Zuse Universal):** Decoupling from Python Core via an **Intermediate Representation (IR)**. Development of a transpiler to **JavaScript** (among others like **C#** and **Java**) to execute Zuse programs natively in the browser (e.g., as PWA).
+*   [x] **v6.9:** Stable interpreter, IDE, libraries (DE/EN/ES/PT/FR/IT).
+*   [x] **v7.3:** 5 transpiler backends (Python, JS, Java, C#, WASM), game engine, debugger, LSP server, web playground, package manager, semantic analysis, 1086+ tests.
+*   [ ] **vNext (Zuse Universal):** Further optimization, additional languages, extended IDE features.
+
 <img width="585" height="584" alt="image" src="https://github.com/user-attachments/assets/4b5ab1b0-38c5-4da5-9b72-8daa45b87e40" />
 
 ---
 
 **Architect:** Manuel Person
-**Co-Coding:** Gemini
+**Co-Coding:** Gemini, Claude
 **License:** Open Source MIT
-
-```
-
