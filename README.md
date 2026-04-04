@@ -14,7 +14,7 @@
 
 ### Multilingual programming language Zuse
 
-<video controls src="Multilingual.programming.language.Zuse.mp4"></video>
+https://github.com/Innobytix-IT/Zuse/blob/main/Multilingual.programming.language.Zuse.mp4?raw=true
 
 
 
