@@ -94,7 +94,7 @@ If you use or extend this project, attribution in your README
 -
 **Co-Coding:** Gemini
 -
-**Lizenz:** Open Source MIT
+**Lizenz:** Open Source GNU GPL v3
 
 <img width="897" height="901" alt="image" src="https://github.com/user-attachments/assets/d141730f-6191-416e-9c67-773c529a71cf" />
 
