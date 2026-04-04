@@ -138,6 +138,8 @@ Zuse 7.3/
 │   ├── espaniol.json
 │   ├── francais.json
 │   ├── italiano.json
+│   ├── hindi.json
+│   ├── chinese.json
 │   └── portugues.json
 ├── bibliothek/             # Standardbibliothek (8 Sprachen)
 │   ├── deutsch.zuse        # Maler + Spielfeld
@@ -145,6 +147,8 @@ Zuse 7.3/
 │   ├── espaniol.zuse
 │   ├── francais.zuse
 │   ├── italiano.zuse
+│   ├── hindi.zuse
+│   ├── chinese.zuse
 │   └── portugues.zuse
 ├── backends/               # Transpiler-Backends
 │   ├── python_backend.py
@@ -390,6 +394,8 @@ Zuse 7.3/
 │   ├── espaniol.json
 │   ├── francais.json
 │   ├── italiano.json
+│   ├── hindi.json
+│   ├── chinese.json
 │   └── portugues.json
 ├── bibliothek/             # Standard library (8 languages)
 │   ├── deutsch.zuse        # Painter + Game Engine
@@ -397,6 +403,8 @@ Zuse 7.3/
 │   ├── espaniol.zuse
 │   ├── francais.zuse
 │   ├── italiano.zuse
+│   ├── hindi.zuse
+│   ├── chinese.zuse
 │   └── portugues.zuse
 ├── backends/               # Transpiler backends
 │   ├── python_backend.py
