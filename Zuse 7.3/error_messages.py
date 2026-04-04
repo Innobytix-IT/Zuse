@@ -1,6 +1,6 @@
 # FILE: error_messages.py
 # Mehrsprachiger Fehlermeldungs-Katalog fuer Zuse
-# Jeder Schluessel mappt auf ein Dict mit ISO-Codes: de, en, es, fr, it, pt
+# Jeder Schluessel mappt auf ein Dict mit ISO-Codes: de, en, es, fr, it, pt, hi, zh
 # Platzhalter: {line}, {name}, {attr}, {error}, {type}, etc.
 
 MESSAGES = {
@@ -12,6 +12,8 @@ MESSAGES = {
         "fr": "Erreur lexicale ligne {line}: Caractere inconnu \"{char}\"",
         "it": "Errore lessicale riga {line}: Carattere sconosciuto \"{char}\"",
         "pt": "Erro lexico linha {line}: Caractere desconhecido \"{char}\"",
+        "hi": "लेक्सर त्रुटि पंक्ति {line}: अज्ञात अक्षर \"{char}\"",
+        "zh": "词法错误 第{line}行: 未知字符 \"{char}\"",
     },
 
     # ─── Parser-Fehler ────────────────────────────────────────────────────
@@ -22,6 +24,8 @@ MESSAGES = {
         "fr": "Erreur de syntaxe ligne {line}: Attendu '{expected}', trouve '{found}' ({value})",
         "it": "Errore di sintassi riga {line}: Previsto '{expected}', trovato '{found}' ({value})",
         "pt": "Erro de sintaxe linha {line}: Esperado '{expected}', encontrado '{found}' ({value})",
+        "hi": "वाक्यविन्यास त्रुटि पंक्ति {line}: '{expected}' अपेक्षित, '{found}' मिला ({value})",
+        "zh": "语法错误 第{line}行: 期望 '{expected}', 发现 '{found}' ({value})",
     },
     "ERR_SYNTAX_EXPECTED_VALUE": {
         "de": "Syntaxfehler Zeile {line}: Erwartet '{expected}', gefunden '{found}'",
@@ -30,6 +34,8 @@ MESSAGES = {
         "fr": "Erreur de syntaxe ligne {line}: Attendu '{expected}', trouve '{found}'",
         "it": "Errore di sintassi riga {line}: Previsto '{expected}', trovato '{found}'",
         "pt": "Erro de sintaxe linha {line}: Esperado '{expected}', encontrado '{found}'",
+        "hi": "वाक्यविन्यास त्रुटि पंक्ति {line}: '{expected}' अपेक्षित, '{found}' मिला",
+        "zh": "语法错误 第{line}行: 期望 '{expected}', 发现 '{found}'",
     },
     "ERR_SYNTAX_INVALID_MULTI_TARGET": {
         "de": "Syntaxfehler Zeile {line}: Ungueltiges Ziel fuer Mehrfach-Zuweisung.",
@@ -38,6 +44,8 @@ MESSAGES = {
         "fr": "Erreur de syntaxe ligne {line}: Cible invalide pour affectation multiple.",
         "it": "Errore di sintassi riga {line}: Obiettivo non valido per assegnazione multipla.",
         "pt": "Erro de sintaxe linha {line}: Alvo invalido para atribuicao multipla.",
+        "hi": "वाक्यविन्यास त्रुटि पंक्ति {line}: बहु-असाइनमेंट के लिए अमान्य लक्ष्य।",
+        "zh": "语法错误 第{line}行: 多重赋值的目标无效。",
     },
     "ERR_SYNTAX_INVALID_TARGET": {
         "de": "Syntaxfehler Zeile {line}: Ungueltiges Ziel fuer Zuweisung.",
@@ -46,6 +54,8 @@ MESSAGES = {
         "fr": "Erreur de syntaxe ligne {line}: Cible d'affectation invalide.",
         "it": "Errore di sintassi riga {line}: Obiettivo di assegnazione non valido.",
         "pt": "Erro de sintaxe linha {line}: Alvo de atribuicao invalido.",
+        "hi": "वाक्यविन्यास त्रुटि पंक्ति {line}: असाइनमेंट के लिए अमान्य लक्ष्य।",
+        "zh": "语法错误 第{line}行: 赋值目标无效。",
     },
     "ERR_ONLY_DEFINE_IN_CLASS": {
         "de": "In KLASSE sind nur DEFINIERE erlaubt.",
@@ -54,6 +64,8 @@ MESSAGES = {
         "fr": "Seul DEFINIR est autorise dans une CLASSE.",
         "it": "Solo DEFINISCI e permesso dentro una CLASSE.",
         "pt": "Apenas DEFINIR e permitido dentro de uma CLASSE.",
+        "hi": "वर्ग के अंदर केवल परिभाषा की अनुमति है।",
+        "zh": "类中只允许使用 定义。",
     },
     "ERR_LOOP_EXPECTED_FOR_WHILE": {
         "de": "Schleifenfehler Zeile {line}: Erwartet FÜR oder SOLANGE",
@@ -62,6 +74,8 @@ MESSAGES = {
         "fr": "Erreur de boucle ligne {line}: Attendu POUR ou TANT_QUE",
         "it": "Errore di ciclo riga {line}: Previsto PER o FINCHE",
         "pt": "Erro de laco linha {line}: Esperado PARA ou ENQUANTO",
+        "hi": "चक्र त्रुटि पंक्ति {line}: हर या जबतक अपेक्षित",
+        "zh": "循环错误 第{line}行: 期望 每个 或 当",
     },
     "ERR_UNEXPECTED_TOKEN": {
         "de": "Unerwartetes Token: {value} Zeile {line}",
@@ -70,6 +84,8 @@ MESSAGES = {
         "fr": "Jeton inattendu: {value} ligne {line}",
         "it": "Token inaspettato: {value} riga {line}",
         "pt": "Token inesperado: {value} linha {line}",
+        "hi": "अप्रत्याशित टोकन: {value} पंक्ति {line}",
+        "zh": "意外标记: {value} 第{line}行",
     },
 
     # ─── Interpreter-Fehler ───────────────────────────────────────────────
@@ -80,6 +96,8 @@ MESSAGES = {
         "fr": "Noeud de depart AST invalide",
         "it": "Nodo iniziale AST non valido",
         "pt": "No inicial AST invalido",
+        "hi": "अमान्य AST प्रारंभ नोड",
+        "zh": "无效的AST起始节点",
     },
     "ERR_RUNTIME_ERROR": {
         "de": "Laufzeitfehler: {error}",
@@ -88,6 +106,8 @@ MESSAGES = {
         "fr": "Erreur d'execution: {error}",
         "it": "Errore di esecuzione: {error}",
         "pt": "Erro de execucao: {error}",
+        "hi": "रनटाइम त्रुटि: {error}",
+        "zh": "运行时错误: {error}",
     },
     "ERR_MAX_RECURSION_CRITICAL": {
         "de": "Kritischer Fehler: Maximale Rekursionstiefe ueberschritten.",
@@ -96,6 +116,8 @@ MESSAGES = {
         "fr": "Erreur critique: Profondeur maximale de recursion depassee.",
         "it": "Errore critico: Profondita massima di ricorsione superata.",
         "pt": "Erro critico: Profundidade maxima de recursao excedida.",
+        "hi": "गंभीर त्रुटि: अधिकतम पुनरावृत्ति गहराई पार हो गई।",
+        "zh": "严重错误: 超过最大递归深度。",
     },
     "ERR_SYSTEM_ERROR": {
         "de": "Systemfehler: {error}",
@@ -104,6 +126,8 @@ MESSAGES = {
         "fr": "Erreur systeme: {error}",
         "it": "Errore di sistema: {error}",
         "pt": "Erro do sistema: {error}",
+        "hi": "सिस्टम त्रुटि: {error}",
+        "zh": "系统错误: {error}",
     },
     "ERR_MAX_RECURSION": {
         "de": "Maximale Rekursionstiefe erreicht.",
@@ -112,6 +136,8 @@ MESSAGES = {
         "fr": "Profondeur maximale de recursion atteinte.",
         "it": "Profondita massima di ricorsione raggiunta.",
         "pt": "Profundidade maxima de recursao atingida.",
+        "hi": "अधिकतम पुनरावृत्ति गहराई पहुँच गई।",
+        "zh": "已达到最大递归深度。",
     },
     "ERR_UNKNOWN_STATEMENT": {
         "de": "Zeile {line}: Unbekannter Anweisungstyp: {type}",
@@ -120,6 +146,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Type d'instruction inconnu: {type}",
         "it": "Riga {line}: Tipo di istruzione sconosciuto: {type}",
         "pt": "Linha {line}: Tipo de instrucao desconhecido: {type}",
+        "hi": "पंक्ति {line}: अज्ञात कथन प्रकार: {type}",
+        "zh": "第{line}行: 未知语句类型: {type}",
     },
     "ERR_CANNOT_SET_ATTR": {
         "de": "Zeile {line}: Kann Attribut '{attr}' nicht setzen.",
@@ -128,6 +156,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Impossible de definir l'attribut '{attr}'.",
         "it": "Riga {line}: Impossibile impostare l'attributo '{attr}'.",
         "pt": "Linha {line}: Nao e possivel definir o atributo '{attr}'.",
+        "hi": "पंक्ति {line}: विशेषता '{attr}' सेट नहीं कर सकते।",
+        "zh": "第{line}行: 无法设置属性 '{attr}'。",
     },
     "ERR_INDEX_ASSIGN": {
         "de": "Zeile {line}: Fehler bei Index-Zuweisung: {error}",
@@ -136,6 +166,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Erreur dans l'affectation par index: {error}",
         "it": "Riga {line}: Errore nell'assegnazione per indice: {error}",
         "pt": "Linha {line}: Erro na atribuicao por indice: {error}",
+        "hi": "पंक्ति {line}: इंडेक्स असाइनमेंट में त्रुटि: {error}",
+        "zh": "第{line}行: 索引赋值错误: {error}",
     },
     "ERR_INVALID_ASSIGN_TARGET": {
         "de": "Zeile {line}: Ungueltiges Zuweisungsziel: {type}",
@@ -144,6 +176,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Cible d'affectation invalide: {type}",
         "it": "Riga {line}: Obiettivo di assegnazione non valido: {type}",
         "pt": "Linha {line}: Alvo de atribuicao invalido: {type}",
+        "hi": "पंक्ति {line}: अमान्य असाइनमेंट लक्ष्य: {type}",
+        "zh": "第{line}行: 无效的赋值目标: {type}",
     },
     "ERR_MULTI_ASSIGN_MISMATCH": {
         "de": "Zeile {line}: Mehrfach-Zuweisung: {targets} Ziele aber {values} Werte.",
@@ -152,6 +186,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Affectation multiple: {targets} cibles mais {values} valeurs.",
         "it": "Riga {line}: Assegnazione multipla: {targets} obiettivi ma {values} valori.",
         "pt": "Linha {line}: Atribuicao multipla: {targets} alvos mas {values} valores.",
+        "hi": "पंक्ति {line}: बहु-असाइनमेंट: {targets} लक्ष्य लेकिन {values} मान।",
+        "zh": "第{line}行: 多重赋值: {targets}个目标但{values}个值。",
     },
     "ERR_NOT_ITERABLE": {
         "de": "Objekt ist nicht iterierbar.",
@@ -160,6 +196,8 @@ MESSAGES = {
         "fr": "L'objet n'est pas iterable.",
         "it": "L'oggetto non e iterabile.",
         "pt": "O objeto nao e iteravel.",
+        "hi": "वस्तु पुनरावृत्ति योग्य नहीं है।",
+        "zh": "对象不可迭代。",
     },
     "ERR_SECURITY_BLOCK": {
         "de": "Sicherheits-Sperre: Modul '{name}' ist im Lernmodus nicht erlaubt.",
@@ -168,6 +206,8 @@ MESSAGES = {
         "fr": "Verrou de securite: Le module '{name}' n'est pas autorise en mode apprentissage.",
         "it": "Blocco di sicurezza: Il modulo '{name}' non e permesso in modalita apprendimento.",
         "pt": "Bloqueio de seguranca: O modulo '{name}' nao e permitido no modo aprendizagem.",
+        "hi": "सुरक्षा अवरोध: मॉड्यूल '{name}' सीखने के मोड में अनुमत नहीं है।",
+        "zh": "安全锁定: 模块 '{name}' 在学习模式下不允许使用。",
     },
     "ERR_MODULE_NOT_FOUND": {
         "de": "Modul '{name}' nicht gefunden (auch nicht in Python).",
@@ -176,6 +216,8 @@ MESSAGES = {
         "fr": "Module '{name}' non trouve (pas en Python non plus).",
         "it": "Modulo '{name}' non trovato (neanche in Python).",
         "pt": "Modulo '{name}' nao encontrado (nem em Python).",
+        "hi": "मॉड्यूल '{name}' नहीं मिला (Python में भी नहीं)।",
+        "zh": "模块 '{name}' 未找到（Python中也没有）。",
     },
     "ERR_IMPORT_FAILED": {
         "de": "Fehler beim Import von '{name}': {error}",
@@ -184,6 +226,8 @@ MESSAGES = {
         "fr": "Erreur lors de l'importation de '{name}': {error}",
         "it": "Errore durante l'importazione di '{name}': {error}",
         "pt": "Erro ao importar '{name}': {error}",
+        "hi": "'{name}' आयात करने में त्रुटि: {error}",
+        "zh": "导入 '{name}' 时出错: {error}",
     },
     "ERR_SELF_OUTSIDE_METHOD": {
         "de": "Zeile {line}: 'MEIN/SELF' kann nur innerhalb einer Methode verwendet werden.",
@@ -192,6 +236,8 @@ MESSAGES = {
         "fr": "Ligne {line}: 'MON/SELF' ne peut être utilisé qu'à l'intérieur d'une méthode.",
         "it": "Riga {line}: 'MIO/SELF' puo essere usato solo all'interno di un metodo.",
         "pt": "Linha {line}: 'MEU/SELF' so pode ser usado dentro de um metodo.",
+        "hi": "पंक्ति {line}: 'मेरा/SELF' केवल एक विधि के अंदर उपयोग किया जा सकता है।",
+        "zh": "第{line}行: '自己/SELF' 只能在方法内部使用。",
     },
     "ERR_VAR_NOT_DEFINED": {
         "de": "Zeile {line}: Variable '{name}' nicht definiert. Hast du sie vorher zugewiesen?",
@@ -200,6 +246,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Variable '{name}' non definie. L'as-tu assignee avant?",
         "it": "Riga {line}: Variabile '{name}' non definita. L'hai assegnata prima?",
         "pt": "Linha {line}: Variavel '{name}' nao definida. Voce a atribuiu primeiro?",
+        "hi": "पंक्ति {line}: चर '{name}' परिभाषित नहीं है। क्या आपने इसे पहले असाइन किया?",
+        "zh": "第{line}行: 变量 '{name}' 未定义。你是否先给它赋值了？",
     },
     "ERR_SUPER_OUTSIDE_METHOD": {
         "de": "Zeile {line}: 'ELTERN/SUPER' kann nur innerhalb einer Methode verwendet werden.",
@@ -208,6 +256,8 @@ MESSAGES = {
         "fr": "Ligne {line}: 'PARENT/SUPER' ne peut être utilisé qu'à l'intérieur d'une méthode.",
         "it": "Riga {line}: 'GENITORE/SUPER' puo essere usato solo all'interno di un metodo.",
         "pt": "Linha {line}: 'PAI/SUPER' so pode ser usado dentro de um metodo.",
+        "hi": "पंक्ति {line}: 'पूर्वज/SUPER' केवल एक विधि के अंदर उपयोग किया जा सकता है।",
+        "zh": "第{line}行: '父类/SUPER' 只能在方法内部使用。",
     },
     "ERR_DIVISION_BY_ZERO": {
         "de": "Zeile {line}: Division durch Null ist nicht erlaubt.",
@@ -216,6 +266,8 @@ MESSAGES = {
         "fr": "Ligne {line}: La division par zero n'est pas autorisee.",
         "it": "Riga {line}: La divisione per zero non e consentita.",
         "pt": "Linha {line}: Divisao por zero nao e permitida.",
+        "hi": "पंक्ति {line}: शून्य से भाग देना अनुमत नहीं है।",
+        "zh": "第{line}行: 不允许除以零。",
     },
     "ERR_INCOMPATIBLE_TYPES": {
         "de": "Zeile {line}: Unvertraegliche Typen in Rechenoperation: {error}",
@@ -224,6 +276,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Types incompatibles dans l'operation arithmetique: {error}",
         "it": "Riga {line}: Tipi incompatibili nell'operazione aritmetica: {error}",
         "pt": "Linha {line}: Tipos incompativeis na operacao aritmetica: {error}",
+        "hi": "पंक्ति {line}: अंकगणित ऑपरेशन में असंगत प्रकार: {error}",
+        "zh": "第{line}行: 算术运算中类型不兼容: {error}",
     },
     "ERR_CALC_ERROR": {
         "de": "Zeile {line}: Rechenfehler: {error}",
@@ -232,6 +286,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Erreur de calcul: {error}",
         "it": "Riga {line}: Errore di calcolo: {error}",
         "pt": "Linha {line}: Erro de calculo: {error}",
+        "hi": "पंक्ति {line}: गणना त्रुटि: {error}",
+        "zh": "第{line}行: 计算错误: {error}",
     },
     "ERR_INVALID_INDEX": {
         "de": "Zeile {line}: Ungueltiger Index-Zugriff mit '{index}'. Ist der Index im gueltigen Bereich?",
@@ -240,6 +296,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Acces a l'index invalide avec '{index}'. L'index est-il dans la plage valide?",
         "it": "Riga {line}: Accesso all'indice non valido con '{index}'. L'indice e nell'intervallo valido?",
         "pt": "Linha {line}: Acesso ao indice invalido com '{index}'. O indice esta no intervalo valido?",
+        "hi": "पंक्ति {line}: '{index}' के साथ अमान्य इंडेक्स एक्सेस। क्या इंडेक्स वैध सीमा में है?",
+        "zh": "第{line}行: 使用 '{index}' 的索引访问无效。索引是否在有效范围内？",
     },
     "ERR_ATTR_NOT_FOUND_CLASS": {
         "de": "Zeile {line}: Attribut oder Methode '{attr}' nicht gefunden in Klasse '{cls}'.",
@@ -248,6 +306,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Attribut ou methode '{attr}' non trouve dans la classe '{cls}'.",
         "it": "Riga {line}: Attributo o metodo '{attr}' non trovato nella classe '{cls}'.",
         "pt": "Linha {line}: Atributo ou metodo '{attr}' nao encontrado na classe '{cls}'.",
+        "hi": "पंक्ति {line}: वर्ग '{cls}' में विशेषता या विधि '{attr}' नहीं मिली।",
+        "zh": "第{line}行: 在类 '{cls}' 中未找到属性或方法 '{attr}'。",
     },
     "ERR_ATTR_NOT_FOUND": {
         "de": "Zeile {line}: Attribut '{attr}' nicht gefunden.",
@@ -256,6 +316,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Attribut '{attr}' non trouve.",
         "it": "Riga {line}: Attributo '{attr}' non trovato.",
         "pt": "Linha {line}: Atributo '{attr}' nao encontrado.",
+        "hi": "पंक्ति {line}: विशेषता '{attr}' नहीं मिली।",
+        "zh": "第{line}行: 属性 '{attr}' 未找到。",
     },
     "ERR_SUPER_OUTSIDE_CLASS": {
         "de": "Zeile {line}: 'ELTERN/SUPER' kann nur innerhalb einer Klasse verwendet werden.",
@@ -264,6 +326,8 @@ MESSAGES = {
         "fr": "Ligne {line}: 'PARENT/SUPER' ne peut être utilisé qu'à l'intérieur d'une classe.",
         "it": "Riga {line}: 'GENITORE/SUPER' puo essere usato solo all'interno di una classe.",
         "pt": "Linha {line}: 'PAI/SUPER' so pode ser usado dentro de uma classe.",
+        "hi": "पंक्ति {line}: 'पूर्वज/SUPER' केवल एक वर्ग के अंदर उपयोग किया जा सकता है।",
+        "zh": "第{line}行: '父类/SUPER' 只能在类内部使用。",
     },
     "ERR_NO_PARENT_CLASS": {
         "de": "Zeile {line}: Klasse '{name}' hat keine Elternklasse.",
@@ -272,6 +336,8 @@ MESSAGES = {
         "fr": "Ligne {line}: La classe '{name}' n'a pas de classe parente.",
         "it": "Riga {line}: La classe '{name}' non ha una classe genitore.",
         "pt": "Linha {line}: A classe '{name}' nao tem classe pai.",
+        "hi": "पंक्ति {line}: वर्ग '{name}' का कोई मूल वर्ग नहीं है।",
+        "zh": "第{line}行: 类 '{name}' 没有父类。",
     },
     "ERR_PARENT_CLASS_NOT_FOUND": {
         "de": "Zeile {line}: Elternklasse '{name}' nicht gefunden.",
@@ -280,6 +346,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Classe parente '{name}' non trouvee.",
         "it": "Riga {line}: Classe genitore '{name}' non trovata.",
         "pt": "Linha {line}: Classe pai '{name}' nao encontrada.",
+        "hi": "पंक्ति {line}: मूल वर्ग '{name}' नहीं मिला।",
+        "zh": "第{line}行: 父类 '{name}' 未找到。",
     },
     "ERR_METHOD_NOT_IN_PARENT": {
         "de": "Zeile {line}: Methode '{method}' in Elternklasse '{parent}' nicht gefunden.",
@@ -288,6 +356,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Methode '{method}' non trouvee dans la classe parente '{parent}'.",
         "it": "Riga {line}: Metodo '{method}' non trovato nella classe genitore '{parent}'.",
         "pt": "Linha {line}: Metodo '{method}' nao encontrado na classe pai '{parent}'.",
+        "hi": "पंक्ति {line}: विधि '{method}' मूल वर्ग '{parent}' में नहीं मिली।",
+        "zh": "第{line}行: 在父类 '{parent}' 中未找到方法 '{method}'。",
     },
     "ERR_METHOD_NOT_FOUND": {
         "de": "Zeile {line}: Methode '{method}' nicht gefunden in Klasse '{cls}'.",
@@ -296,6 +366,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Methode '{method}' non trouvee dans la classe '{cls}'.",
         "it": "Riga {line}: Metodo '{method}' non trovato nella classe '{cls}'.",
         "pt": "Linha {line}: Metodo '{method}' nao encontrado na classe '{cls}'.",
+        "hi": "पंक्ति {line}: वर्ग '{cls}' में विधि '{method}' नहीं मिली।",
+        "zh": "第{line}行: 在类 '{cls}' 中未找到方法 '{method}'。",
     },
     "ERR_FUNC_NOT_IN_MODULE": {
         "de": "Zeile {line}: Funktion '{func}' nicht gefunden in Modul '{module}'.",
@@ -304,6 +376,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Fonction '{func}' non trouvee dans le module '{module}'.",
         "it": "Riga {line}: Funzione '{func}' non trovata nel modulo '{module}'.",
         "pt": "Linha {line}: Funcao '{func}' nao encontrada no modulo '{module}'.",
+        "hi": "पंक्ति {line}: मॉड्यूल '{module}' में फ़ंक्शन '{func}' नहीं मिला।",
+        "zh": "第{line}行: 在模块 '{module}' 中未找到函数 '{func}'。",
     },
     "ERR_STATIC_METHOD_NOT_FOUND": {
         "de": "Zeile {line}: Statische Methode '{method}' auf Klasse '{cls}' nicht gefunden.",
@@ -312,6 +386,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Methode statique '{method}' non trouvee sur la classe '{cls}'.",
         "it": "Riga {line}: Metodo statico '{method}' non trovato nella classe '{cls}'.",
         "pt": "Linha {line}: Metodo estatico '{method}' nao encontrado na classe '{cls}'.",
+        "hi": "पंक्ति {line}: वर्ग '{cls}' पर स्थैतिक विधि '{method}' नहीं मिली।",
+        "zh": "第{line}行: 在类 '{cls}' 上未找到静态方法 '{method}'。",
     },
     "ERR_METHOD_NOT_EXISTS": {
         "de": "Zeile {line}: Methode '{method}' existiert nicht auf diesem Objekt.",
@@ -320,6 +396,8 @@ MESSAGES = {
         "fr": "Ligne {line}: La methode '{method}' n'existe pas sur cet objet.",
         "it": "Riga {line}: Il metodo '{method}' non esiste su questo oggetto.",
         "pt": "Linha {line}: O metodo '{method}' nao existe neste objeto.",
+        "hi": "पंक्ति {line}: इस ऑब्जेक्ट पर विधि '{method}' मौजूद नहीं है।",
+        "zh": "第{line}行: 此对象上不存在方法 '{method}'。",
     },
     "ERR_METHOD_CALL_FAILED": {
         "de": "Zeile {line}: Aufruf von '{method}' fehlgeschlagen: {error}",
@@ -328,6 +406,8 @@ MESSAGES = {
         "fr": "Ligne {line}: Appel a '{method}' echoue: {error}",
         "it": "Riga {line}: Chiamata a '{method}' fallita: {error}",
         "pt": "Linha {line}: Chamada a '{method}' falhou: {error}",
+        "hi": "पंक्ति {line}: '{method}' का कॉल विफल: {error}",
+        "zh": "第{line}行: 调用 '{method}' 失败: {error}",
     },
     "ERR_NOT_CALLABLE": {
         "de": "Zeile {line}: Objekt '{obj}' ist nicht aufrufbar. Ist es eine Funktion oder Klasse?",
@@ -336,6 +416,8 @@ MESSAGES = {
         "fr": "Ligne {line}: L'objet '{obj}' n'est pas appelable. Est-ce une fonction ou une classe?",
         "it": "Riga {line}: L'oggetto '{obj}' non e invocabile. E una funzione o una classe?",
         "pt": "Linha {line}: O objeto '{obj}' nao e invocavel. E uma funcao ou classe?",
+        "hi": "पंक्ति {line}: ऑब्जेक्ट '{obj}' कॉल करने योग्य नहीं है। क्या यह एक फ़ंक्शन या वर्ग है?",
+        "zh": "第{line}行: 对象 '{obj}' 不可调用。它是函数还是类？",
     },
     "ERR_BEREICH_ARGS": {
         "de": "BEREICH erwartet 1-3 Argumente: BEREICH(ende) oder BEREICH(start, ende) oder BEREICH(start, ende, schritt)",
@@ -344,6 +426,8 @@ MESSAGES = {
         "fr": "PLAGE attend 1-3 arguments: PLAGE(fin) ou PLAGE(debut, fin) ou PLAGE(debut, fin, pas)",
         "it": "INTERVALLO attende 1-3 argomenti: INTERVALLO(fine) o INTERVALLO(inizio, fine) o INTERVALLO(inizio, fine, passo)",
         "pt": "INTERVALO espera 1-3 argumentos: INTERVALO(fim) ou INTERVALO(inicio, fim) ou INTERVALO(inicio, fim, passo)",
+        "hi": "श्रेणी 1-3 तर्क लेती है: श्रेणी(अंत) या श्रेणी(शुरू, अंत) या श्रेणी(शुरू, अंत, कदम)",
+        "zh": "范围 需要1-3个参数: 范围(结束) 或 范围(开始, 结束) 或 范围(开始, 结束, 步长)",
     },
     "ERR_MODULE_NO_ATTR": {
         "de": "Modul '{name}' hat kein Attribut '{attr}'",
@@ -352,6 +436,8 @@ MESSAGES = {
         "fr": "Le module '{name}' n'a pas l'attribut '{attr}'",
         "it": "Il modulo '{name}' non ha l'attributo '{attr}'",
         "pt": "O modulo '{name}' nao tem o atributo '{attr}'",
+        "hi": "मॉड्यूल '{name}' में विशेषता '{attr}' नहीं है",
+        "zh": "模块 '{name}' 没有属性 '{attr}'",
     },
     "ERR_NOT_A_CLASS": {
         "de": "'{name}' ist keine Klasse.",
@@ -360,5 +446,7 @@ MESSAGES = {
         "fr": "'{name}' n'est pas une classe.",
         "it": "'{name}' non e una classe.",
         "pt": "'{name}' nao e uma classe.",
+        "hi": "'{name}' एक वर्ग नहीं है।",
+        "zh": "'{name}' 不是一个类。",
     },
 }
