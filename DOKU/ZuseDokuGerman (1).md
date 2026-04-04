@@ -233,5 +233,5 @@ static Object fakultaet(Object n) {
 ---
 
 **Architekt:** Manuel Person
-**Co-Coding:** Gemini, Claude
+
 **Lizenz:** Open Source GNU GPL v3
