@@ -13,6 +13,7 @@
 ## Demos
 
 ### Multilingual programming language Zuse
+<video src="Multilingual.programming.language.Zuse.mp4" controls width="100%"></video>
 
 ![Zuse Update Video](https://github.com/Innobytix-IT/Zuse/releases/download/v7.3.0/Multilingual.programming.language.Zuse.mp4)
 
