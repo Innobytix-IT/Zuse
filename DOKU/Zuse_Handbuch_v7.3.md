@@ -1,4 +1,4 @@
-# Das offizielle Zuse-Handbuch (Version 7.3)
+# Das offizielle Zuse-Handbuch (Version 7.3)  Open Source GNU GPL v3
 
 **Die mehrsprachige, transpilierende Programmiersprache für Bildung und Industrie.**
 
