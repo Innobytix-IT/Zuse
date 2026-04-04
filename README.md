@@ -14,7 +14,8 @@
 
 ### Multilingual programming language Zuse
 
-https://github.com/user-attachments/assets/03e8e32d-35db-4854-aa98-44cb26ff9e0f
+https://github.com/Innobytix-IT/Zuse/blob/15805cacfe3bddf24c2c235267bf017aa8df7fb6/Multilingual.programming.language.Zuse.mp4
+
 
 ### Multilingual programming language Zuse DEMO 2
 
