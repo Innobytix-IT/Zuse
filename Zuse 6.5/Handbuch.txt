@@ -1,5 +1,5 @@
 
-📘 Das Große Zuse-Handbuch (Version 6.0 Final)
+📘 Das Große Zuse-Handbuch (Version 6.0 Final)   Open Source GNU GPL v3
 Willkommen bei Zuse!
 Zuse ist eine moderne, Mehrsprachige Programmiersprache, die auf der Macht von Python aufbaut. Sie ermöglicht alles – von einfachen Rechnungen bis hin zu komplexen grafischen Benutzeroberflächen.
 -----------------------------------------------------------------------
