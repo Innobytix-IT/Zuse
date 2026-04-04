@@ -1,0 +1,143 @@
+# ZUSE 标准库 (中文)
+# ZUSE STANDARD LIBRARY (CHINESE)
+# 版本 7.3.0
+
+导入 tkinter 作为 _tk
+导入 turtle 作为 _海龟
+导入 random 作为 _随机
+导入 time 作为 _时间
+
+# --- 游戏窗口类 ---
+类 窗口:
+    定义 创建(标题, 宽度, 高度):
+        尝试
+            如果 __UMGEBUNG__ == "STUDIO" 则
+                自己.obj = _tk.Toplevel()
+                自己.obj.focus_force()
+                自己.obj.grab_set()
+            否则
+                自己.obj = _tk.Tk()
+            结束 如果
+        捕获
+            自己.obj = _tk.Tk()
+        结束 尝试
+
+        自己.obj.title(标题)
+        自己.obj.geometry(str(宽度) + "x" + str(高度))
+        自己.obj.resizable(假, 假)
+
+        自己.宽度 = 宽度
+        自己.高度 = 高度
+    结束 函数
+
+    定义 新画布(颜色):
+        画布 = _tk.Canvas(自己.obj, width=自己.宽度, height=自己.高度, bg=颜色)
+        画布.pack()
+        返回 画布
+    结束 函数
+
+    定义 按键绑定(键名, 动作):
+        k = 键名
+        如果 键名 == "左" 则 k = "<Left>" 结束 如果
+        如果 键名 == "右" 则 k = "<Right>" 结束 如果
+        如果 键名 == "上" 则 k = "<Up>" 结束 如果
+        如果 键名 == "下" 则 k = "<Down>" 结束 如果
+        如果 键名 == "空格" 则 k = "<space>" 结束 如果
+        自己.obj.bind(k, 动作)
+    结束 函数
+
+    定义 延时(毫秒, 函数):
+        自己.obj.after(毫秒, 函数)
+    结束 函数
+
+    定义 设置标题(文字):
+        自己.obj.title(文字)
+    结束 函数
+
+    定义 关闭():
+        自己.obj.destroy()
+    结束 函数
+
+    定义 启动():
+        自己.obj.mainloop()
+    结束 函数
+结束 类
+
+# --- 画笔类 (海龟绘图) ---
+类 画笔:
+    定义 创建():
+        # 防僵尸修复
+        尝试
+            自己.屏幕 = _海龟.Screen()
+            自己.屏幕.clearscreen()
+        捕获
+            _海龟.TurtleScreen._RUNNING = 真
+            自己.屏幕 = _海龟.Screen()
+            自己.屏幕.clearscreen()
+        结束 尝试
+
+        _海龟.TurtleScreen._RUNNING = 真
+        自己.t = _海龟.Turtle()
+        自己.t.shape("turtle")
+        自己.t.speed(3)
+        自己.屏幕.title("Zuse 绘画学校")
+    结束 函数
+
+    定义 前进(步数):
+        自己.t.forward(步数)
+    结束 函数
+    定义 后退(步数):
+        自己.t.backward(步数)
+    结束 函数
+    定义 左转(角度):
+        自己.t.left(角度)
+    结束 函数
+    定义 右转(角度):
+        自己.t.right(角度)
+    结束 函数
+    定义 抬笔():
+        自己.t.penup()
+    结束 函数
+    定义 落笔():
+        自己.t.pendown()
+    结束 函数
+
+    # 颜色设置
+    定义 颜色(f):
+        干净 = str(f).strip()
+        如果 干净 == "红" 则
+            自己.t.color("red")
+        否则 如果 干净 == "蓝" 则
+            自己.t.color("blue")
+        否则 如果 干净 == "绿" 则
+            自己.t.color("green")
+        否则 如果 干净 == "黄" 则
+            自己.t.color("yellow")
+        否则 如果 干净 == "黑" 则
+            自己.t.color("black")
+        否则 如果 干净 == "白" 则
+            自己.t.color("white")
+        否则
+            自己.t.color(干净)
+        结束 如果
+    结束 函数
+
+    定义 粗细(d):
+        自己.t.pensize(d)
+    结束 函数
+    定义 圆(半径):
+        自己.t.circle(半径)
+    结束 函数
+    定义 完成():
+        PASS
+    结束 函数
+结束 类
+
+# --- 辅助函数 ---
+定义 随机数(最小值, 最大值):
+    返回 _随机.randint(最小值, 最大值)
+结束 函数
+
+定义 等待(秒数):
+    _时间.sleep(秒数)
+结束 函数
