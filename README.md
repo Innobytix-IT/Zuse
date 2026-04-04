@@ -139,7 +139,7 @@ Zuse 7.3/
 │   ├── francais.json
 │   ├── italiano.json
 │   └── portugues.json
-├── bibliothek/             # Standardbibliothek (6 Sprachen)
+├── bibliothek/             # Standardbibliothek (8 Sprachen)
 │   ├── deutsch.zuse        # Maler + Spielfeld
 │   ├── english.zuse
 │   ├── espaniol.zuse
@@ -391,7 +391,7 @@ Zuse 7.3/
 │   ├── francais.json
 │   ├── italiano.json
 │   └── portugues.json
-├── bibliothek/             # Standard library (6 languages)
+├── bibliothek/             # Standard library (8 languages)
 │   ├── deutsch.zuse        # Painter + Game Engine
 │   ├── english.zuse
 │   ├── espaniol.zuse
