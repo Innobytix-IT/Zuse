@@ -508,4 +508,6 @@ I am deeply grateful for the opportunity to realize and share my ideas in this w
 ---
 
 **Architect:** Manuel Person
+
+
 **License:** Open Source GPL v3
