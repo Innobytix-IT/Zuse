@@ -1,4 +1,4 @@
-# ZUSE v7.3 — Multilingual Edition
+# ZUSE v7.3 — Multilingual Edition  Open Source GNU GPL v3
 
 **Die mehrsprachige, transpilierende Programmiersprache für Bildung und Industrie.**
 *Built on the power of Python.*
@@ -506,4 +506,4 @@ I am deeply grateful for the opportunity to realize and share my ideas in this w
 
 **Co-Coding:** Gemini, Claude
 
-**License:** Open Source MIT
+**License:** Open Source GNU GPL v3
