@@ -14,7 +14,7 @@
 
 ### Multilingual programming language Zuse
 
-https://github.com/user-attachments/assets/0841c250-fb1a-408a-b067-702687ac666c
+https://github.com/user-attachments/assets/4cd4c600-b687-4666-b50b-2a62dd66fe54
 
 
 
