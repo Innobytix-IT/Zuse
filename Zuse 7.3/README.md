@@ -155,7 +155,9 @@ pip install -e ".[lsp]"
 
 ## Lizenz
 
-MIT License
+**Architect:** Manuel Person
+**License:** Open Source GPL v3
+
 
 ---
 
