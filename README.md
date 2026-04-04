@@ -37,7 +37,7 @@ Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** de
 ## Features
 
 ### Kernsprache
-- **6 Sprachen:** Programmiere in Deutsch, Englisch, Spanisch, Französisch, Italienisch oder Portugiesisch — alle Schlüsselwörter, Fehlermeldungen und Builtins sind vollständig übersetzt
+- **8 Sprachen:** Programmiere in Deutsch, Englisch, Spanisch, Französisch, Italienisch, Portugiesisch Hindi oder 中文 — alle Schlüsselwörter, Fehlermeldungen und Builtins sind vollständig übersetzt
 - **Objektorientierung:** Klassen, Vererbung, Polymorphie, Konstruktoren (`KLASSE`, `MEIN`, `ELTERN`)
 - **Fehlerbehandlung:** `VERSUCHE` / `FANGE` (Try/Catch)
 - **Lambda-Funktionen:** `AKTION(x): x * 2`
@@ -289,7 +289,7 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 ## Features
 
 ### Core Language
-- **6 Languages:** Program in German, English, Spanish, French, Italian, or Portuguese — all keywords, error messages, and builtins are fully translated
+- **8 Languages:** Program in German, English, Spanish, French, Italian, Portuguese, Hindi or 中文  — all keywords, error messages, and builtins are fully translated
 - **Object Orientation:** Classes, inheritance, polymorphism, constructors (`CLASS`, `MY`, `PARENT`)
 - **Error Handling:** `TRY` / `CATCH`
 - **Lambda Functions:** `LAMBDA(x): x * 2`
