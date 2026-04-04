@@ -4,6 +4,7 @@
     "KW_WENN": "SE",
     "KW_DANN": "ALLORA",
     "KW_SONST": "ALTRIMENTI",
+    "KW_SONST_WENN": "ALTRIMENTI SE",
     "KW_ENDE_WENN": "FINE SE",
     "KW_SCHLEIFE": "CICLO",
     "KW_FUER": "PER",
@@ -24,9 +25,26 @@
     "KW_SELBST": "MIO",
     "KW_ELTERN": "GENITORI",
     "KW_LAMBDA": "AZIONE",
+    "KW_UND": "E",
+    "KW_ODER": "O",
+    "KW_NICHT": "NON",
+    "KW_ABBRUCH": "FERMA",
+    "KW_WEITER": "CONTINUA",
 
+    "KW_WAEHLE": "SCEGLI",
+    "KW_FALL": "CASO",
+    "KW_ENDE_WAEHLE": "FINE SCEGLI",
+
+    "KW_ZEIGE": "MOSTRA",
+    "KW_LADE": "CARICA",
+    "KW_ERGEBNIS_KURZ": "RISULTATO",
+    "KW_OBER": "GENITORE",
+
+    "CONST_NICHTS": "NIENTE",
     "CONST_WAHR": "vero",
     "CONST_FALSCH": "falso",
+    "CONST_WAHR_GROSS": "VERO",
+    "CONST_FALSCH_GROSS": "FALSO",
     "FUNC_EINGABE_ZAHL": "LEGGI_NUMERO",
     "FUNC_EINGABE_TEXT": "LEGGI_TESTO"
 }

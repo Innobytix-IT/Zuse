@@ -4,6 +4,7 @@
     "KW_WENN": "SI",
     "KW_DANN": "ENTONCES",
     "KW_SONST": "SINO",
+    "KW_SONST_WENN": "SINO SI",
     "KW_ENDE_WENN": "FIN SI",
     "KW_SCHLEIFE": "BUCLE",
     "KW_FUER": "PARA",
@@ -24,9 +25,26 @@
     "KW_SELBST": "MIO",
     "KW_ELTERN": "PADRES",
     "KW_LAMBDA": "ACCION",
+    "KW_UND": "Y",
+    "KW_ODER": "O",
+    "KW_NICHT": "NO",
+    "KW_ABBRUCH": "ROMPER",
+    "KW_WEITER": "CONTINUAR",
 
+    "KW_WAEHLE": "ELEGIR",
+    "KW_FALL": "CASO",
+    "KW_ENDE_WAEHLE": "FIN ELEGIR",
+
+    "KW_ZEIGE": "MOSTRAR",
+    "KW_LADE": "CARGAR",
+    "KW_ERGEBNIS_KURZ": "RESULTADO",
+    "KW_OBER": "PADRE",
+
+    "CONST_NICHTS": "NADA",
     "CONST_WAHR": "verdadero",
     "CONST_FALSCH": "falso",
+    "CONST_WAHR_GROSS": "VERDADERO",
+    "CONST_FALSCH_GROSS": "FALSO",
     "FUNC_EINGABE_ZAHL": "LEER_NUMERO",
     "FUNC_EINGABE_TEXT": "LEER_TEXTO"
 }

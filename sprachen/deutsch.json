@@ -4,6 +4,7 @@
     "KW_WENN": "WENN",
     "KW_DANN": "DANN",
     "KW_SONST": "SONST",
+    "KW_SONST_WENN": "SONST WENN",
     "KW_ENDE_WENN": "ENDE WENN",
     "KW_SCHLEIFE": "SCHLEIFE",
     "KW_FUER": "FÜR",
@@ -24,9 +25,26 @@
     "KW_SELBST": "MEIN",
     "KW_ELTERN": "ELTERN",
     "KW_LAMBDA": "AKTION",
-    
+    "KW_UND": "UND",
+    "KW_ODER": "ODER",
+    "KW_NICHT": "NICHT",
+    "KW_ABBRUCH": "ABBRUCH",
+    "KW_WEITER": "WEITER",
+
+    "KW_WAEHLE": "WÄHLE",
+    "KW_FALL": "FALL",
+    "KW_ENDE_WAEHLE": "ENDE WÄHLE",
+
+    "KW_ZEIGE": "ZEIGE",
+    "KW_LADE": "LADE",
+    "KW_ERGEBNIS_KURZ": "ERGEBNIS",
+    "KW_OBER": "OBER",
+
+    "CONST_NICHTS": "NICHTS",
     "CONST_WAHR": "wahr",
     "CONST_FALSCH": "falsch",
+    "CONST_WAHR_GROSS": "WAHR",
+    "CONST_FALSCH_GROSS": "FALSCH",
     "FUNC_EINGABE_ZAHL": "EINGABE_ZAHL",
     "FUNC_EINGABE_TEXT": "EINGABE_TEXT"
 }

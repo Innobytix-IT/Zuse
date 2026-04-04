@@ -4,6 +4,7 @@
     "KW_WENN": "SE",
     "KW_DANN": "ENTAO",
     "KW_SONST": "SENAO",
+    "KW_SONST_WENN": "SENAO SE",
     "KW_ENDE_WENN": "FIM SE",
     "KW_SCHLEIFE": "CICLO",
     "KW_FUER": "PARA",
@@ -24,9 +25,26 @@
     "KW_SELBST": "MEU",
     "KW_ELTERN": "PAIS",
     "KW_LAMBDA": "ACAO",
+    "KW_UND": "E",
+    "KW_ODER": "OU",
+    "KW_NICHT": "NAO",
+    "KW_ABBRUCH": "PARAR",
+    "KW_WEITER": "CONTINUAR",
 
+    "KW_WAEHLE": "ESCOLHER",
+    "KW_FALL": "CASO",
+    "KW_ENDE_WAEHLE": "FIM ESCOLHER",
+
+    "KW_ZEIGE": "MOSTRAR",
+    "KW_LADE": "CARREGAR",
+    "KW_ERGEBNIS_KURZ": "RESULTADO",
+    "KW_OBER": "PAI",
+
+    "CONST_NICHTS": "NADA",
     "CONST_WAHR": "verdadeiro",
     "CONST_FALSCH": "falso",
+    "CONST_WAHR_GROSS": "VERDADEIRO",
+    "CONST_FALSCH_GROSS": "FALSO",
     "FUNC_EINGABE_ZAHL": "LER_NUMERO",
     "FUNC_EINGABE_TEXT": "LER_TEXTO"
 }

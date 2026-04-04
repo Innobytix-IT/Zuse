@@ -4,6 +4,7 @@
     "KW_WENN": "SI",
     "KW_DANN": "ALORS",
     "KW_SONST": "SINON",
+    "KW_SONST_WENN": "SINON SI",
     "KW_ENDE_WENN": "FIN SI",
     "KW_SCHLEIFE": "BOUCLE",
     "KW_FUER": "POUR",
@@ -24,9 +25,26 @@
     "KW_SELBST": "MOI",
     "KW_ELTERN": "PARENTS",
     "KW_LAMBDA": "ACTION",
+    "KW_UND": "ET",
+    "KW_ODER": "OU",
+    "KW_NICHT": "PAS",
+    "KW_ABBRUCH": "ARRETER",
+    "KW_WEITER": "CONTINUER",
 
+    "KW_WAEHLE": "CHOISIR",
+    "KW_FALL": "CAS",
+    "KW_ENDE_WAEHLE": "FIN CHOISIR",
+
+    "KW_ZEIGE": "AFFICHER",
+    "KW_LADE": "CHARGER",
+    "KW_ERGEBNIS_KURZ": "RESULTAT",
+    "KW_OBER": "PARENT",
+
+    "CONST_NICHTS": "RIEN",
     "CONST_WAHR": "vrai",
     "CONST_FALSCH": "faux",
+    "CONST_WAHR_GROSS": "VRAI",
+    "CONST_FALSCH_GROSS": "FAUX",
     "FUNC_EINGABE_ZAHL": "LIRE_NOMBRE",
     "FUNC_EINGABE_TEXT": "LIRE_TEXTE"
 }
