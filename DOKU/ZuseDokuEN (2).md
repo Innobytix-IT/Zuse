@@ -233,5 +233,5 @@ static Object factorial(Object n) {
 ---
 
 **Architect:** Manuel Person
-**Co-Coding:** Gemini, Claude
+
 **License:** Open Source GNU GPL v3
