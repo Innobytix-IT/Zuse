@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/4e110498-f6c1-4df8-a8d2-e0db3fb881e9
 
 ## Was ist Zuse?
 
-Willkommen bei **Zuse**! Zuse ist eine moderne, mehrsprachige Programmiersprache (**Deutsch**, **English**, **Español**, **Français**, **Italiano**, **Português**), die speziell für Bildungszwecke, Rapid Prototyping und den professionellen Einsatz entwickelt wurde. Sie ermöglicht alles — von einfachen Rechnungen bis hin zu komplexen Spielen, grafischen Oberflächen und transpiliertem Produktionscode.
+Willkommen bei **Zuse**! Zuse ist eine moderne, mehrsprachige Programmiersprache (**Deutsch**, **English**, **Español**, **Français**, **Italiano**, **Português**, **Hindi & 中文**), die speziell für Bildungszwecke, Rapid Prototyping und den professionellen Einsatz entwickelt wurde. Sie ermöglicht alles — von einfachen Rechnungen bis hin zu komplexen Spielen, grafischen Oberflächen und transpiliertem Produktionscode.
 
 Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** den weltweit ersten funktionsfähigen programmgesteuerten Computer entwickelte und mit dem **Plankalkül** die erste höhere Programmiersprache entwarf. Dieses Projekt greift bewusst den Ansatz der Einfachheit von Konrad Zuse auf.
 
@@ -276,7 +276,7 @@ https://github.com/user-attachments/assets/4e110498-f6c1-4df8-a8d2-e0db3fb881e9
 
 ## What is Zuse?
 
-Welcome to **Zuse**! Zuse is a modern, multilingual programming language (**German**, **English**, **Spanish**, **French**, **Italian**, **Portuguese**) designed for education, rapid prototyping, and professional use. It covers everything — from simple calculations to complex games, graphical interfaces, and transpiled production code.
+Welcome to **Zuse**! Zuse is a modern, multilingual programming language (**German**, **English**, **Spanish**, **French**, **Italian**, **Portuguese**, **Hindi & 中文**) designed for education, rapid prototyping, and professional use. It covers everything — from simple calculations to complex games, graphical interfaces, and transpiled production code.
 
 The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**, the world's first functional program-controlled computer, and designed **Plankalkül**, the first high-level programming language. This project consciously adopts Konrad Zuse's principle of simplicity.
 
