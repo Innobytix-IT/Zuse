@@ -252,7 +252,7 @@ Mein aufrichtiger Dank gilt den Entwicklern und Forschern, deren Arbeit diese We
 Ich bin zutiefst dankbar für die Möglichkeit, meine Ideen auf diese Weise umsetzen und teilen zu dürfen. Dieses Projekt soll ein demütiger Beweis dafür sein, wie Leidenschaft und moderne KI-Technologie zusammenkommen können, um nützliche und offene Alternativen zu schaffen. Durch den modularen Aufbau wurde das Projekt von Anfang an so konzipiert, dass Erweiterungen und Ergänzungen jederzeit möglich sind. Jeder, der möchte, ist herzlich eingeladen, seine eigenen Ideen und Visionen mit einzubringen und umzusetzen.
 
 **Manuel Person**
-
+GPL v3
 ---
 
 # ZUSE v7.3 — Multilingual Edition (English)
@@ -511,4 +511,4 @@ I am deeply grateful for the opportunity to realize and share my ideas in this w
 
 **Co-Coding:** Gemini, Claude
 
-**License:** Open Source MIT
+**License:** Open Source GPL v3
