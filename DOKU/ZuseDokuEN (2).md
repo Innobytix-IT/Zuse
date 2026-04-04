@@ -1,4 +1,4 @@
-# ZUSE v7.3
+# ZUSE v7.3  Open Source GNU GPL v3
 > **"Simple because 'Simple' is simple."**
 
 ![Version](https://img.shields.io/badge/Version-7.3-blue) ![Language](https://img.shields.io/badge/Made_with-Python-yellow) ![Status](https://img.shields.io/badge/Status-Stable-green) ![Tests](https://img.shields.io/badge/Tests-1086+-brightgreen)
@@ -234,4 +234,4 @@ static Object factorial(Object n) {
 
 **Architect:** Manuel Person
 **Co-Coding:** Gemini, Claude
-**License:** Open Source MIT
+**License:** Open Source GNU GPL v3
