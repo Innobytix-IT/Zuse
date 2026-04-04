@@ -126,7 +126,7 @@ Zuse 7.3/
 ├── interpreter.py          # Interpreter (Visitor Pattern)
 ├── lexer.py                # Tokenizer
 ├── parser.py               # AST-Parser
-├── error_messages.py       # Fehlermeldungen (6 Sprachen)
+├── error_messages.py       # Fehlermeldungen (8 Sprachen)
 ├── builtin_i18n.py         # Eingebaute Funktionen (i18n)
 ├── zpkg_core.py            # Paketmanager
 ├── maler_web.py            # Turtle-Grafik (Browser)
@@ -241,7 +241,7 @@ FIN SI
 ## Mitwirken
 
 Dieses Projekt ist **Open-Source** und freut sich über jede Form der Unterstützung!
-Zuse v7.3 kommt mit einer **MIT Lizenz** (siehe Lizenz-Datei).
+Zuse v7.3 kommt mit einer **GPL v3** (siehe Lizenz-Datei).
 
 Wenn du dieses Projekt nutzt oder weiterentwickelst, freuen wir uns über eine namentliche Erwähnung in der README (*"Zuse von Innobytix-it.de"*), dies ist jedoch keine Pflicht.
 
@@ -382,7 +382,7 @@ Zuse 7.3/
 ├── interpreter.py          # Interpreter (Visitor Pattern)
 ├── lexer.py                # Tokenizer
 ├── parser.py               # AST Parser
-├── error_messages.py       # Error messages (6 languages)
+├── error_messages.py       # Error messages (8 languages)
 ├── builtin_i18n.py         # Built-in functions (i18n)
 ├── zpkg_core.py            # Package manager
 ├── maler_web.py            # Turtle graphics (browser)
@@ -497,7 +497,7 @@ FIN SI
 ## Contribute
 
 This project is **open-source** and we welcome any form of support!
-Zuse v7.3 is released under the **MIT License** (see License file).
+Zuse v7.3 is released under the **GPL v3** (see License file).
 
 If you use or extend this project, attribution in your README (*"Zuse by Innobytix-it.de"*) is appreciated, but not required.
 
