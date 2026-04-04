@@ -334,6 +334,11 @@ class Interpreter(NodeVisitor):
         if typ in ('FUNKTIONS_AUFRUF', 'METHODEN_AUFRUF'):
             self.evaluiere_ausdruck(node, env)
             return
+        if typ == 'VARIABLE' and node.get('name') == 'PASS':
+            return  # PASS = No-Op
+        if typ == 'VARIABLE':
+            self.evaluiere_ausdruck(node, env)
+            return  # Bare variable as statement = no-op (like Python)
         raise ZuseError(t("ERR_UNKNOWN_STATEMENT", line=self._aktuelle_zeile, type=typ))
 
     # ─── Visitor-Methoden für Anweisungen ────────────────────────────────────
@@ -693,7 +698,7 @@ class Interpreter(NodeVisitor):
             return self._call_function(func_obj, args, env, kwargs=kwargs)
 
         elif isinstance(obj_eval, ZuseClassWrapper):
-            is_constructor = node['methode'] in ['ERSTELLE', 'NEW', 'CREAR', 'CRIAR', 'CREER', 'CREARE']
+            is_constructor = node['methode'] in ['ERSTELLE', 'NEW', 'CREAR', 'CRIAR', 'CREER', 'CREARE', 'नया', '创建']
             if is_constructor: return self._call_function(obj_eval, args, env, kwargs=kwargs)
             else: raise ZuseError(t("ERR_STATIC_METHOD_NOT_FOUND", line=self._aktuelle_zeile, method=node['methode'], cls=obj_eval.ast['name']))
         else:
@@ -752,7 +757,7 @@ class Interpreter(NodeVisitor):
         
         if isinstance(func, ZuseClassWrapper):
             inst = ZuseInstance(func, self)
-            possible_constructors = ['ERSTELLE', 'NEW', 'CREAR', 'CRIAR', 'CREER', 'CREARE']
+            possible_constructors = ['ERSTELLE', 'NEW', 'CREAR', 'CRIAR', 'CREER', 'CREARE', 'नया', '创建']
             constr = None; c_env = None; owner = None
             for c_name in possible_constructors:
                 constr, c_env, owner = inst.find_method(c_name)

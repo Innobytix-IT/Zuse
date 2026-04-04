@@ -548,9 +548,10 @@ class ZuseStudio:
 
     def check_gui_usage(self, code):
         gui_keywords = ['tkinter','turtle','Maler','Fenster','Painter','Window',
-                        'Pintor','Janela','Peintre','Fenetre','Pittore','Finestra']
+                        'Pintor','Janela','Peintre','Fenetre','Pittore','Finestra',
+                        'चित्रकार','खिड़की','画家','画笔','窗口']
         for kw in gui_keywords:
-            if re.search(r'\b' + re.escape(kw) + r'\b', code): return True
+            if kw in code: return True
         return False
 
     def run_decider(self):

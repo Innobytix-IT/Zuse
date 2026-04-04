@@ -22,7 +22,7 @@ KEYWORD_ALIASES = {
 STATIC_TOKENS = [
     ('STRING',     r'"(?:[^"\\]|\\.)*"'),
     ('ZAHL',       r'\d+\.\d+|\.\d+|\d+'), 
-    ('NAME',       r'[A-Za-z_\u00C0-\u024F][A-Za-z0-9_\u00C0-\u024F]*'),
+    ('NAME',       r'[A-Za-z_\u00C0-\u024F\u0900-\u097F\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF][A-Za-z0-9_\u00C0-\u024F\u0900-\u097F\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]*'),
     ('OPERATOR',   r'==|!=|<=|>=|[+\-*/=<>\^%]'),
     ('KLAMMER_AUF',r'\('),
     ('KLAMMER_ZU', r'\)'),
@@ -46,10 +46,13 @@ class Lexer:
 
     def _baue_regex(self):
         keywords = []
+        # Unicode-kompatible Word-Boundary (funktioniert mit Devanagari, CJK etc.)
+        _WB_LEFT = r'(?<![A-Za-z0-9_\u00C0-\u024F\u0900-\u097F\u0901-\u0963\u0966-\u096F\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF])'
+        _WB_RIGHT = r'(?![A-Za-z0-9_\u00C0-\u024F\u0900-\u097F\u0901-\u0963\u0966-\u096F\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF])'
         for key, value in self.sprach_config.items():
             escaped = re.escape(value)
             pattern_str = escaped.replace(r'\ ', r'\s+')
-            pattern = rf'\b{pattern_str}\b'
+            pattern = rf'{_WB_LEFT}{pattern_str}{_WB_RIGHT}'
             keywords.append((key, pattern))
         
         keywords.sort(key=lambda x: len(x[1]), reverse=True)
