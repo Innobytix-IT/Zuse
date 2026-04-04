@@ -508,7 +508,4 @@ I am deeply grateful for the opportunity to realize and share my ideas in this w
 ---
 
 **Architect:** Manuel Person
-
-**Co-Coding:** Gemini, Claude
-
 **License:** Open Source GPL v3
