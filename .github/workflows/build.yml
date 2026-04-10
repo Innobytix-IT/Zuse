@@ -1,0 +1,101 @@
+name: Build Zuse (Windows, Linux, macOS)
+
+# Manuell auslösen ODER automatisch bei einem neuen Version-Tag (z.B. v7.3)
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # Erlaubt das Hochladen von Release-Assets
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: Windows
+            artifact: Zuse_v7.3_Windows.exe
+            dist_file: dist/Zuse.exe
+
+          - os: ubuntu-latest
+            name: Linux
+            artifact: Zuse_v7.3_Linux
+            dist_file: dist/Zuse
+
+          - os: macos-latest
+            name: macOS
+            artifact: Zuse_v7.3_macOS.zip
+            dist_file: dist/Zuse_macOS.zip
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # ── 1. Code auschecken ──────────────────────────────────────────────────
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ── 2. Python einrichten ────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── 3. tkinter auf Linux installieren ──────────────────────────────────
+      - name: Install tkinter (Linux only)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y python3-tk
+
+      # ── 4. Python-Abhängigkeiten ────────────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install pillow pyinstaller
+        working-directory: "Zuse 7.3"
+
+      # ── 5. Icon generieren ──────────────────────────────────────────────────
+      - name: Generate Icon
+        run: python create_icon.py
+        working-directory: "Zuse 7.3"
+
+      # ── 6. PyInstaller Build ────────────────────────────────────────────────
+      - name: Build with PyInstaller
+        run: pyinstaller zuse.spec --clean --noconfirm
+        working-directory: "Zuse 7.3"
+
+      # ── 7. macOS: .app Bundle als ZIP verpacken ─────────────────────────────
+      - name: Package macOS app
+        if: runner.os == 'macOS'
+        run: |
+          cd "Zuse 7.3/dist"
+          if [ -d "Zuse.app" ]; then
+            zip -r Zuse_macOS.zip Zuse.app
+          else
+            zip Zuse_macOS.zip Zuse
+          fi
+
+      # ── 8. Linux/Windows: Datei umbenennen ──────────────────────────────────
+      - name: Rename artifact (Windows)
+        if: runner.os == 'Windows'
+        run: mv "Zuse 7.3/dist/Zuse.exe" "Zuse 7.3/dist/Zuse_v7.3_Windows.exe"
+        shell: bash
+
+      - name: Rename artifact (Linux)
+        if: runner.os == 'Linux'
+        run: mv "Zuse 7.3/dist/Zuse" "Zuse 7.3/dist/Zuse_v7.3_Linux"
+
+      # ── 9. Artifact speichern (immer, auch ohne Tag) ────────────────────────
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: "Zuse 7.3/${{ matrix.dist_file }}"
+          if-no-files-found: error
+
+      # ── 10. Bei Tag-Push: direkt in GitHub Release hochladen ────────────────
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "Zuse 7.3/${{ matrix.dist_file }}"
