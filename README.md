@@ -74,6 +74,10 @@ Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** de
 - **Voller Python-Zugriff:** Nutze jede installierte Python-Bibliothek direkt in Zuse (`requests`, `pandas`, `matplotlib`, `tkinter`, ...)
 - **Sicherheitssystem:** Lern-Modus sperrt gefährliche Module — perfekt für Schulen
 
+> **Hinweis zur EXE:** Die herunterladbare EXE enthält bereits `math`, `turtle`, `tkinter`, `random`, `time` und weitere Standardmodule — diese funktionieren **immer ohne Python-Installation**.
+> Für externe Bibliotheken wie `pandas`, `requests` oder `matplotlib` erkennt die EXE automatisch ein installiertes System-Python und bindet dessen Pakete ein.
+> Einfach Python installieren und Pakete per `pip install paketname` hinzufügen — Zuse findet sie automatisch.
+
 ### Qualität
 - **1086+ automatisierte Tests** in 31 Testmodulen
 - **6 umfassende Dokumentationen** (Tutorial, Referenz, Architektur, Spielfeld-API, Sprachvergleich, Beispiele)
@@ -84,7 +88,7 @@ Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** de
 
 ## Download
 
-> Keine Python-Installation nötig — einfach herunterladen und starten!
+> Python-Installation je nach Anwendungsfall nicht zwingend nötig — einfach herunterladen und starten!
 
 | Plattform | Datei | Größe |
 |---|---|---|
@@ -384,6 +388,10 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 - **Full Python Access:** Use any installed Python library directly in Zuse (`requests`, `pandas`, `matplotlib`, `tkinter`, ...)
 - **Security System:** Learning mode blocks dangerous modules — perfect for schools
 
+> **Note for EXE users:** The downloadable EXE already includes `math`, `turtle`, `tkinter`, `random`, `time` and other standard modules — these work **always, without any Python installation**.
+> For external libraries like `pandas`, `requests` or `matplotlib`, the EXE automatically detects an installed system Python and loads its packages.
+> Simply install Python and add packages via `pip install packagename` — Zuse finds them automatically.
+
 ### Quality
 - **1086+ automated tests** across 31 test modules
 - **6 comprehensive documentations** (tutorial, reference, architecture, game engine API, language comparison, examples)
@@ -394,7 +402,7 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 
 ## Download
 
-> No Python installation required — just download and run!
+> Python installation not strictly required — depends on use case. Just download and run!
 
 | Platform | File | Size |
 |---|---|---|
