@@ -282,8 +282,10 @@ class ZuseStudio:
     def __init__(self, root):
         self.root = root
         self.root.title("Zuse Studio 7.0 - Transpiler Edition")
-        self.root.geometry("1200x850")
+        self.root.geometry("1400x850")
+        self.root.minsize(1100, 600)
         self.root.configure(bg="#1e1e2e")
+        self._set_window_icon()
         self.current_lang = "deutsch"
         self.output_queue = queue.Queue()
         self.input_request_queue = queue.Queue()
@@ -292,6 +294,19 @@ class ZuseStudio:
         self._debug_update_queue = queue.Queue()
         self._build_ui()
         self.root.after(100, self.check_queues)
+
+    def _set_window_icon(self):
+        """Setzt das Fenster-Icon – funktioniert im PyInstaller-Bundle und direkt."""
+        if hasattr(sys, '_MEIPASS'):
+            base = sys._MEIPASS
+        else:
+            base = os.path.dirname(os.path.abspath(__file__))
+        icon_path = os.path.join(base, 'zuse_icon.ico')
+        if os.path.exists(icon_path):
+            try:
+                self.root.iconbitmap(icon_path)
+            except Exception:
+                pass
 
     def _build_ui(self):
         main = tk.Frame(self.root, bg="#1e1e2e")
