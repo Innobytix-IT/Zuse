@@ -53,3 +53,4 @@ AUSGABE "Fertig! (Fenster schließen zum Beenden)"
 
 # Wichtig: Hält das Fenster offen
 pablo.fertig()
+
