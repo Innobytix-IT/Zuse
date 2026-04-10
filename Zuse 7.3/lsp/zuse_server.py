@@ -278,7 +278,10 @@ def completions(params: lsp.CompletionParams):
 @server.feature(lsp.TEXT_DOCUMENT_HOVER)
 def hover(params: lsp.HoverParams):
     doc = server.workspace.get_text_document(params.text_document.uri)
-    line = doc.source.split('\n')[params.position.line]
+    lines = doc.source.split('\n')
+    if params.position.line >= len(lines):
+        return None
+    line = lines[params.position.line]
     col = params.position.character
 
     # Wort unter dem Cursor finden
@@ -312,14 +315,16 @@ def hover(params: lsp.HoverParams):
 def goto_definition(params: lsp.DefinitionParams):
     """Springt zur Definition einer Funktion oder Klasse."""
     doc = server.workspace.get_text_document(params.text_document.uri)
-    line = doc.source.split('\n')[params.position.line]
+    lines = doc.source.split('\n')
+    if params.position.line >= len(lines):
+        return None
+    line = lines[params.position.line]
     col = params.position.character
     word = _word_at(line, col)
     if not word:
         return None
 
     # Suche DEFINIERE name( oder KLASSE name im Dokument
-    lines = doc.source.split('\n')
     patterns = [
         re.compile(rf'\bDEFINIERE\s+{re.escape(word)}\s*\('),
         re.compile(rf'\bDEFINE\s+{re.escape(word)}\s*\('),

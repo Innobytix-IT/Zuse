@@ -2,6 +2,7 @@
 # Zuse → JavaScript (ES6+) Transpiler
 
 from backends.base_backend import BaseBackend
+from builtin_i18n import resolve_maler_method, resolve_color, resolve_fenster_method, MALER_KLASSEN, FENSTER_KLASSEN
 
 class JavaScriptBackend(BaseBackend):
     LANGUAGE_NAME = "JavaScript (ES6+)"
@@ -93,16 +94,45 @@ class JavaScriptBackend(BaseBackend):
         return "super"
 
     def _map_builtin(self, name):
+        if name in MALER_KLASSEN:
+            return '_ZuseMaler'
+        if name in FENSTER_KLASSEN:
+            return '_ZuseFenster'
         builtins = {
             'str':   'String',
             'int':   'parseInt',
             'float': 'parseFloat',
-            'len':   None,  # handled below
+            'len':   None,
             'typ':   'typeof',
             'liste': 'Array',
             'print': 'console.log',
         }
         return builtins.get(name, name)
+
+    def _gen_method_call(self, node):
+        """Löst mehrsprachige Maler/Painter und Fenster/Window-Methoden für JavaScript auf."""
+        obj = self._gen_expr(node['objekt'])
+        methode = node['methode']
+        args = [self._gen_expr(a) for a in node['args']]
+        kwargs = [f"/* {k}= */{self._gen_expr(v)}" for k, v in node['kwargs']]
+
+        turtle_method = resolve_maler_method(methode)
+        if turtle_method:
+            if turtle_method == 'color' and args:
+                raw = args[0].strip('"').strip("'")
+                args = [f'"{resolve_color(raw)}"']
+            if turtle_method == 'done':
+                return "/* done() - Fenster offen lassen */"
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{turtle_method}({all_args})"
+
+        window_method = resolve_fenster_method(methode)
+        if window_method:
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{window_method}({all_args})"
+
+        all_args = ", ".join(args + kwargs)
+        return f"{obj}.{methode}({all_args})"
 
     _JS_MATH_MAP = {
         'WURZEL': 'Math.sqrt', 'SINUS': 'Math.sin', 'COSINUS': 'Math.cos',

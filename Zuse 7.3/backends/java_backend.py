@@ -3,6 +3,7 @@
 # Da Zuse dynamisch typisiert ist, nutzen wir Object + Cast-Helpers.
 
 from backends.base_backend import BaseBackend
+from builtin_i18n import resolve_maler_method, resolve_color, resolve_fenster_method, MALER_KLASSEN, FENSTER_KLASSEN
 
 class JavaBackend(BaseBackend):
     LANGUAGE_NAME = "Java 11+"
@@ -48,6 +49,40 @@ class JavaBackend(BaseBackend):
         # Haupt-Klasse
         self._emit_raw(f"public class {self._class_name} {{")
         self._indent_level += 1
+
+        # _ZuseMaler Stub (Turtle-Grafik)
+        self._emit("// _ZuseMaler: Turtle-Grafik Stub")
+        self._emit("// Für echte Grafik: Java Swing/JavaFX oder externe Bibliothek verwenden")
+        self._emit("static class _ZuseMaler {")
+        self._indent_level += 1
+        self._emit("public void forward(double n)  { System.out.println(\"→ forward(\" + n + \")\"); }")
+        self._emit("public void backward(double n) { System.out.println(\"← backward(\" + n + \")\"); }")
+        self._emit("public void left(double n)     { System.out.println(\"↺ left(\" + n + \")\"); }")
+        self._emit("public void right(double n)    { System.out.println(\"↻ right(\" + n + \")\"); }")
+        self._emit("public void penup()            { System.out.println(\"penup\"); }")
+        self._emit("public void pendown()          { System.out.println(\"pendown\"); }")
+        self._emit("public void color(String c)    { System.out.println(\"color: \" + c); }")
+        self._emit("public void pensize(double d)  { System.out.println(\"pensize: \" + d); }")
+        self._emit("public void circle(double r)   { System.out.println(\"circle: \" + r); }")
+        self._emit("public void done()             { System.out.println(\"[Fertig]\"); }")
+        self._indent_level -= 1
+        self._emit("}")
+        self._emit()
+        # _ZuseFenster Stub
+        self._emit("// _ZuseFenster: Fenster/Window Stub")
+        self._emit("static class _ZuseFenster {")
+        self._indent_level += 1
+        self._emit("public _ZuseFenster() {}")
+        self._emit("public _ZuseFenster(String title, int w, int h) { System.out.println(\"[Fenster] \" + title); }")
+        self._emit("public Object new_canvas(String color) { System.out.println(\"[Canvas] \" + color); return null; }")
+        self._emit("public void press_key(String key, Object action) { System.out.println(\"[Key] \" + key); }")
+        self._emit("public void after_time(int ms, Object fn) { System.out.println(\"[Timer] \" + ms + \"ms\"); }")
+        self._emit("public void set_title(String t) { System.out.println(\"[Titel] \" + t); }")
+        self._emit("public void close() { System.out.println(\"[Fenster geschlossen]\"); }")
+        self._emit("public void run() { System.out.println(\"[Mainloop]\"); }")
+        self._indent_level -= 1
+        self._emit("}")
+        self._emit()
 
         # Scanner für Eingaben
         self._emit("private static final Scanner _scanner = new Scanner(System.in);")
@@ -170,14 +205,43 @@ class JavaBackend(BaseBackend):
         return "super"
 
     def _map_builtin(self, name):
+        if name in MALER_KLASSEN:
+            return 'new _ZuseMaler()'
+        if name in FENSTER_KLASSEN:
+            return 'new _ZuseFenster()'
         builtins = {
             'str':   'String.valueOf',
             'int':   '(int)(double)(Double)',
             'float': 'Double.parseDouble',
-            'len':   None,  # special
-            'typ':   None,  # special
+            'len':   None,
+            'typ':   None,
         }
         return builtins.get(name, name)
+
+    def _gen_method_call(self, node):
+        """Löst mehrsprachige Maler/Painter und Fenster/Window-Methoden für Java auf."""
+        obj = self._gen_expr(node['objekt'])
+        methode = node['methode']
+        args = [self._gen_expr(a) for a in node['args']]
+        kwargs = [f"/* {k}= */{self._gen_expr(v)}" for k, v in node['kwargs']]
+
+        turtle_method = resolve_maler_method(methode)
+        if turtle_method:
+            if turtle_method == 'color' and args:
+                raw = args[0].strip('"').strip("'")
+                args = [f'"{resolve_color(raw)}"']
+            if turtle_method == 'done':
+                return "new java.util.Scanner(System.in).nextLine(); // done"
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{turtle_method}({all_args})"
+
+        window_method = resolve_fenster_method(methode)
+        if window_method:
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{window_method}({all_args})"
+
+        all_args = ", ".join(args + kwargs)
+        return f"{obj}.{methode}({all_args})"
 
     _JAVA_MATH_MAP = {
         'WURZEL': 'Math.sqrt', 'SINUS': 'Math.sin', 'COSINUS': 'Math.cos',
@@ -290,6 +354,10 @@ class JavaBackend(BaseBackend):
             return f"java.nio.file.Files.delete(java.nio.file.Path.of(String.valueOf({args[0]})))"
 
         all_args = ", ".join(args + [f"/* {k}= */{self._gen_expr(v)}" for k, v in node['kwargs']])
+        if name in MALER_KLASSEN:
+            return f"new _ZuseMaler()"
+        if name in FENSTER_KLASSEN:
+            return f"new _ZuseFenster({all_args})"
         return f"{name}({all_args})"
 
     # ─── Statement-Generatoren ────────────────────────────────────────────────

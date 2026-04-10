@@ -3,26 +3,68 @@
 # Das einfachste Backend - Zuse ist Python sehr ähnlich.
 
 from backends.base_backend import BaseBackend
+from builtin_i18n import (
+    resolve_maler_method, resolve_color,
+    resolve_fenster_method, is_fenster_class,
+    MALER_KLASSEN, FENSTER_KLASSEN,
+)
 
 class PythonBackend(BaseBackend):
     LANGUAGE_NAME = "Python 3"
     FILE_EXTENSION = ".py"
 
+    def __init__(self):
+        super().__init__()
+        self._maler_vars = set()   # Variablennamen die Maler-Instanzen halten
+        self._fenster_vars = set() # Variablennamen die Fenster-Instanzen halten
+
+    def generate(self, ast):
+        self._maler_vars = set()
+        self._fenster_vars = set()
+        return super().generate(ast)
+
+    def _gen_assignment(self, node):
+        """Überschreibt base: trackt Maler/Fenster-Instanzen für korrekte Methoden-Übersetzung."""
+        wert = node['wert']
+        ziel = node['ziel']
+        if wert.get('type') == 'FUNKTIONS_AUFRUF':
+            if wert['name'] in MALER_KLASSEN and ziel.get('type') == 'NAME':
+                self._maler_vars.add(ziel.get('name', ''))
+            elif wert['name'] in FENSTER_KLASSEN and ziel.get('type') == 'NAME':
+                self._fenster_vars.add(ziel.get('name', ''))
+        super()._gen_assignment(node)
+
     def _emit_header(self):
         self._emit_raw("# Generiert von Zuse Transpiler")
         self._emit_raw("# Python 3 - Direkt ausführbar")
-        self._emit_raw("import math, random, os")
+        self._emit_raw("import math, random, os, turtle")
+        self._emit_raw("")
+        # _ZuseMaler Wrapper: übersetzt alle Maler/Painter-Methoden zu turtle
+        self._emit_raw("class _ZuseMaler:")
+        self._emit_raw("    def __init__(self):")
+        self._emit_raw("        self._s = turtle.Screen()")
+        self._emit_raw("        self._s.title('Zuse')")
+        self._emit_raw("        self._t = turtle.Turtle()")
+        self._emit_raw("        self._t.speed(3)")
+        self._emit_raw("    def forward(self, n):    self._t.forward(n)")
+        self._emit_raw("    def backward(self, n):   self._t.backward(n)")
+        self._emit_raw("    def left(self, n):       self._t.left(n)")
+        self._emit_raw("    def right(self, n):      self._t.right(n)")
+        self._emit_raw("    def penup(self):         self._t.penup()")
+        self._emit_raw("    def pendown(self):       self._t.pendown()")
+        self._emit_raw("    def color(self, c):      self._t.color(c)")
+        self._emit_raw("    def pensize(self, d):    self._t.pensize(d)")
+        self._emit_raw("    def circle(self, r):     self._t.circle(r)")
+        self._emit_raw("    def done(self):          turtle.done()")
         self._emit_raw("")
 
-    def _gen_string(self, raw):
-        # raw kommt als '"..."' aus dem Lexer
-        return raw
-
-    def _gen_binary_op(self, l, r, op):
-        op_map = {'^': '**', 'und': 'and', 'oder': 'or', 'nicht': 'not'}
-        return f"({l} {op_map.get(op, op)} {r})"
-
     def _map_builtin(self, name):
+        # Alle Maler/Painter-Klassen → _ZuseMaler
+        if name in MALER_KLASSEN:
+            return '_ZuseMaler'
+        # Fenster/Window-Klassen → _ZuseFenster
+        if name in FENSTER_KLASSEN:
+            return '_ZuseFenster'
         builtins = {
             'str': 'str', 'int': 'int', 'float': 'float',
             'len': 'len', 'typ': 'type',
@@ -34,7 +76,6 @@ class PythonBackend(BaseBackend):
             'MINIMUM': 'min', 'MAXIMUM': 'max', 'SUMME': 'sum',
             'BODEN': 'math.floor', 'DECKE': 'math.ceil',
             'ZUFALL': 'random.random', 'ZUFALL_BEREICH': 'random.randint',
-            'Maler': 'Maler',
         }
         return builtins.get(name, name)
 
@@ -165,3 +206,36 @@ class PythonBackend(BaseBackend):
 
     def _gen_super(self):
         return "super()"
+
+    def _gen_method_call(self, node):
+        """Überschreibt base: löst mehrsprachige Maler/Painter und Fenster/Window-Methoden auf."""
+        obj_node = node['objekt']
+        obj = self._gen_expr(obj_node)
+        methode = node['methode']
+        args = [self._gen_expr(a) for a in node['args']]
+        kwargs = [f"{k}={self._gen_expr(v)}" for k, v in node['kwargs']]
+
+        # Maler/Painter Methoden — nur wenn Objekt als Maler bekannt oder 'self' in Maler-Kontext
+        obj_name = obj_node.get('name', '') if obj_node.get('type') == 'NAME' else ''
+        is_maler = obj_name in self._maler_vars or obj_name == 'self'
+        is_fenster = obj_name in self._fenster_vars or obj_name == 'self'
+
+        turtle_method = resolve_maler_method(methode) if is_maler else None
+        if turtle_method:
+            if turtle_method == 'color' and args:
+                raw = args[0].strip('"').strip("'")
+                args = [f'"{resolve_color(raw)}"']
+            if turtle_method == 'done':
+                return f"turtle.done()"
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{turtle_method}({all_args})"
+
+        # Fenster/Window Methoden — nur wenn Objekt als Fenster bekannt
+        window_method = resolve_fenster_method(methode) if is_fenster else None
+        if window_method:
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{window_method}({all_args})"
+
+        # Fallback: unverändert ausgeben
+        all_args = ", ".join(args + kwargs)
+        return f"{obj}.{methode}({all_args})"

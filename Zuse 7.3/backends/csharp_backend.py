@@ -3,6 +3,7 @@
 # Nutzt 'dynamic' für dynamische Typen - perfekte Brücke für Zuse.
 
 from backends.base_backend import BaseBackend
+from builtin_i18n import resolve_maler_method, resolve_color, resolve_fenster_method, MALER_KLASSEN, FENSTER_KLASSEN
 
 class CSharpBackend(BaseBackend):
     LANGUAGE_NAME = "C# 10+"
@@ -43,6 +44,37 @@ class CSharpBackend(BaseBackend):
         self._emit_raw("namespace ZuseProgramm")
         self._emit_raw("{")
         self._indent_level += 1
+
+        # _ZuseMaler Stub (Turtle-Grafik benötigt externe Bibliothek)
+        self._emit_raw("    // _ZuseMaler: Turtle-Grafik Stub")
+        self._emit_raw("    // Für echte Grafik: NuGet-Paket 'Turtle' oder WPF/SkiaSharp verwenden")
+        self._emit_raw("    class _ZuseMaler {")
+        self._emit_raw("        public void forward(double n)  { Console.WriteLine($\"→ forward({n})\"); }")
+        self._emit_raw("        public void backward(double n) { Console.WriteLine($\"← backward({n})\"); }")
+        self._emit_raw("        public void left(double n)     { Console.WriteLine($\"↺ left({n})\"); }")
+        self._emit_raw("        public void right(double n)    { Console.WriteLine($\"↻ right({n})\"); }")
+        self._emit_raw("        public void penup()            { Console.WriteLine(\"✎ penup\"); }")
+        self._emit_raw("        public void pendown()          { Console.WriteLine(\"✏ pendown\"); }")
+        self._emit_raw("        public void color(string c)    { Console.WriteLine($\"🎨 color({c})\"); }")
+        self._emit_raw("        public void pensize(double d)  { Console.WriteLine($\"━ pensize({d})\"); }")
+        self._emit_raw("        public void circle(double r)   { Console.WriteLine($\"○ circle({r})\"); }")
+        self._emit_raw("        public void done()             { Console.WriteLine(\"[Fertig]\"); }")
+        self._emit_raw("    }")
+        self._emit_raw("")
+        # _ZuseFenster Stub
+        self._emit_raw("    // _ZuseFenster: Fenster/Window Stub")
+        self._emit_raw("    class _ZuseFenster {")
+        self._emit_raw("        public _ZuseFenster(string title = \"Zuse\", int w = 600, int h = 400) {")
+        self._emit_raw("            Console.WriteLine($\"[Fenster] {title} ({w}x{h})\");")
+        self._emit_raw("        }")
+        self._emit_raw("        public dynamic new_canvas(string color) { Console.WriteLine($\"[Canvas] {color}\"); return null; }")
+        self._emit_raw("        public void press_key(string key, object action) { Console.WriteLine($\"[Key] {key}\"); }")
+        self._emit_raw("        public void after_time(int ms, object fn) { Console.WriteLine($\"[Timer] {ms}ms\"); }")
+        self._emit_raw("        public void set_title(string t) { Console.WriteLine($\"[Titel] {t}\"); }")
+        self._emit_raw("        public void close() { Console.WriteLine(\"[Fenster geschlossen]\"); }")
+        self._emit_raw("        public void run() { Console.WriteLine(\"[Mainloop]\"); }")
+        self._emit_raw("    }")
+        self._emit_raw("")
 
         # Klassen-Definitionen
         for cls in self._class_defs:
@@ -132,16 +164,45 @@ class CSharpBackend(BaseBackend):
         return "base"
 
     def _map_builtin(self, name):
+        if name in MALER_KLASSEN:
+            return 'new _ZuseMaler()'
+        if name in FENSTER_KLASSEN:
+            return 'new _ZuseFenster()'
         builtins = {
             'str':   'Convert.ToString',
             'int':   'Convert.ToInt64',
             'float': 'Convert.ToDouble',
-            'len':   None,  # special
-            'typ':   None,  # special
+            'len':   None,
+            'typ':   None,
             'liste': 'new List<dynamic>',
             'dict':  'new Dictionary<dynamic, dynamic>',
         }
         return builtins.get(name, name)
+
+    def _gen_method_call(self, node):
+        """Löst mehrsprachige Maler/Painter und Fenster/Window-Methoden für C# auf."""
+        obj = self._gen_expr(node['objekt'])
+        methode = node['methode']
+        args = [self._gen_expr(a) for a in node['args']]
+        kwargs = [f"/* {k}= */{self._gen_expr(v)}" for k, v in node['kwargs']]
+
+        turtle_method = resolve_maler_method(methode)
+        if turtle_method:
+            if turtle_method == 'color' and args:
+                raw = args[0].strip('"').strip("'")
+                args = [f'"{resolve_color(raw)}"']
+            if turtle_method == 'done':
+                return "Console.ReadLine(); // done"
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{turtle_method}({all_args})"
+
+        window_method = resolve_fenster_method(methode)
+        if window_method:
+            all_args = ", ".join(args + kwargs)
+            return f"{obj}.{window_method}({all_args})"
+
+        all_args = ", ".join(args + kwargs)
+        return f"{obj}.{methode}({all_args})"
 
     _CS_MATH_MAP = {
         'WURZEL': 'Math.Sqrt', 'SINUS': 'Math.Sin', 'COSINUS': 'Math.Cos',
@@ -257,6 +318,10 @@ class CSharpBackend(BaseBackend):
             return f"System.IO.File.Delete(Convert.ToString({args[0]}))"
 
         all_args = ", ".join(args + [f"/* {k}= */{self._gen_expr(v)}" for k, v in node['kwargs']])
+        if name in MALER_KLASSEN:
+            return f"new _ZuseMaler()"
+        if name in FENSTER_KLASSEN:
+            return f"new _ZuseFenster({all_args})"
         return f"{name}({all_args})"
 
     # ─── Statement-Generatoren ────────────────────────────────────────────────
