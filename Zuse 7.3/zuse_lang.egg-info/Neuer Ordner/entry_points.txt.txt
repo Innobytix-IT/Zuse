@@ -1,2 +1,0 @@
-[console_scripts]
-zuse = zuse_cli:main
