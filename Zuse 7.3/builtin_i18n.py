@@ -396,3 +396,242 @@ def get_module_aliases(sprache):
             aliases[translated] = de_name
 
     return aliases
+
+
+# ─── Multilingual Library Class & Method Map (für Transpiler) ────────────────
+
+# Alle Sprachnamen der Maler-Klasse → kanonischer Name "Maler"
+MALER_KLASSEN = {
+    'Maler', 'Painter', 'Pintor', 'Peintre', 'Pittore',
+    'चित्रकार', '画笔',
+}
+
+# Alle Sprachnamen der Fenster-Klasse → kanonischer Name "Fenster"
+FENSTER_KLASSEN = {
+    'Fenster', 'Window', 'Ventana', 'Fenetre', 'Finestra', 'Janela',
+    'खिड़की', '窗口',
+}
+
+# Multilingualer Methoden-Map: Zuse-Methodenname → Python-turtle-Aufruf
+# Format: 'zuse_methode': ('turtle_methode', None) oder ('turtle_methode', color_map)
+MALER_METHODEN_MAP = {
+    # Deutsch
+    'gehe':          'forward',
+    'zurueck':       'backward',
+    'drehe_links':   'left',
+    'drehe_rechts':  'right',
+    'stift_hoch':    'penup',
+    'stift_runter':  'pendown',
+    'farbe':         'color',
+    'breite':        'pensize',
+    'kreis':         'circle',
+    'fertig':        'done',
+    # English
+    'move':          'forward',
+    'back':          'backward',
+    'turn_left':     'left',
+    'turn_right':    'right',
+    'pen_up':        'penup',
+    'pen_down':      'pendown',
+    'color':         'color',
+    'width':         'pensize',
+    'circle':        'circle',
+    'done':          'done',
+    # Español
+    'mover':         'forward',
+    'atras':         'backward',
+    'girar_izquierda': 'left',
+    'girar_derecha': 'right',
+    'pluma_arriba':  'penup',
+    'pluma_abajo':   'pendown',
+    'color':         'color',
+    # Français
+    'avancer':       'forward',
+    'reculer':       'backward',
+    'tourner_gauche': 'left',
+    'tourner_droite': 'right',
+    'lever_crayon':  'penup',
+    'poser_crayon':  'pendown',
+    'couleur':       'color',
+    # Italiano
+    'muovi':         'forward',
+    'indietro':      'backward',
+    'gira_sinistra': 'left',
+    'gira_destra':   'right',
+    'alza_penna':    'penup',
+    'abbassa_penna': 'pendown',
+    'colore':        'color',
+    # Português
+    'mover':         'forward',
+    'voltar':        'backward',
+    'virar_esquerda': 'left',
+    'virar_direita': 'right',
+    'caneta_sobe':   'penup',
+    'caneta_desce':  'pendown',
+    'cor':           'color',
+    # Hindi
+    'आगे':           'forward',
+    'पीछे':          'backward',
+    'बायाँ_मुड़ो':    'left',
+    'दायाँ_मुड़ो':   'right',
+    'कलम_ऊपर':       'penup',
+    'कलम_नीचे':      'pendown',
+    'रंग':           'color',
+    'मोटाई':         'pensize',
+    'वृत्त':         'circle',
+    'समाप्त':        'done',
+    # Zhongwen
+    '前进':          'forward',
+    '后退':          'backward',
+    '左转':          'left',
+    '右转':          'right',
+    '抬笔':          'penup',
+    '落笔':          'pendown',
+    '颜色':          'color',
+    '粗细':          'pensize',
+    '圆形':          'circle',
+}
+
+# Farbnamen aller Sprachen → CSS-Farbnamen
+COLOR_TRANSLATIONS = {
+    # Deutsch
+    'rot': 'red', 'blau': 'blue', 'gruen': 'green', 'grün': 'green',
+    'gelb': 'yellow', 'schwarz': 'black', 'weiss': 'white', 'weiß': 'white',
+    'orange': 'orange', 'lila': 'purple', 'rosa': 'pink',
+    # Hindi
+    'लाल': 'red', 'नीला': 'blue', 'हरा': 'green', 'पीला': 'yellow',
+    'काला': 'black', 'सफ़ेद': 'white', 'नारंगी': 'orange', 'बैंगनी': 'purple',
+    # Español
+    'rojo': 'red', 'azul': 'blue', 'verde': 'green', 'amarillo': 'yellow',
+    'negro': 'black', 'blanco': 'white', 'naranja': 'orange', 'morado': 'purple',
+    # Français
+    'rouge': 'red', 'bleu': 'blue', 'vert': 'green', 'jaune': 'yellow',
+    'noir': 'black', 'blanc': 'white',
+    # Italiano
+    'rosso': 'red', 'blu': 'blue', 'verde': 'green', 'giallo': 'yellow',
+    'nero': 'black', 'bianco': 'white',
+    # Português
+    'vermelho': 'red', 'azul': 'blue', 'verde': 'green', 'amarelo': 'yellow',
+    'preto': 'black', 'branco': 'white',
+    # Zhongwen
+    '红': 'red', '红色': 'red', '蓝': 'blue', '蓝色': 'blue',
+    '绿': 'green', '绿色': 'green', '黄': 'yellow', '黄色': 'yellow',
+    '黑': 'black', '黑色': 'black', '白': 'white', '白色': 'white',
+}
+
+
+def resolve_maler_method(method_name):
+    """Gibt den Python-turtle-Methodennamen zurück, oder None wenn nicht bekannt."""
+    return MALER_METHODEN_MAP.get(method_name)
+
+
+def resolve_color(color_str):
+    """Übersetzt mehrsprachige Farbnamen in CSS-Farbnamen."""
+    c = color_str.strip().strip('"').strip("'")
+    return COLOR_TRANSLATIONS.get(c, c)
+
+
+def is_maler_class(class_name):
+    """Prüft ob ein Klassenname die Maler/Painter Klasse ist."""
+    return class_name in MALER_KLASSEN
+
+
+def is_fenster_class(class_name):
+    """Prüft ob ein Klassenname die Fenster/Window Klasse ist."""
+    return class_name in FENSTER_KLASSEN
+
+
+# ─── Fenster/Window Method Map ────────────────────────────────────────────────
+
+FENSTER_METHODEN_MAP = {
+    # Deutsch
+    'neue_leinwand':  'new_canvas',
+    'taste_druecken': 'press_key',
+    'nach_zeit':      'after_time',
+    'setze_titel':    'set_title',
+    'schliessen':     'close',
+    'starte':         'run',
+    # English
+    'new_canvas':     'new_canvas',
+    'press_key':      'press_key',
+    'after_time':     'after_time',
+    'set_title':      'set_title',
+    'close':          'close',
+    'run':            'run',
+    # Español
+    'nuevo_lienzo':   'new_canvas',
+    'presionar_tecla': 'press_key',
+    'despues_tiempo': 'after_time',
+    'fijar_titulo':   'set_title',
+    'cerrar':         'close',
+    'iniciar':        'run',
+    # Français
+    'nouvelle_toile': 'new_canvas',
+    'appuyer_touche': 'press_key',
+    'apres_temps':    'after_time',
+    'definir_titre':  'set_title',
+    'fermer':         'close',
+    'lancer':         'run',
+    # Italiano
+    'nuova_tela':     'new_canvas',
+    'premi_tasto':    'press_key',
+    'dopo_tempo':     'after_time',
+    'imposta_titolo': 'set_title',
+    'chiudi':         'close',
+    'avvia':          'run',
+    # Português
+    'nova_tela':      'new_canvas',
+    'pressionar_tecla': 'press_key',
+    'apos_tempo':     'after_time',
+    'definir_titulo': 'set_title',
+    'fechar':         'close',
+    # Hindi
+    'नया_कैनवास':     'new_canvas',
+    'कुंजी_दबाओ':     'press_key',
+    'समय_बाद':        'after_time',
+    'शीर्षक_बदलो':    'set_title',
+    'बंद_करो':        'close',
+    'शुरू':           'run',
+    # Zhongwen
+    '新画布':          'new_canvas',
+    '按键绑定':         'press_key',
+    '延时':            'after_time',
+    '设置标题':         'set_title',
+    '关闭':            'close',
+    '启动':            'run',
+}
+
+# Globale Hilfsfunktionen (zufallszahl, warte etc.)
+GLOBAL_FUNC_MAP = {
+    # Deutsch
+    'zufallszahl':         'random_number',
+    'warte':               'wait',
+    # English
+    'random_number':       'random_number',
+    'wait':                'wait',
+    # Español
+    'numero_aleatorio':    'random_number',
+    'esperar':             'wait',
+    # Français
+    'nombre_aleatoire':    'random_number',
+    'attendre':            'wait',
+    # Português
+    'numero_aleatorio':    'random_number',
+    'aguardar':            'wait',
+    # Hindi
+    'यादृच्छिक_संख्या':   'random_number',
+    'प्रतीक्षा':          'wait',
+    # Zhongwen
+    '随机数':              'random_number',
+    '等待':               'wait',
+}
+
+
+def resolve_fenster_method(method_name):
+    """Gibt den kanonischen Fenster/Window-Methodennamen zurück, oder None."""
+    return FENSTER_METHODEN_MAP.get(method_name)
+
+
+def is_fenster_class(class_name):
+    """Prüft ob ein Klassenname die Fenster/Window-Klasse ist."""
+    return class_name in FENSTER_KLASSEN

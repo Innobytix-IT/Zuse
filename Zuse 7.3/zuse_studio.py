@@ -34,6 +34,15 @@ except ImportError as e:
     messagebox.showerror("Boot Error", f"Module fehlen: {e}")
     sys.exit(1)
 
+# UI i18n - safe import with fallback
+try:
+    from studio_i18n import ui, set_ui_language
+    _STUDIO_I18N = True
+except Exception:
+    _STUDIO_I18N = False
+    def ui(key, **kwargs): return key
+    def set_ui_language(lang_name): pass
+
 
 class TranspilerDialog(tk.Toplevel):
     BACKEND_ICONS = {
@@ -51,7 +60,7 @@ class TranspilerDialog(tk.Toplevel):
 
     def __init__(self, parent, zuse_code, source_lang):
         super().__init__(parent)
-        self.title("Zuse Transpiler")
+        self.title(ui("TRANS_TITLE"))
         self.geometry("980x720")
         self.configure(bg="#1e1e2e")
         self.resizable(True, True)
@@ -65,15 +74,15 @@ class TranspilerDialog(tk.Toplevel):
     def _build_ui(self):
         top = tk.Frame(self, bg="#181825")
         top.pack(fill="x")
-        tk.Label(top, text="  Zuse Transpiler 1.0",
+        tk.Label(top, text="  " + ui("TRANS_TITLE") + " 1.0",
                  font=("Consolas", 13, "bold"),
                  bg="#181825", fg="#cba6f7").pack(side="left", pady=8)
-        tk.Label(top, text="  Konvertiere deinen Code in eine andere Sprache",
+        tk.Label(top, text="  " + ui("TRANS_SUBTITLE"),
                  font=("Consolas", 9), bg="#181825", fg="#6c7086").pack(side="left")
 
         btn_frame = tk.Frame(self, bg="#1e1e2e")
         btn_frame.pack(fill="x", padx=10, pady=8)
-        tk.Label(btn_frame, text="Ziel:", font=("Consolas", 10, "bold"),
+        tk.Label(btn_frame, text=ui("TRANS_TARGET"), font=("Consolas", 10, "bold"),
                  bg="#1e1e2e", fg="#cdd6f4").pack(side="left")
 
         self._backend_btns = {}
@@ -95,7 +104,7 @@ class TranspilerDialog(tk.Toplevel):
 
         left = tk.Frame(split, bg="#1e1e2e")
         left.pack(side="left", fill="both", expand=True, padx=(0,4))
-        tk.Label(left, text="Zuse-Quellcode", font=("Consolas", 9, "bold"),
+        tk.Label(left, text=ui("TRANS_SOURCE"), font=("Consolas", 9, "bold"),
                  bg="#1e1e2e", fg="#89dceb").pack(anchor="w")
         self._zuse_view = tk.Text(left, bg="#181825", fg="#cdd6f4",
                                   font=("Consolas", 10), relief="flat", wrap="none")
@@ -105,7 +114,7 @@ class TranspilerDialog(tk.Toplevel):
 
         right = tk.Frame(split, bg="#1e1e2e")
         right.pack(side="left", fill="both", expand=True)
-        self._out_label = tk.Label(right, text="Generierter Code",
+        self._out_label = tk.Label(right, text=ui("TRANS_OUTPUT"),
                                    font=("Consolas", 9, "bold"),
                                    bg="#1e1e2e", fg="#a6e3a1")
         self._out_label.pack(anchor="w")
@@ -115,13 +124,13 @@ class TranspilerDialog(tk.Toplevel):
 
         actions = tk.Frame(self, bg="#181825")
         actions.pack(fill="x", padx=10, pady=8)
-        tk.Button(actions, text="Speichern", font=("Consolas", 10),
+        tk.Button(actions, text=ui("TRANS_SAVE"), font=("Consolas", 10),
                   bg="#313244", fg="#a6e3a1", relief="flat", padx=12, pady=6,
                   cursor="hand2", command=self._save).pack(side="left", padx=3)
-        tk.Button(actions, text="Kopieren", font=("Consolas", 10),
+        tk.Button(actions, text=ui("TRANS_COPY"), font=("Consolas", 10),
                   bg="#313244", fg="#89b4fa", relief="flat", padx=12, pady=6,
                   cursor="hand2", command=self._copy).pack(side="left", padx=3)
-        tk.Button(actions, text="Schliessen", font=("Consolas", 10),
+        tk.Button(actions, text=ui("TRANS_CLOSE"), font=("Consolas", 10),
                   bg="#313244", fg="#f38ba8", relief="flat", padx=12, pady=6,
                   cursor="hand2", command=self.destroy).pack(side="right", padx=3)
         self._status = tk.Label(actions, text="", font=("Consolas", 9),
@@ -146,7 +155,7 @@ class TranspilerDialog(tk.Toplevel):
             self._out_view.insert("1.0", result['code'])
             self._out_label.config(text=f"[{self.BACKEND_ICONS.get(key,'?')}] {result['backend']}")
             warns = result['warnings']
-            self._warn_var.set(("Hinweise: " + " | ".join(warns)) if warns else "OK - Erfolgreich transpiliert")
+            self._warn_var.set(("Hinweise: " + " | ".join(warns)) if warns else ui("TRANS_SUCCESS"))
         except Exception as e:
             self._out_view.config(state="normal")
             self._out_view.delete("1.0", tk.END)
@@ -161,12 +170,12 @@ class TranspilerDialog(tk.Toplevel):
         if p:
             with open(p, "w", encoding="utf-8") as f:
                 f.write(self._out_view.get("1.0", tk.END))
-            self._status.config(text=f"Gespeichert: {os.path.basename(p)}")
+            self._status.config(text=ui("TRANS_SAVED", path=os.path.basename(p)))
 
     def _copy(self):
         self.clipboard_clear()
         self.clipboard_append(self._out_view.get("1.0", tk.END))
-        self._status.config(text="In Zwischenablage kopiert!")
+        self._status.config(text=ui("TRANS_COPIED"))
         self.after(2000, lambda: self._status.config(text=""))
 
 
@@ -297,11 +306,16 @@ class ZuseStudio:
                              font=("Consolas", 10, "bold"), relief="flat",
                              padx=10, pady=6, cursor="hand2", command=cmd)
 
-        btn(bar, "START",  "#a6e3a1", self.run_decider).pack(side="left", padx=(8,2), pady=8)
-        btn(bar, "DEBUG",  "#f9e2af", self.debug_start).pack(side="left", padx=2, pady=8)
-        btn(bar, "STOP",   "#f38ba8", self.stop_thread).pack(side="left", padx=2, pady=8)
-        btn(bar, "SAVE",   "#89b4fa", self.save).pack(side="left", padx=2, pady=8)
-        btn(bar, "LOAD",   "#89b4fa", self.load).pack(side="left", padx=2, pady=8)
+        self._btn_start = btn(bar, "START",  "#a6e3a1", self.run_decider)
+        self._btn_start.pack(side="left", padx=(8,2), pady=8)
+        self._btn_debug = btn(bar, "DEBUG",  "#f9e2af", self.debug_start)
+        self._btn_debug.pack(side="left", padx=2, pady=8)
+        self._btn_stop = btn(bar, "STOP",   "#f38ba8", self.stop_thread)
+        self._btn_stop.pack(side="left", padx=2, pady=8)
+        self._btn_save = btn(bar, "SAVE",   "#89b4fa", self.save)
+        self._btn_save.pack(side="left", padx=2, pady=8)
+        self._btn_load = btn(bar, "LOAD",   "#89b4fa", self.load)
+        self._btn_load.pack(side="left", padx=2, pady=8)
 
         tk.Frame(bar, bg="#45475a", width=2).pack(side="left", padx=8, fill="y", pady=8)
 
@@ -315,33 +329,40 @@ class ZuseStudio:
 
         tk.Frame(bar, bg="#45475a", width=2).pack(side="left", padx=8, fill="y", pady=8)
 
-        btn(bar, "BEISPIELE", "#f5c2e7", self.open_examples).pack(side="left", padx=2, pady=8)
+        self._btn_examples = btn(bar, "BEISPIELE", "#f5c2e7", self.open_examples)
+        self._btn_examples.pack(side="left", padx=2, pady=8)
 
         tk.Frame(bar, bg="#45475a", width=2).pack(side="left", padx=8, fill="y", pady=8)
 
         if TRANSPILER_AVAILABLE:
-            btn(bar, "TRANSPILIEREN", "#cba6f7", self.open_transpiler).pack(side="left", padx=2, pady=8)
+            self._btn_transpile = btn(bar, "TRANSPILIEREN", "#cba6f7", self.open_transpiler)
+            self._btn_transpile.pack(side="left", padx=2, pady=8)
         else:
-            tk.Label(bar, text="[Transpiler nicht verfügbar]",
-                     bg="#181825", fg="#f38ba8", font=("Consolas", 8)).pack(side="left", padx=6)
+            self._btn_transpile = None
+            self._lbl_transpile_na = tk.Label(bar, text="[Transpiler nicht verfügbar]",
+                     bg="#181825", fg="#f38ba8", font=("Consolas", 8))
+            self._lbl_transpile_na.pack(side="left", padx=6)
 
         tk.Frame(bar, bg="#45475a", width=2).pack(side="left", padx=8, fill="y", pady=8)
 
         self.gui_mode_var = tk.BooleanVar(value=False)
-        tk.Checkbutton(bar, text="GUI-Modus", variable=self.gui_mode_var,
+        self._chk_gui = tk.Checkbutton(bar, text="GUI-Modus", variable=self.gui_mode_var,
                        bg="#181825", fg="#cdd6f4", selectcolor="#313244",
                        activebackground="#181825",
-                       font=("Consolas", 9)).pack(side="left", padx=4)
+                       font=("Consolas", 9))
+        self._chk_gui.pack(side="left", padx=4)
 
-        tk.Label(bar, text="Modus:", bg="#181825", fg="#6c7086",
-                 font=("Consolas", 9)).pack(side="left", padx=(8,2))
-        self.mode_var = tk.StringVar(value="Profi")
+        self._lbl_mode = tk.Label(bar, text="Modus:", bg="#181825", fg="#6c7086",
+                 font=("Consolas", 9))
+        self._lbl_mode.pack(side="left", padx=(8,2))
+        self.mode_var = tk.StringVar(value=ui("MODE_EXPERT"))
         ttk.Combobox(bar, textvariable=self.mode_var,
-                     values=["Profi","Lernen"], state="readonly",
+                     values=[ui("MODE_EXPERT"), ui("MODE_LEARN")], state="readonly",
                      width=7).pack(side="left")
 
-        tk.Label(bar, text="Sprache:", bg="#181825", fg="#6c7086",
-                 font=("Consolas", 9)).pack(side="left", padx=(10,2))
+        self._lbl_lang = tk.Label(bar, text="Sprache:", bg="#181825", fg="#6c7086",
+                 font=("Consolas", 9))
+        self._lbl_lang.pack(side="left", padx=(10,2))
         self.lang_var = tk.StringVar(value="deutsch")
         self.cb_lang = ttk.Combobox(bar, textvariable=self.lang_var,
                                     values=self.get_langs(), state="readonly", width=12)
@@ -359,8 +380,9 @@ class ZuseStudio:
 
         cons_frame = tk.Frame(bottom, bg="#1e1e2e")
         cons_frame.pack(side="left", fill="both", expand=True)
-        tk.Label(cons_frame, text=" Konsole", bg="#181825", fg="#6c7086",
-                 font=("Consolas", 9), anchor="w").pack(fill="x")
+        self._lbl_console = tk.Label(cons_frame, text=" Konsole", bg="#181825", fg="#6c7086",
+                 font=("Consolas", 9), anchor="w")
+        self._lbl_console.pack(fill="x")
         self.cons = tk.Text(cons_frame, height=9, bg="#181825", fg="#a6e3a1",
                             font=("Consolas", 11), relief="flat",
                             insertbackground="#a6e3a1")
@@ -369,11 +391,38 @@ class ZuseStudio:
         self.var_frame = tk.Frame(bottom, bg="#1e1e2e", width=280)
         self.var_frame.pack(side="right", fill="y", padx=(4,0))
         self.var_frame.pack_propagate(False)
-        tk.Label(self.var_frame, text=" Variablen", bg="#181825", fg="#f9e2af",
-                 font=("Consolas", 9), anchor="w").pack(fill="x")
+        self._lbl_variables = tk.Label(self.var_frame, text=" Variablen", bg="#181825", fg="#f9e2af",
+                 font=("Consolas", 9), anchor="w")
+        self._lbl_variables.pack(fill="x")
         self.var_text = tk.Text(self.var_frame, bg="#181825", fg="#cdd6f4",
                                 font=("Consolas", 10), relief="flat", state="disabled")
         self.var_text.pack(fill="both", expand=True)
+
+    def _update_ui_labels(self):
+        """Aktualisiert alle UI-Texte nach Sprachwechsel."""
+        if not _STUDIO_I18N:
+            return
+        self._btn_start.config(text=ui("BTN_START"))
+        self._btn_debug.config(text=ui("BTN_DEBUG"))
+        self._btn_stop.config(text=ui("BTN_STOP"))
+        self._btn_save.config(text=ui("BTN_SAVE"))
+        self._btn_load.config(text=ui("BTN_LOAD"))
+        self._btn_examples.config(text=ui("BTN_EXAMPLES"))
+        if self._btn_transpile:
+            self._btn_transpile.config(text=ui("BTN_TRANSPILE"))
+        elif hasattr(self, '_lbl_transpile_na'):
+            self._lbl_transpile_na.config(text=ui("MSG_TRANSPILER_NA"))
+        self.btn_continue.config(text=ui("BTN_CONTINUE"))
+        self.btn_step_into.config(text=ui("BTN_STEP"))
+        self.btn_step_over.config(text=ui("BTN_OVER"))
+        self._chk_gui.config(text=ui("LBL_GUI_MODE"))
+        self._lbl_mode.config(text=ui("LBL_MODE"))
+        self._lbl_lang.config(text=ui("LBL_LANGUAGE"))
+        self._lbl_console.config(text=ui("LBL_CONSOLE"))
+        self._lbl_variables.config(text=ui("LBL_VARIABLES"))
+        # Mode-Dropdown Werte aktualisieren
+        current_is_learn = self.mode_var.get() not in (ui("MODE_EXPERT"), "Profi", "Expert", "Experto", "Expert", "Esperto", "Experto")
+        self.mode_var.set(ui("MODE_LEARN") if current_is_learn else ui("MODE_EXPERT"))
 
     def _set_debug_buttons_state(self, state):
         for b in (self.btn_continue, self.btn_step_into, self.btn_step_over):
@@ -399,7 +448,7 @@ class ZuseStudio:
                     self.editor.highlight_debug_line(line)
                     self._update_var_panel(variables)
                     self._set_debug_buttons_state("normal")
-                    self.output_queue.put(f"[Debug] Pausiert in Zeile {line}")
+                    self.output_queue.put(ui("MSG_DEBUG_PAUSED", line=line))
                 elif msg[0] == "done":
                     self.editor.clear_debug_line()
                     self._set_debug_buttons_state("disabled")
@@ -412,10 +461,10 @@ class ZuseStudio:
     def debug_start(self):
         code = self.editor.text.get("1.0", tk.END).strip()
         if not code:
-            messagebox.showinfo("Debug", "Bitte schreibe zuerst Zuse-Code.")
+            messagebox.showinfo(ui("DLG_DEBUG_TITLE"), ui("DLG_DEBUG_NO_CODE"))
             return
         self.cons.delete("1.0", tk.END)
-        self.cons.insert("end", "[Debug] Starte Debugger...\n")
+        self.cons.insert("end", ui("MSG_DEBUG_START") + "\n")
         bp = self.editor.breakpoints
         self._debugger = ZuseDebugger(source_code=code, on_pause=self._on_debug_pause)
         for line in bp:
@@ -442,7 +491,7 @@ class ZuseStudio:
             interp._debugger = self._debugger
             self.active_interpreter = interp
             interp.interpretiere(ast)
-            self.output_queue.put("[Debug] Programm beendet.")
+            self.output_queue.put(ui("MSG_DEBUG_FINISHED"))
         except Exception as e:
             self.output_queue.put("[Debug] " + format_error_with_hint(e))
         finally:
@@ -468,18 +517,18 @@ class ZuseStudio:
     def open_examples(self):
         beispiele_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "beispiele")
         if not os.path.exists(beispiele_dir):
-            messagebox.showinfo("Beispiele", "Kein beispiele/ Ordner gefunden.")
+            messagebox.showinfo(ui("BTN_EXAMPLES"), ui("DLG_EXAMPLES_NO_DIR"))
             return
         files = sorted(f for f in os.listdir(beispiele_dir) if f.endswith(".zuse"))
         if not files:
-            messagebox.showinfo("Beispiele", "Keine Beispieldateien gefunden.")
+            messagebox.showinfo(ui("BTN_EXAMPLES"), ui("DLG_EXAMPLES_NONE"))
             return
         dialog = tk.Toplevel(self.root)
-        dialog.title("Beispiele laden")
+        dialog.title(ui("DLG_EXAMPLES_TITLE"))
         dialog.geometry("420x480")
         dialog.configure(bg="#1e1e2e")
         dialog.transient(self.root)
-        tk.Label(dialog, text="Beispielprogramm waehlen:",
+        tk.Label(dialog, text=ui("DLG_EXAMPLES_CHOOSE"),
                  font=("Consolas", 11, "bold"), bg="#1e1e2e", fg="#f5c2e7").pack(pady=(12,6))
         listbox = tk.Listbox(dialog, bg="#181825", fg="#cdd6f4",
                              font=("Consolas", 11), selectbackground="#45475a",
@@ -503,14 +552,14 @@ class ZuseStudio:
             dialog.destroy()
 
         listbox.bind("<Double-1>", lambda e: on_load())
-        tk.Button(dialog, text="Laden", font=("Consolas", 10, "bold"),
+        tk.Button(dialog, text=ui("BTN_LOAD_EXAMPLE"), font=("Consolas", 10, "bold"),
                   bg="#a6e3a1", fg="#1e1e2e", relief="flat", padx=20, pady=8,
                   cursor="hand2", command=on_load).pack(pady=10)
 
     def open_transpiler(self):
         code = self.editor.text.get("1.0", tk.END).strip()
         if not code:
-            messagebox.showinfo("Transpiler", "Bitte schreibe zuerst etwas Zuse-Code.")
+            messagebox.showinfo(ui("DLG_TRANSPILER_TITLE"), ui("DLG_TRANSPILER_NO_CODE"))
             return
         TranspilerDialog(self.root, code, self.current_lang)
 
@@ -529,8 +578,8 @@ class ZuseStudio:
         try:
             req = self.input_request_queue.get_nowait()
             prompt, modus, container, evt = req
-            if modus == 'zahl': res = simpledialog.askfloat("Eingabe", prompt)
-            else: res = simpledialog.askstring("Eingabe", prompt)
+            if modus == 'zahl': res = simpledialog.askfloat(ui("DLG_INPUT_TITLE"), prompt)
+            else: res = simpledialog.askstring(ui("DLG_INPUT_TITLE"), prompt)
             container['value'] = res if res is not None else ""
             evt.set()
         except queue.Empty: pass
@@ -544,7 +593,7 @@ class ZuseStudio:
             self._set_debug_buttons_state("disabled")
         if self.active_interpreter:
             self.active_interpreter.running = False
-            self.output_queue.put("\n[STOP SIGNAL]\n")
+            self.output_queue.put(ui("MSG_STOP_SIGNAL"))
 
     def check_gui_usage(self, code):
         gui_keywords = ['tkinter','turtle','Maler','Fenster','Painter','Window',
@@ -559,19 +608,16 @@ class ZuseStudio:
         needs_gui = self.check_gui_usage(code)
         is_gui_mode = self.gui_mode_var.get()
         if needs_gui and not is_gui_mode:
-            messagebox.showerror("Sicherheits-Stopp",
-                "Dein Programm nutzt grafische Elemente!\n\n"
-                "Bitte aktiviere 'GUI-Modus', sonst stuerzt das Studio ab.")
+            messagebox.showerror(ui("DLG_SECURITY_STOP_TITLE"), ui("DLG_SECURITY_STOP_MSG"))
             return
         if not needs_gui and is_gui_mode:
-            if not messagebox.askyesno("Hinweis",
-                "Dein Programm nutzt keine Grafik.\nGUI-Modus blockiert das Studio.\nTrotzdem?"):
+            if not messagebox.askyesno(ui("DLG_GUI_HINT_TITLE"), ui("DLG_GUI_HINT_MSG")):
                 return
         self.cons.delete("1.0", tk.END)
-        self.cons.insert("end", "Starte Programm...\n")
+        self.cons.insert("end", ui("MSG_STARTING") + "\n")
         lang = self.current_lang
         if self.gui_mode_var.get():
-            self.output_queue.put("[INFO] GUI-Modus aktiv.")
+            self.output_queue.put(ui("MSG_GUI_ACTIVE"))
             self.root.after(100, lambda: self._execute_logic(code, lang, threaded=False))
         else:
             t = threading.Thread(target=self._execute_logic, args=(code, lang, True))
@@ -580,8 +626,8 @@ class ZuseStudio:
 
     def _interpreter_input_callback(self, prompt, modus):
         if threading.current_thread() is threading.main_thread():
-            if modus == 'zahl': return simpledialog.askfloat("Eingabe", prompt) or 0
-            return simpledialog.askstring("Eingabe", prompt) or ""
+            if modus == 'zahl': return simpledialog.askfloat(ui("DLG_INPUT_TITLE"), prompt) or 0
+            return simpledialog.askstring(ui("DLG_INPUT_TITLE"), prompt) or ""
         evt = threading.Event()
         container = {'value': None}
         self.input_request_queue.put((prompt, modus, container, evt))
@@ -595,7 +641,7 @@ class ZuseStudio:
             lib_path = os.path.join(base_path, "bibliothek", f"{lang}.zuse")
             final_code = code
             start_line_offset = 1
-            ist_lernmodus = (self.mode_var.get() == "Lernen")
+            ist_lernmodus = (self.mode_var.get() == ui("MODE_LEARN"))
             if os.path.exists(lib_path):
                 try:
                     with open(lib_path, "r", encoding="utf-8") as f:
@@ -604,7 +650,7 @@ class ZuseStudio:
                         start_line_offset = 1 - lib_lines
                         final_code = lib_code + "\n\n" + code
                 except Exception as e:
-                    self.output_queue.put(f"[Warnung] Lib Fehler: {e}")
+                    self.output_queue.put(ui("MSG_LIB_ERROR", error=e))
             conf = lade_sprache(lang)
             tokens = tokenize(final_code, conf, start_line=start_line_offset)
             ast = Parser(tokens).parse()
@@ -615,7 +661,7 @@ class ZuseStudio:
                 sprache=lang)
             self.active_interpreter.global_env.set("__UMGEBUNG__", "STUDIO")
             self.active_interpreter.interpretiere(ast)
-            self.output_queue.put("[Programm beendet]")
+            self.output_queue.put(ui("MSG_FINISHED"))
         except Exception as e:
             self.output_queue.put(format_error_with_hint(e))
             traceback.print_exc()
@@ -627,6 +673,8 @@ class ZuseStudio:
         if new_l == self.current_lang: return
         old_l = self.current_lang
         self.current_lang = new_l
+        set_ui_language(new_l)
+        self._update_ui_labels()
         self.editor.highlight_syntax()
         if uebersetze_code:
             code = self.editor.text.get("1.0", tk.END)

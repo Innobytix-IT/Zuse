@@ -115,7 +115,7 @@ class ZuseInstance:
         while curr_wrapper:
             class_id = id(curr_wrapper)
             if class_id in visited:
-                raise ZuseError(t("ERR_RUNTIME_ERROR", error=f"Zirkuläre Vererbung erkannt bei Klasse '{curr_wrapper.ast['name']}'"))
+                raise ZuseError(t("ERR_CIRCULAR_INHERITANCE", cls=curr_wrapper.ast['name']))
             visited.add(class_id)
             ast = curr_wrapper.ast
             for m in ast['methoden']:
@@ -150,12 +150,25 @@ class ZuseModul:
         return f"<ZuseModul '{self.name}'>"
 
 
+_safe_mode_working_dir = None  # Wird vom Interpreter gesetzt
+
+def _pruefe_pfad(pfad):
+    """Prüft ob der Dateipfad im erlaubten Verzeichnis liegt (Path Traversal Schutz)."""
+    if _safe_mode_working_dir:
+        abs_path = os.path.abspath(str(pfad))
+        abs_working = os.path.abspath(_safe_mode_working_dir)
+        if not abs_path.startswith(abs_working + os.sep) and abs_path != abs_working:
+            raise ZuseError(t("ERR_PATH_TRAVERSAL", path=pfad))
+    return str(pfad)
+
 def _lese_datei(pfad, kodierung="utf-8"):
-    with open(str(pfad), 'r', encoding=str(kodierung)) as f:
+    pfad = _pruefe_pfad(pfad)
+    with open(pfad, 'r', encoding=str(kodierung)) as f:
         return f.read()
 
 def _schreibe_datei(pfad, inhalt, kodierung="utf-8", modus='w'):
-    with open(str(pfad), modus, encoding=str(kodierung)) as f:
+    pfad = _pruefe_pfad(pfad)
+    with open(pfad, modus, encoding=str(kodierung)) as f:
         f.write(str(inhalt))
 
 
@@ -165,6 +178,12 @@ class Interpreter(NodeVisitor):
         self.safe_mode = safe_mode
         self.sprache = sprache
         self.working_dir = os.getcwd()
+        # Path Traversal Schutz aktivieren wenn safe_mode aktiv
+        global _safe_mode_working_dir
+        if safe_mode:
+            _safe_mode_working_dir = self.working_dir
+        else:
+            _safe_mode_working_dir = None
         self._debugger = None  # Optional: ZuseDebugger für Breakpoints
         self._import_cache = {}  # Cache für importierte Zuse-Module
         self.global_env.define("__UMGEBUNG__", "STANDALONE", symbol_type='builtin')
@@ -242,7 +261,7 @@ class Interpreter(NodeVisitor):
             'ERGAENZE_DATEI': lambda pfad, inhalt, kodierung="utf-8": _schreibe_datei(pfad, inhalt, kodierung, 'a'),
             'EXISTIERT': lambda pfad: os.path.exists(str(pfad)),
             'LESE_ZEILEN': lambda pfad, kodierung="utf-8": _lese_datei(pfad, kodierung).splitlines(),
-            'LOESCHE_DATEI': lambda pfad: os.remove(str(pfad)),
+            'LOESCHE_DATEI': lambda pfad: os.remove(_pruefe_pfad(pfad)),
             # ─── Spielfeld-Bibliothek (4.5) ──────────────────────
             'Spielfeld': Spielfeld,
             # ─── Typ-Prüfung & Konvertierung (7.2) ──────────────
@@ -373,7 +392,10 @@ class Interpreter(NodeVisitor):
         werte = [self.evaluiere_ausdruck(w, env) for w in node['werte']]
         ziele = node['ziele']
         if len(werte) == 1 and len(ziele) > 1:
-            werte = list(werte[0])
+            try:
+                werte = list(werte[0])
+            except (TypeError, ValueError):
+                raise ZuseError(t("ERR_MULTI_ASSIGN_NOT_ITERABLE", line=self._aktuelle_zeile))
         if len(ziele) != len(werte):
             raise ZuseError(t("ERR_MULTI_ASSIGN_MISMATCH", line=self._aktuelle_zeile, targets=len(ziele), values=len(werte)))
         for ziel, wert in zip(ziele, werte):
@@ -629,9 +651,9 @@ class Interpreter(NodeVisitor):
         try:
             return obj[start:ende]
         except TypeError as e:
-            raise ZuseError(t("ERR_RUNTIME_ERROR", error=f"Slicing nicht möglich: {e}"))
+            raise ZuseError(t("ERR_SLICING_ERROR", line=self._aktuelle_zeile, error=e))
         except Exception as e:
-            raise ZuseError(t("ERR_RUNTIME_ERROR", error=f"Fehler bei Slicing: {e}"))
+            raise ZuseError(t("ERR_SLICING_ERROR", line=self._aktuelle_zeile, error=e))
 
     def eval_INDEX_ZUGRIFF(self, node, env):
         obj = self.evaluiere_ausdruck(node['objekt'], env)

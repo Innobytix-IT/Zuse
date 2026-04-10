@@ -195,6 +195,8 @@ class Spielfeld:
 
     def spielschleife(self, funktion, fps=10):
         """Startet die Spielschleife: ruft funktion fps-mal pro Sekunde auf."""
+        if not isinstance(fps, (int, float)) or fps <= 0:
+            fps = 10  # Sicherer Fallback
         interval = max(16, int(1000 / fps))
         def tick():
             if not self._laeuft:

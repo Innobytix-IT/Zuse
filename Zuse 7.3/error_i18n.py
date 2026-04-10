@@ -12,6 +12,8 @@ LANG_MAP = {
     "francais":  "fr",
     "italiano":  "it",
     "portugues": "pt",
+    "hindi":     "hi",
+    "zhongwen":  "zh",
 }
 
 # Reverse-Mapping: ISO-Code -> Sprach-Dateiname

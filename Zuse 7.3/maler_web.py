@@ -10,6 +10,24 @@ import js
 class MalerWeb:
     """Turtle-Grafik im Browser via HTML5 Canvas."""
 
+    _FARB_MAP = {
+        # Portugiesisch
+        'vermelho': 'red', 'azul': 'blue', 'verde': 'green',
+        'amarelo': 'yellow', 'preto': 'black', 'branco': 'white',
+        'laranja': 'orange', 'roxo': 'purple', 'rosa': 'pink',
+        # Deutsch
+        'rot': 'red', 'blau': 'blue', 'gruen': '#22c55e',
+        'gelb': 'yellow', 'schwarz': 'black', 'weiss': 'white',
+        # Spanisch
+        'rojo': 'red', 'negro': 'black', 'blanco': 'white',
+        # Französisch
+        'rouge': 'red', 'noir': 'black', 'blanc': 'white',
+        'jaune': 'yellow', 'vert': 'green',
+        # Italienisch
+        'rosso': 'red', 'nero': 'black', 'bianco': 'white',
+        'giallo': 'yellow',
+    }
+
     def __init__(self):
         self._x = 0.0
         self._y = 0.0
@@ -89,24 +107,8 @@ class MalerWeb:
 
     def cor(self, farbe):
         """Farbe setzen"""
-        _FARB_MAP = {
-            # Portugiesisch
-            'vermelho': 'red', 'azul': 'blue', 'verde': 'green',
-            'amarelo': 'yellow', 'preto': 'black', 'branco': 'white',
-            'laranja': 'orange', 'roxo': 'purple', 'rosa': 'pink',
-            # Deutsch
-            'rot': 'red', 'blau': 'blue', 'gruen': '#22c55e',
-            'gelb': 'yellow', 'schwarz': 'black', 'weiss': 'white',
-            # Spanisch
-            'rojo': 'red', 'negro': 'black', 'blanco': 'white',
-            # Französisch
-            'rouge': 'red', 'noir': 'black', 'blanc': 'white',
-            'jaune': 'yellow', 'vert': 'green',
-            # Italienisch
-            'rosso': 'red', 'nero': 'black', 'bianco': 'white',
-            'giallo': 'yellow',
-        }
-        self._farbe = _FARB_MAP.get(str(farbe).strip(), str(farbe).strip())
+        key = str(farbe).strip()
+        self._farbe = self._FARB_MAP.get(key, key)
 
     farbe = cor
     color = cor

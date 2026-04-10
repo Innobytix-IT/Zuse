@@ -54,7 +54,8 @@ class SymbolTable:
         if self.parent:
             return self.parent.get(name)
         from interpreter import ZuseError
-        raise ZuseError(f"Variable '{name}' nicht definiert.")
+        from error_i18n import t
+        raise ZuseError(t("ERR_VAR_NOT_DEFINED", line=0, name=name))
 
     def set(self, name, value):
         """Setzt eine existierende Variable (sucht in der Scope-Kette)."""

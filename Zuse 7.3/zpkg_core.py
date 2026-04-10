@@ -228,8 +228,8 @@ def installiere_paket(paket_name, registry_pfad=None, ziel_verzeichnis=".", _ket
                         f"Version {dep_version} von '{dep_name}' erfüllt nicht "
                         f"Constraint '{dep_constraint}' (benötigt von '{paket_name}')"
                     )
-            except ZpkgError:
-                pass
+            except ZpkgError as e:
+                raise ZpkgError(f"Abhängigkeitsfehler: {e}")
 
     return {"installiert": installiert}
 

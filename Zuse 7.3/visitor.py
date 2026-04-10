@@ -27,5 +27,5 @@ class NodeVisitor:
     def generic_visit(self, node, *args, **kwargs):
         """Fallback wenn kein spezifischer Handler existiert."""
         raise NotImplementedError(
-            f"{self.__class__.__name__} hat keinen Handler für '{node.get('type')}'"
+            f"{self.__class__.__name__}: no handler for '{node.get('type')}'"
         )

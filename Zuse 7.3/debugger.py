@@ -55,7 +55,7 @@ class ZuseDebugger:
         self._step_depth = 0
         self._current_line = 0
         self._current_env = None
-        self._source_lines = source_code.split('\n') if source_code else []
+        self._source_lines = source_code.splitlines() if source_code else []
         self._on_pause = on_pause
         self._pause_event = threading.Event()
         self._pause_event.set()  # Nicht blockiert am Anfang

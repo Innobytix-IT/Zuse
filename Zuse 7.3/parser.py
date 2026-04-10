@@ -127,6 +127,8 @@ class Parser:
 
         methoden = []
         while not self.ist_kw('KW_ENDE_KLASSE'):
+            if self.aktuelles_token()['type'] == 'EOF':
+                raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_KLASSE', found='EOF'))
             if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
             if self.ist_kw('KW_DEFINIERE'): methoden.append(self.parse_funktions_definition())
             else: raise RuntimeError(_t("ERR_ONLY_DEFINE_IN_CLASS"))
@@ -137,16 +139,19 @@ class Parser:
         zeile = self.aktuelle_zeile()
         self.erwarte('KEYWORD', 'KW_VERSUCHE'); self.erwarte('NEUEZEILE'); v = []; f = []
         while not self.ist_kw('KW_FANGE'):
+            if self.aktuelles_token()['type'] == 'EOF':
+                raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_FANGE', found='EOF'))
             if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
             v.append(self.parse_anweisung())
         self.erwarte('KEYWORD', 'KW_FANGE')
-        # Optionale Fehlervariable: FANGE fehler / CATCH error
         fehler_var = None
         if self.aktuelles_token()['type'] == 'NAME':
             fehler_var = self.aktuelles_token()['value']
             self.gehe_weiter()
         self.erwarte('NEUEZEILE')
         while not self.ist_kw('KW_ENDE_VERSUCHE'):
+             if self.aktuelles_token()['type'] == 'EOF':
+                 raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_VERSUCHE', found='EOF'))
              if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
              f.append(self.parse_anweisung())
         self.erwarte('KEYWORD', 'KW_ENDE_VERSUCHE')
@@ -173,6 +178,8 @@ class Parser:
             while (not self.ist_kw('KW_FALL') and
                    not self.ist_kw('KW_SONST') and
                    not self.ist_kw('KW_ENDE_WAEHLE')):
+                if self.aktuelles_token()['type'] == 'EOF':
+                    raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_WAEHLE', found='EOF'))
                 if self.aktuelles_token()['type'] == 'NEUEZEILE':
                     self.gehe_weiter(); continue
                 block.append(self.parse_anweisung())
@@ -183,6 +190,8 @@ class Parser:
             self.erwarte('NEUEZEILE')
             sonst_block = []
             while not self.ist_kw('KW_ENDE_WAEHLE'):
+                if self.aktuelles_token()['type'] == 'EOF':
+                    raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_WAEHLE', found='EOF'))
                 if self.aktuelles_token()['type'] == 'NEUEZEILE':
                     self.gehe_weiter(); continue
                 sonst_block.append(self.parse_anweisung())
@@ -218,6 +227,8 @@ class Parser:
         if self.aktuelles_token()['type'] == 'DOPPELPUNKT': self.gehe_weiter()
         self.erwarte('NEUEZEILE'); body = []
         while not self.ist_kw('KW_ENDE_FUNKTION'):
+            if self.aktuelles_token()['type'] == 'EOF':
+                raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_FUNKTION', found='EOF'))
             if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
             body.append(self.parse_anweisung())
         self.erwarte('KEYWORD', 'KW_ENDE_FUNKTION')
@@ -234,10 +245,12 @@ class Parser:
         
         body = []
         while not (self.ist_kw('KW_SONST') or self.ist_kw('KW_SONST_WENN') or self.ist_kw('KW_ENDE_WENN')):
+            if self.aktuelles_token()['type'] == 'EOF':
+                raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_WENN', found='EOF'))
             if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
             body.append(self.parse_anweisung())
         faelle.append((bed, body))
-        
+
         sonst_body = None
         while self.ist_kw('KW_SONST') or self.ist_kw('KW_SONST_WENN'):
             ist_sonst_wenn = self.ist_kw('KW_SONST_WENN')
@@ -250,6 +263,8 @@ class Parser:
                 if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter()
                 body = []
                 while not (self.ist_kw('KW_SONST') or self.ist_kw('KW_SONST_WENN') or self.ist_kw('KW_ENDE_WENN')):
+                    if self.aktuelles_token()['type'] == 'EOF':
+                        raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_WENN', found='EOF'))
                     if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
                     body.append(self.parse_anweisung())
                 faelle.append((bed, body))
@@ -257,6 +272,8 @@ class Parser:
                 if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter()
                 sonst_body = []
                 while not self.ist_kw('KW_ENDE_WENN'):
+                    if self.aktuelles_token()['type'] == 'EOF':
+                        raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_WENN', found='EOF'))
                     if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
                     sonst_body.append(self.parse_anweisung())
                 break
@@ -272,9 +289,11 @@ class Parser:
 
         if self.ist_kw('KW_SOLANGE'):
             self.gehe_weiter(); bed = self.parse_ausdruck(); self.erwarte('KEYWORD', 'KW_MACHE')
-            if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter() # Optional NL
+            if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter()
             k = []
             while not self.ist_kw('KW_ENDE_SCHLEIFE'):
+                if self.aktuelles_token()['type'] == 'EOF':
+                    raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_SCHLEIFE', found='EOF'))
                 if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
                 k.append(self.parse_anweisung())
             self.erwarte('KEYWORD', 'KW_ENDE_SCHLEIFE')
@@ -282,9 +301,11 @@ class Parser:
 
         elif self.ist_kw('KW_FUER'):
             self.gehe_weiter(); var = self.erwarte('NAME').get('value'); self.erwarte('KEYWORD', 'KW_IN'); lst = self.parse_ausdruck(); self.erwarte('KEYWORD', 'KW_MACHE')
-            if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter() # Optional NL
+            if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter()
             k = []
             while not self.ist_kw('KW_ENDE_SCHLEIFE'):
+                if self.aktuelles_token()['type'] == 'EOF':
+                    raise RuntimeError(_t("ERR_SYNTAX_EXPECTED_VALUE", line=zeile, expected='KW_ENDE_SCHLEIFE', found='EOF'))
                 if self.aktuelles_token()['type'] == 'NEUEZEILE': self.gehe_weiter(); continue
                 k.append(self.parse_anweisung())
             self.erwarte('KEYWORD', 'KW_ENDE_SCHLEIFE')
@@ -466,7 +487,10 @@ class Parser:
         self.erwarte('KLAMMER_AUF_ECKIG'); el = []
         if self.aktuelles_token()['type'] != 'KLAMMER_ZU_ECKIG':
             el.append(self.parse_ausdruck())
-            while self.aktuelles_token()['type'] == 'KOMMA': self.gehe_weiter(); el.append(self.parse_ausdruck())
+            while self.aktuelles_token()['type'] == 'KOMMA':
+                self.gehe_weiter()
+                if self.aktuelles_token()['type'] == 'KLAMMER_ZU_ECKIG': break
+                el.append(self.parse_ausdruck())
         self.erwarte('KLAMMER_ZU_ECKIG')
         return {'type': 'LISTEN_LITERAL', 'elemente': el}
 

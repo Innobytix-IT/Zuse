@@ -179,6 +179,9 @@ class Spielfeld:
     def stoppe(self):
         """Stoppt die Spielschleife."""
         js.window._zuseCanvas.stopGameLoop()
+        if self._tick_proxy is not None:
+            self._tick_proxy.destroy()
+            self._tick_proxy = None
 
     def nach_zeit(self, ms, funktion):
         """Ruft eine Funktion nach ms Millisekunden auf."""

@@ -12,6 +12,16 @@ BASE_DIR = get_base_dir()
 LANG_DIR = os.path.join(BASE_DIR, "sprachen")
 
 def lade_sprache(sprach_code):
+    # Sicherheits-Check: Kein Path Traversal im Sprachcode
+    if not sprach_code or not isinstance(sprach_code, str):
+        sprach_code = "deutsch"
+    # Nur alphanumerische Zeichen und Unterstriche erlaubt
+    safe_code = sprach_code.replace("-", "_")
+    if not safe_code.replace("_", "").isalnum() or ".." in safe_code or "/" in safe_code or "\\" in safe_code:
+        sprach_code = "deutsch"
+    else:
+        sprach_code = safe_code
+
     pfad_deutsch = os.path.join(LANG_DIR, "deutsch.json")
     # Fallback Pfad Check
     if not os.path.exists(pfad_deutsch):
