@@ -19,12 +19,12 @@ jobs:
           - os: windows-latest
             name: Windows
             artifact: Zuse_v7.3_Windows.exe
-            dist_file: dist/Zuse.exe
+            dist_file: dist/Zuse_v7.3_Windows.exe
 
           - os: ubuntu-latest
             name: Linux
             artifact: Zuse_v7.3_Linux
-            dist_file: dist/Zuse
+            dist_file: dist/Zuse_v7.3_Linux
 
           - os: macos-latest
             name: macOS
