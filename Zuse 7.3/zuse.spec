@@ -18,7 +18,7 @@ a = Analysis(
         (os.path.join(ROOT, 'zuse_icon.ico'),        '.'),
         # Sprachdateien (JSON)
         (os.path.join(ROOT, 'sprachen', '*.json'),   'sprachen'),
-        # Standardbibliothek (.zuse)
+        # Standardbibliothek (.zuse) — wird dynamisch geladen!
         (os.path.join(ROOT, 'bibliothek', '*.zuse'), 'bibliothek'),
         # Paketmanager-Registry
         (os.path.join(ROOT, 'zpkg_registry'),        'zpkg_registry'),
@@ -26,7 +26,7 @@ a = Analysis(
         (os.path.join(ROOT, 'Zuse Programme'),       'Zuse Programme'),
     ],
     hiddenimports=[
-        # tkinter (wird manchmal nicht automatisch erkannt)
+        # ── tkinter vollständig ───────────────────────────────────────────────
         'tkinter',
         'tkinter.ttk',
         'tkinter.filedialog',
@@ -34,8 +34,59 @@ a = Analysis(
         'tkinter.simpledialog',
         'tkinter.font',
         'tkinter.scrolledtext',
+        'tkinter.colorchooser',
+        'tkinter.commondialog',
+        'tkinter.constants',
         '_tkinter',
-        # Zuse-interne Module
+
+        # ── turtle (Maler/Pintor/Painter) ─────────────────────────────────────
+        # Die Zuse-Stdlib (bibliothek/*.zuse) importiert turtle dynamisch.
+        # PyInstaller erkennt das nicht → muss explizit rein.
+        'turtle',
+        'colorsys',          # interne Abhängigkeit von turtle
+
+        # ── Standardbibliothek (dynamisch per BENUTZE/USE importierbar) ───────
+        'math',
+        'random',
+        'time',
+        'datetime',
+        'decimal',
+        'fractions',
+        'statistics',
+        'io',
+        'os',
+        'os.path',
+        'sys',
+        'json',
+        're',
+        'copy',
+        'types',
+        'typing',
+        'functools',
+        'itertools',
+        'collections',
+        'threading',
+        'queue',
+        'traceback',
+        'tempfile',
+        'shutil',
+        'pathlib',
+        'importlib',
+        'importlib.util',
+        'importlib.abc',
+        'importlib.machinery',
+        'http.server',
+        'urllib.request',
+        'urllib.parse',
+        'hashlib',
+        'base64',
+        'struct',
+        'contextlib',
+        'abc',
+        'enum',
+        'dataclasses',
+
+        # ── Zuse-interne Module ───────────────────────────────────────────────
         'language_loader',
         'lexer',
         'parser',
@@ -64,8 +115,8 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    # LSP wird in der Studio-EXE nicht benötigt
-    excludes=['pygls', 'lsprotocol', 'pytest', 'unittest'],
+    # LSP und Test-Frameworks werden nicht benötigt
+    excludes=['pygls', 'lsprotocol', 'pytest', 'unittest', 'pyodide'],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,
