@@ -14,6 +14,51 @@ import traceback
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# ── God Mode: System-Python-Pakete einbinden (nur wenn EXE) ──────────────────
+def _extend_sys_path_with_system_python():
+    """
+    Wenn Zuse als gebündelte EXE läuft, wird das installierte System-Python
+    gesucht und dessen site-packages zu sys.path hinzugefügt.
+    So funktioniert 'BENUTZE requests/pandas/matplotlib' etc. — sofern
+    der Nutzer diese Pakete mit 'pip install' installiert hat.
+    """
+    if not getattr(sys, 'frozen', False):
+        return  # Läuft direkt als Python-Skript — sys.path ist bereits korrekt
+
+    import subprocess
+
+    flags = {}
+    if sys.platform == 'win32':
+        flags['creationflags'] = 0x08000000  # CREATE_NO_WINDOW
+
+    candidates = ['python3', 'python', 'py']
+    if sys.platform == 'win32':
+        candidates = ['python', 'py', 'python3']
+
+    for cmd in candidates:
+        try:
+            result = subprocess.run(
+                [cmd, '-c',
+                 'import sys, json; '
+                 'print(json.dumps([p for p in sys.path '
+                 'if "site-packages" in p or "dist-packages" in p]))'],
+                capture_output=True, text=True, timeout=4, **flags
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                paths = json.loads(result.stdout.strip())
+                added = 0
+                for path in paths:
+                    if path and os.path.isdir(path) and path not in sys.path:
+                        sys.path.append(path)
+                        added += 1
+                if added > 0:
+                    return  # Erfolgreich eingebunden
+        except Exception:
+            continue
+
+_extend_sys_path_with_system_python()
+# ─────────────────────────────────────────────────────────────────────────────
+
 try:
     from language_loader import lade_sprache
     from lexer import tokenize
