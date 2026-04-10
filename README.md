@@ -82,7 +82,21 @@ Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** de
 
 ---
 
-## Installation
+## Download
+
+> Keine Python-Installation nötig — einfach herunterladen und starten!
+
+| Plattform | Datei | Größe |
+|---|---|---|
+| **Windows** | [Zuse_v7.3_Windows.exe](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~11 MB |
+| **Linux** | [Zuse_v7.3_Linux](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~20 MB |
+| **macOS** | [Zuse_v7.3_macOS.zip](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~9 MB |
+
+Alle Releases: [github.com/Innobytix-IT/Zuse/releases](https://github.com/Innobytix-IT/Zuse/releases)
+
+---
+
+## Installation (aus Quellcode)
 
 ### Voraussetzungen
 
@@ -378,7 +392,21 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 
 ---
 
-## Installation
+## Download
+
+> No Python installation required — just download and run!
+
+| Platform | File | Size |
+|---|---|---|
+| **Windows** | [Zuse_v7.3_Windows.exe](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~11 MB |
+| **Linux** | [Zuse_v7.3_Linux](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~20 MB |
+| **macOS** | [Zuse_v7.3_macOS.zip](https://github.com/Innobytix-IT/Zuse/releases/tag/v7.3) | ~9 MB |
+
+All releases: [github.com/Innobytix-IT/Zuse/releases](https://github.com/Innobytix-IT/Zuse/releases)
+
+---
+
+## Installation (from source)
 
 ### Requirements
 
