@@ -82,6 +82,45 @@ Der Name **"Zuse"** geht auf **Konrad Zuse** zurück, der 1941 mit dem **Z3** de
 
 ---
 
+## Installation
+
+### Voraussetzungen
+
+- **Python 3.10 oder neuer** — [python.org/downloads](https://www.python.org/downloads/)
+- **tkinter** — für Zuse Studio (in den meisten Python-Installationen bereits enthalten)
+- **Git** — zum Klonen des Repositories
+
+### 1. Repository klonen
+
+```bash
+git clone https://github.com/Innobytix-IT/Zuse.git
+cd Zuse/Zuse\ 7.3
+```
+
+### 2. Paket installieren
+
+```bash
+# Als editierbares Paket installieren (empfohlen)
+pip install -e .
+
+# Oder direkt ohne Installation ausführen
+python zuse_cli.py run mein_programm.zuse
+```
+
+### 3. Optional: LSP-Server für VS Code
+
+```bash
+pip install -e ".[lsp]"
+```
+
+### 4. Installation prüfen
+
+```bash
+zuse --version
+```
+
+---
+
 ## Schnellstart
 
 ```zuse
@@ -259,6 +298,7 @@ Ich bin zutiefst dankbar für die Möglichkeit, meine Ideen auf diese Weise umse
 
 **Manuel Person**
 GPL v3
+
 ---
 
 # ZUSE v7.3 — Multilingual Edition (English)
@@ -295,7 +335,7 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 ## Features
 
 ### Core Language
-- **8 Languages:** Program in German, English, Spanish, French, Italian, Portuguese, Hindi or 中文  — all keywords, error messages, and builtins are fully translated
+- **8 Languages:** Program in German, English, Spanish, French, Italian, Portuguese, Hindi or 中文 — all keywords, error messages, and builtins are fully translated
 - **Object Orientation:** Classes, inheritance, polymorphism, constructors (`CLASS`, `MY`, `PARENT`)
 - **Error Handling:** `TRY` / `CATCH`
 - **Lambda Functions:** `LAMBDA(x): x * 2`
@@ -335,6 +375,45 @@ The name **"Zuse"** refers to **Konrad Zuse**, who in 1941 developed the **Z3**,
 - **6 comprehensive documentations** (tutorial, reference, architecture, game engine API, language comparison, examples)
 - **Path traversal protection** in the package manager
 - **Safe file operations** (with-statements)
+
+---
+
+## Installation
+
+### Requirements
+
+- **Python 3.10 or newer** — [python.org/downloads](https://www.python.org/downloads/)
+- **tkinter** — for Zuse Studio (included in most Python installations)
+- **Git** — to clone the repository
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Innobytix-IT/Zuse.git
+cd Zuse/Zuse\ 7.3
+```
+
+### 2. Install the package
+
+```bash
+# Install as editable package (recommended)
+pip install -e .
+
+# Or run directly without installation
+python zuse_cli.py run my_program.zuse
+```
+
+### 3. Optional: LSP Server for VS Code
+
+```bash
+pip install -e ".[lsp]"
+```
+
+### 4. Verify installation
+
+```bash
+zuse --version
+```
 
 ---
 
@@ -518,6 +597,5 @@ I am deeply grateful for the opportunity to realize and share my ideas in this w
 ---
 
 **Architect:** Manuel Person
-
 
 **License:** Open Source GPL v3
