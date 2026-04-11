@@ -32,7 +32,7 @@ pierre.avancer(150)
 pierre.tourner_droite(180) 
 
 # 3. Le Soleil (Cercle)
-IMPRIMIR "Maintenant le soleil!"
+IMPRIMER "Maintenant le soleil!"
 
 pierre.lever_crayon()
 pierre.avancer(200) 
