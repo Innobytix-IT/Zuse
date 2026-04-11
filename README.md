@@ -14,13 +14,9 @@
 
 ### Multilingual programming language Zuse
 
-https://github.com/user-attachments/assets/4cd4c600-b687-4666-b50b-2a62dd66fe54
 
+https://github.com/user-attachments/assets/8f7b81e0-40e0-42eb-8113-f0cea3bf3ca1
 
-
-### Multilingual programming language Zuse DEMO 2
-
-https://github.com/user-attachments/assets/4e110498-f6c1-4df8-a8d2-e0db3fb881e9
 
 ---
 
