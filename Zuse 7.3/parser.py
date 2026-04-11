@@ -336,69 +336,78 @@ class Parser:
     def parse_oder(self):
         links = self.parse_und()
         while self.ist_kw('KW_ODER'):
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             self.gehe_weiter()
             rechts = self.parse_und()
-            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': 'oder', 'rechts': rechts}
+            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': 'oder', 'rechts': rechts, 'line': _line}
         return links
 
     def parse_und(self):
         links = self.parse_nicht()
         while self.ist_kw('KW_UND'):
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             self.gehe_weiter()
             rechts = self.parse_nicht()
-            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': 'und', 'rechts': rechts}
+            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': 'und', 'rechts': rechts, 'line': _line}
         return links
 
     def parse_nicht(self):
         if self.ist_kw('KW_NICHT'):
+            _line = self.aktuelles_token().get('line', 0)
             self.gehe_weiter()
             operand = self.parse_nicht()
-            return {'type': 'UNAER_NICHT', 'wert': operand}
+            return {'type': 'UNAER_NICHT', 'wert': operand, 'line': _line}
         return self.parse_vergleich()
 
     def parse_vergleich(self):
         links = self.parse_arithmetik()
         while self.aktuelles_token()['type'] == 'OPERATOR' and self.aktuelles_token()['value'] in ['==','!=','<','>','<=','>=']:
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             op = self.erwarte('OPERATOR').get('value')
             rechts = self.parse_arithmetik()
-            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts}
+            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts, 'line': _line}
         return links
     def parse_arithmetik(self):
         links = self.parse_term()
         while self.aktuelles_token()['type'] == 'OPERATOR' and self.aktuelles_token()['value'] in ['+', '-']:
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             op = self.erwarte('OPERATOR').get('value')
             rechts = self.parse_term()
-            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts}
+            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts, 'line': _line}
         return links
     def parse_term(self):
         links = self.parse_faktor()
         while self.aktuelles_token()['type'] == 'OPERATOR' and self.aktuelles_token()['value'] in ['*', '/', '%']:
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             op = self.erwarte('OPERATOR').get('value')
             rechts = self.parse_faktor()
-            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts}
+            links = {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts, 'line': _line}
         return links
     def parse_faktor(self):
         if self.aktuelles_token()['type'] == 'OPERATOR' and self.aktuelles_token()['value'] == '-':
+            _line = self.aktuelles_token().get('line', 0)
             self.gehe_weiter()
-            return {'type': 'UNAER_MINUS', 'wert': self.parse_faktor()}
+            return {'type': 'UNAER_MINUS', 'wert': self.parse_faktor(), 'line': _line}
         links = self.parse_atom()
         if self.aktuelles_token()['type'] == 'OPERATOR' and self.aktuelles_token()['value'] == '^':
+            _line = self.aktuelles_token().get('line', links.get('line', 0))
             op = self.erwarte('OPERATOR').get('value')
             rechts = self.parse_faktor()
-            return {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts}
+            return {'type': 'BINÄRER_AUSDRUCK', 'links': links, 'operator': op, 'rechts': rechts, 'line': _line}
         return links
 
     def parse_atom(self):
         node = self._parse_basis()
         while True:
             t = self.aktuelles_token()
+            _line = t.get('line', node.get('line', 0))
             if t['type'] == 'PUNKT':
                 self.gehe_weiter(); attr = self.erwarte('NAME').get('value')
                 if self.aktuelles_token()['type'] == 'KLAMMER_AUF':
                     res = self._parse_argument_liste()
-                    node = {'type': 'METHODEN_AUFRUF', 'objekt': node, 'methode': attr, 'args': res['args'], 'kwargs': res['kwargs']}
+                    node = {'type': 'METHODEN_AUFRUF', 'objekt': node, 'methode': attr, 'args': res['args'], 'kwargs': res['kwargs'], 'line': _line}
                 else:
-                    node = {'type': 'ATTRIBUT_ZUGRIFF', 'objekt': node, 'attribut': attr}
+                    node = {'type': 'ATTRIBUT_ZUGRIFF', 'objekt': node, 'attribut': attr, 'line': _line}
             elif t['type'] == 'KLAMMER_AUF_ECKIG':
                 self.gehe_weiter()
                 start = None
@@ -407,32 +416,33 @@ class Parser:
                     self.gehe_weiter(); ende = None
                     if self.aktuelles_token()['type'] != 'KLAMMER_ZU_ECKIG': ende = self.parse_ausdruck()
                     self.erwarte('KLAMMER_ZU_ECKIG')
-                    node = {'type': 'SLICING', 'objekt': node, 'start': start, 'ende': ende}
+                    node = {'type': 'SLICING', 'objekt': node, 'start': start, 'ende': ende, 'line': _line}
                 else:
                     self.erwarte('KLAMMER_ZU_ECKIG')
-                    node = {'type': 'INDEX_ZUGRIFF', 'objekt': node, 'index': start}
+                    node = {'type': 'INDEX_ZUGRIFF', 'objekt': node, 'index': start, 'line': _line}
             else: break
         return node
 
     def _parse_basis(self):
         t = self.aktuelles_token()
+        _line = t.get('line', 0)  # Zeilennummer einmal erfassen
         if t['type'] == 'KEYWORD':
             val = t['value']
-            if val == 'KW_SELBST': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'SELBST'}
-            if val == 'KW_ELTERN': self.gehe_weiter(); return {'type': 'ELTERN_ZUGRIFF'}
-            if val == 'CONST_WAHR': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'wahr'}
-            if val == 'CONST_FALSCH': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'falsch'}
-            if val == 'CONST_NICHTS': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'NICHTS'}
+            if val == 'KW_SELBST': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'SELBST', 'line': _line}
+            if val == 'KW_ELTERN': self.gehe_weiter(); return {'type': 'ELTERN_ZUGRIFF', 'line': _line}
+            if val == 'CONST_WAHR': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'wahr', 'line': _line}
+            if val == 'CONST_FALSCH': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'falsch', 'line': _line}
+            if val == 'CONST_NICHTS': self.gehe_weiter(); return {'type': 'VARIABLE', 'name': 'NICHTS', 'line': _line}
             if val == 'KW_LAMBDA': return self.parse_lambda()
             if val == 'FUNC_EINGABE_TEXT':
                 self.gehe_weiter(); prompt = self.parse_ausdruck()
-                return {'type': 'EINGABE_AUFRUF', 'modus': 'text', 'prompt': prompt}
+                return {'type': 'EINGABE_AUFRUF', 'modus': 'text', 'prompt': prompt, 'line': _line}
             if val == 'FUNC_EINGABE_ZAHL':
                 self.gehe_weiter(); prompt = self.parse_ausdruck()
-                return {'type': 'EINGABE_AUFRUF', 'modus': 'zahl', 'prompt': prompt}
-        if t['type'] == 'ZAHL': self.gehe_weiter(); return {'type': 'ZAHL_LITERAL', 'wert': t['value']}
-        if t['type'] == 'STRING': self.gehe_weiter(); return {'type': 'STRING_LITERAL', 'wert': t['value']}
-        if t['type'] == 'KLAMMER_AUF': 
+                return {'type': 'EINGABE_AUFRUF', 'modus': 'zahl', 'prompt': prompt, 'line': _line}
+        if t['type'] == 'ZAHL': self.gehe_weiter(); return {'type': 'ZAHL_LITERAL', 'wert': t['value'], 'line': _line}
+        if t['type'] == 'STRING': self.gehe_weiter(); return {'type': 'STRING_LITERAL', 'wert': t['value'], 'line': _line}
+        if t['type'] == 'KLAMMER_AUF':
             self.gehe_weiter(); node = self.parse_ausdruck(); self.erwarte('KLAMMER_ZU')
             return node
         if t['type'] == 'KLAMMER_AUF_ECKIG': return self.parse_listen_literal()
@@ -441,8 +451,8 @@ class Parser:
             name = t['value']; self.gehe_weiter()
             if self.aktuelles_token()['type'] == 'KLAMMER_AUF':
                 res = self._parse_argument_liste()
-                return {'type': 'FUNKTIONS_AUFRUF', 'name': name, 'args': res['args'], 'kwargs': res['kwargs']}
-            return {'type': 'VARIABLE', 'name': name}
+                return {'type': 'FUNKTIONS_AUFRUF', 'name': name, 'args': res['args'], 'kwargs': res['kwargs'], 'line': _line}
+            return {'type': 'VARIABLE', 'name': name, 'line': _line}
         raise RuntimeError(_t("ERR_UNEXPECTED_TOKEN", value=t.get('value'), line=t.get('line')))
 
     def parse_dict_literal(self):

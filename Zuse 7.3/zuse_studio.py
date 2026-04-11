@@ -540,9 +540,27 @@ class ZuseStudio:
     def _debug_execute(self, code, lang):
         try:
             set_language(lang)
+            base_path = os.path.dirname(os.path.abspath(__file__))
+            lib_path = os.path.join(base_path, "bibliothek", f"{lang}.zuse")
             conf = lade_sprache(lang)
-            tokens = tokenize(code, conf)
-            ast = Parser(tokens).parse()
+
+            # ── FIX: Bibliothek auch im Debug-Modus laden (getrennt parsen) ──
+            # Breakpoints beziehen sich auf den User-Code (Zeile 1..N) → stimmen so.
+            lib_body = []
+            if os.path.exists(lib_path):
+                try:
+                    with open(lib_path, "r", encoding="utf-8") as f:
+                        lib_code = f.read()
+                    lib_tokens = tokenize(lib_code, conf, start_line=1)
+                    lib_body = Parser(lib_tokens).parse().get("body", [])
+                except Exception:
+                    pass  # Bibliothek im Debug-Modus optional
+
+            user_tokens = tokenize(code, conf, start_line=1)
+            user_body = Parser(user_tokens).parse().get("body", [])
+            combined_ast = {"type": "PROGRAMM", "body": lib_body + user_body}
+            # ─────────────────────────────────────────────────────────────────
+
             interp = Interpreter(
                 output_callback=self.output_queue.put,
                 input_callback=self._interpreter_input_callback,
@@ -550,7 +568,7 @@ class ZuseStudio:
                 sprache=lang)
             interp._debugger = self._debugger
             self.active_interpreter = interp
-            interp.interpretiere(ast)
+            interp.interpretiere(combined_ast)
             self.output_queue.put(ui("MSG_DEBUG_FINISHED"))
         except Exception as e:
             self.output_queue.put("[Debug] " + format_error_with_hint(e))
@@ -699,28 +717,34 @@ class ZuseStudio:
             set_language(lang)
             base_path = os.path.dirname(os.path.abspath(__file__))
             lib_path = os.path.join(base_path, "bibliothek", f"{lang}.zuse")
-            final_code = code
-            start_line_offset = 1
             ist_lernmodus = (self.mode_var.get() == ui("MODE_LEARN"))
+            conf = lade_sprache(lang)
+
+            # ── FIX: Bibliothek und User-Code getrennt parsen ─────────────────
+            # Bibliothek bekommt eigene Zeilennummern (1..N), die niemanden stören.
+            # User-Code startet immer bei Zeile 1 → Fehlermeldungen stimmen immer.
+            lib_body = []
             if os.path.exists(lib_path):
                 try:
                     with open(lib_path, "r", encoding="utf-8") as f:
                         lib_code = f.read()
-                        lib_lines = lib_code.count('\n') + 2
-                        start_line_offset = 1 - lib_lines
-                        final_code = lib_code + "\n\n" + code
+                    lib_tokens = tokenize(lib_code, conf, start_line=1)
+                    lib_body = Parser(lib_tokens).parse().get("body", [])
                 except Exception as e:
                     self.output_queue.put(ui("MSG_LIB_ERROR", error=e))
-            conf = lade_sprache(lang)
-            tokens = tokenize(final_code, conf, start_line=start_line_offset)
-            ast = Parser(tokens).parse()
+
+            user_tokens = tokenize(code, conf, start_line=1)
+            user_body = Parser(user_tokens).parse().get("body", [])
+            combined_ast = {"type": "PROGRAMM", "body": lib_body + user_body}
+            # ─────────────────────────────────────────────────────────────────
+
             self.active_interpreter = Interpreter(
                 output_callback=self.output_queue.put,
                 input_callback=self._interpreter_input_callback,
                 safe_mode=ist_lernmodus,
                 sprache=lang)
             self.active_interpreter.global_env.set("__UMGEBUNG__", "STUDIO")
-            self.active_interpreter.interpretiere(ast)
+            self.active_interpreter.interpretiere(combined_ast)
             self.output_queue.put(ui("MSG_FINISHED"))
         except Exception as e:
             self.output_queue.put(format_error_with_hint(e))

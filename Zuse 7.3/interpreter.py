@@ -338,7 +338,9 @@ class Interpreter(NodeVisitor):
         if self.recursion_depth > self.MAX_RECURSION:
             self.recursion_depth -= 1
             raise ZuseError(t("ERR_MAX_RECURSION"))
-        if 'line' in node:
+        # Nur positive Zeilennummern übernehmen — negative gehören zur
+        # internen Bibliothek und sollen die aktuelle Nutzer-Zeile nicht überschreiben.
+        if 'line' in node and node['line'] > 0:
             self._aktuelle_zeile = node['line']
         if self._debugger is not None:
             self._debugger.on_statement(self._aktuelle_zeile, env)
@@ -595,26 +597,29 @@ class Interpreter(NodeVisitor):
 
     def eval_VARIABLE(self, node, env):
         name = node['name']
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         if name == 'SELBST':
             try: return env.get('SELBST')
-            except ZuseError: raise ZuseError(t("ERR_SELF_OUTSIDE_METHOD", line=self._aktuelle_zeile))
+            except ZuseError: raise ZuseError(t("ERR_SELF_OUTSIDE_METHOD", line=_line))
         if name == 'wahr': return True
         if name == 'falsch': return False
         if name == 'NICHTS': return None
         try: return env.get(name)
-        except ZuseError: raise ZuseError(t("ERR_VAR_NOT_DEFINED", line=self._aktuelle_zeile, name=name))
+        except ZuseError: raise ZuseError(t("ERR_VAR_NOT_DEFINED", line=_line, name=name))
 
     def eval_ELTERN_ZUGRIFF(self, node, env):
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         try:
             inst = env.get('SELBST')
             return {'type': 'ELTERN_PROXY', 'instance': inst}
-        except ZuseError: raise ZuseError(t("ERR_SUPER_OUTSIDE_METHOD", line=self._aktuelle_zeile))
+        except ZuseError: raise ZuseError(t("ERR_SUPER_OUTSIDE_METHOD", line=_line))
 
     def eval_UNAER_NICHT(self, node, env):
         return not self.evaluiere_ausdruck(node['wert'], env)
 
     def eval_BINÄRER_AUSDRUCK(self, node, env):
         op = node['operator']
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         if op == 'und':
             l = self.evaluiere_ausdruck(node['links'], env)
             return l and self.evaluiere_ausdruck(node['rechts'], env)
@@ -636,10 +641,10 @@ class Interpreter(NodeVisitor):
             if op == '<': return l < r
             if op == '>=': return l >= r
             if op == '<=': return l <= r
-            raise ZuseError(t("ERR_CALC_ERROR", line=self._aktuelle_zeile, error=f"Unbekannter Operator '{op}'"))
-        except ZeroDivisionError: raise ZuseError(t("ERR_DIVISION_BY_ZERO", line=self._aktuelle_zeile))
-        except TypeError as e: raise ZuseError(t("ERR_INCOMPATIBLE_TYPES", line=self._aktuelle_zeile, error=e))
-        except Exception as e: raise ZuseError(t("ERR_CALC_ERROR", line=self._aktuelle_zeile, error=e))
+            raise ZuseError(t("ERR_CALC_ERROR", line=_line, error=f"Unbekannter Operator '{op}'"))
+        except ZeroDivisionError: raise ZuseError(t("ERR_DIVISION_BY_ZERO", line=_line))
+        except TypeError as e: raise ZuseError(t("ERR_INCOMPATIBLE_TYPES", line=_line, error=e))
+        except Exception as e: raise ZuseError(t("ERR_CALC_ERROR", line=_line, error=e))
 
     def eval_UNAER_MINUS(self, node, env):
         return -self.evaluiere_ausdruck(node['wert'], env)
@@ -648,22 +653,25 @@ class Interpreter(NodeVisitor):
         obj = self.evaluiere_ausdruck(node['objekt'], env)
         start = self.evaluiere_ausdruck(node['start'], env) if node['start'] else None
         ende = self.evaluiere_ausdruck(node['ende'], env) if node['ende'] else None
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         try:
             return obj[start:ende]
         except TypeError as e:
-            raise ZuseError(t("ERR_SLICING_ERROR", line=self._aktuelle_zeile, error=e))
+            raise ZuseError(t("ERR_SLICING_ERROR", line=_line, error=e))
         except Exception as e:
-            raise ZuseError(t("ERR_SLICING_ERROR", line=self._aktuelle_zeile, error=e))
+            raise ZuseError(t("ERR_SLICING_ERROR", line=_line, error=e))
 
     def eval_INDEX_ZUGRIFF(self, node, env):
         obj = self.evaluiere_ausdruck(node['objekt'], env)
         idx = self.evaluiere_ausdruck(node['index'], env)
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         try: return obj[idx]
-        except (IndexError, KeyError, TypeError): raise ZuseError(t("ERR_INVALID_INDEX", line=self._aktuelle_zeile, index=idx))
+        except (IndexError, KeyError, TypeError): raise ZuseError(t("ERR_INVALID_INDEX", line=_line, index=idx))
 
     def eval_ATTRIBUT_ZUGRIFF(self, node, env):
         obj = self.evaluiere_ausdruck(node['objekt'], env)
         attr = node['attribut']
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         if isinstance(obj, ZuseInstance):
             val = obj.get_attr(attr)
             if val is not ZuseInstance._MISSING: return val
@@ -672,15 +680,16 @@ class Interpreter(NodeVisitor):
                 func = ZuseFunction(method_def['name'], method_def['parameter'], method_def['body'], def_env, owner_class=owner, defaults=method_def.get('defaults', {}))
                 func.bound_instance = obj
                 return func
-            raise ZuseError(t("ERR_ATTR_NOT_FOUND_CLASS", line=self._aktuelle_zeile, attr=attr, cls=obj._class_name))
+            raise ZuseError(t("ERR_ATTR_NOT_FOUND_CLASS", line=_line, attr=attr, cls=obj._class_name))
         try: return getattr(obj, attr)
-        except AttributeError: raise ZuseError(t("ERR_ATTR_NOT_FOUND", line=self._aktuelle_zeile, attr=attr))
+        except AttributeError: raise ZuseError(t("ERR_ATTR_NOT_FOUND", line=_line, attr=attr))
 
     def eval_LAMBDA_ERSTELLUNG(self, node, env):
         return ZuseFunction("lambda", node['params'], {'type': 'ERGEBNIS_ANWEISUNG', 'wert': node['body']}, env)
 
     def eval_FUNKTIONS_AUFRUF(self, node, env):
-        func_obj = self.evaluiere_ausdruck({'type': 'VARIABLE', 'name': node['name']}, env)
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
+        func_obj = self.evaluiere_ausdruck({'type': 'VARIABLE', 'name': node['name'], 'line': _line}, env)
         args = [self.evaluiere_ausdruck(a, env) for a in node['args']]
         kwargs = {k: self.evaluiere_ausdruck(v, env) for k, v in node['kwargs']}
         if callable(func_obj) and not isinstance(func_obj, (ZuseFunction, ZuseClassWrapper)):
@@ -688,6 +697,7 @@ class Interpreter(NodeVisitor):
         return self._call_function(func_obj, args, env, kwargs=kwargs)
 
     def eval_METHODEN_AUFRUF(self, node, env):
+        _line = node.get('line', self._aktuelle_zeile) or self._aktuelle_zeile
         obj_eval = self.evaluiere_ausdruck(node['objekt'], env)
         args = [self.evaluiere_ausdruck(a, env) for a in node['args']]
         kwargs = {k: self.evaluiere_ausdruck(v, env) for k, v in node['kwargs']}
@@ -695,19 +705,19 @@ class Interpreter(NodeVisitor):
         if isinstance(obj_eval, dict) and obj_eval.get('type') == 'ELTERN_PROXY':
             inst = obj_eval['instance']
             try: current_class_ctx = env.get('__class_context__')
-            except ZuseError: raise ZuseError(t("ERR_SUPER_OUTSIDE_CLASS", line=self._aktuelle_zeile))
+            except ZuseError: raise ZuseError(t("ERR_SUPER_OUTSIDE_CLASS", line=_line))
             parent_name = current_class_ctx.ast.get('elternklasse')
-            if not parent_name: raise ZuseError(t("ERR_NO_PARENT_CLASS", line=self._aktuelle_zeile, name=current_class_ctx.ast['name']))
+            if not parent_name: raise ZuseError(t("ERR_NO_PARENT_CLASS", line=_line, name=current_class_ctx.ast['name']))
             try: parent_wrapper = current_class_ctx.env.get(parent_name)
-            except ZuseError: raise ZuseError(t("ERR_PARENT_CLASS_NOT_FOUND", line=self._aktuelle_zeile, name=parent_name))
+            except ZuseError: raise ZuseError(t("ERR_PARENT_CLASS_NOT_FOUND", line=_line, name=parent_name))
             method_def, def_env, owner = inst.find_method(node['methode'], start_class_wrapper=parent_wrapper)
-            if not method_def: raise ZuseError(t("ERR_METHOD_NOT_IN_PARENT", line=self._aktuelle_zeile, method=node['methode'], parent=parent_name))
+            if not method_def: raise ZuseError(t("ERR_METHOD_NOT_IN_PARENT", line=_line, method=node['methode'], parent=parent_name))
             func = ZuseFunction(method_def['name'], method_def['parameter'], method_def['body'], def_env, owner_class=owner, defaults=method_def.get('defaults', {}))
             return self._call_function(func, args, env, self_obj=inst, kwargs=kwargs)
 
         elif isinstance(obj_eval, ZuseInstance):
             method_def, def_env, owner = obj_eval.find_method(node['methode'])
-            if not method_def: raise ZuseError(t("ERR_METHOD_NOT_FOUND", line=self._aktuelle_zeile, method=node['methode'], cls=obj_eval._class_name))
+            if not method_def: raise ZuseError(t("ERR_METHOD_NOT_FOUND", line=_line, method=node['methode'], cls=obj_eval._class_name))
             func = ZuseFunction(method_def['name'], method_def['parameter'], method_def['body'], def_env, owner_class=owner, defaults=method_def.get('defaults', {}))
             return self._call_function(func, args, env, self_obj=obj_eval, kwargs=kwargs)
 
@@ -716,20 +726,20 @@ class Interpreter(NodeVisitor):
             try:
                 func_obj = obj_eval._env.get(methode)
             except Exception:
-                raise ZuseError(t("ERR_FUNC_NOT_IN_MODULE", line=self._aktuelle_zeile, func=methode, module=obj_eval.name))
+                raise ZuseError(t("ERR_FUNC_NOT_IN_MODULE", line=_line, func=methode, module=obj_eval.name))
             return self._call_function(func_obj, args, env, kwargs=kwargs)
 
         elif isinstance(obj_eval, ZuseClassWrapper):
             is_constructor = node['methode'] in ['ERSTELLE', 'NEW', 'CREAR', 'CRIAR', 'CREER', 'CREARE', 'नया', '创建']
             if is_constructor: return self._call_function(obj_eval, args, env, kwargs=kwargs)
-            else: raise ZuseError(t("ERR_STATIC_METHOD_NOT_FOUND", line=self._aktuelle_zeile, method=node['methode'], cls=obj_eval.ast['name']))
+            else: raise ZuseError(t("ERR_STATIC_METHOD_NOT_FOUND", line=_line, method=node['methode'], cls=obj_eval.ast['name']))
         else:
             methode = node['methode']
             methode = self._methoden_map.get(methode, methode)
             args, kwargs = self._prepare_python_args(args, kwargs)
             try: return getattr(obj_eval, methode)(*args, **kwargs)
-            except AttributeError: raise ZuseError(t("ERR_METHOD_NOT_EXISTS", line=self._aktuelle_zeile, method=node['methode']))
-            except Exception as e: raise ZuseError(t("ERR_METHOD_CALL_FAILED", line=self._aktuelle_zeile, method=node['methode'], error=e))
+            except AttributeError: raise ZuseError(t("ERR_METHOD_NOT_EXISTS", line=_line, method=node['methode']))
+            except Exception as e: raise ZuseError(t("ERR_METHOD_CALL_FAILED", line=_line, method=node['methode'], error=e))
 
     def eval_EINGABE_AUFRUF(self, node, env):
         prompt = str(self.evaluiere_ausdruck(node['prompt'], env))
