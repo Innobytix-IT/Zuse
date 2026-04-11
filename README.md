@@ -326,11 +326,13 @@ GPL v3
 
 ### Multilingual programming language Zuse
 
-https://github.com/user-attachments/assets/03e8e32d-35db-4854-aa98-44cb26ff9e0f
 
-### Multilingual programming language Zuse DEMO 2
 
-https://github.com/user-attachments/assets/4e110498-f6c1-4df8-a8d2-e0db3fb881e9
+https://github.com/user-attachments/assets/2a9858df-f523-4ad1-90f3-75dab943cab7
+
+
+
+
 
 ---
 
