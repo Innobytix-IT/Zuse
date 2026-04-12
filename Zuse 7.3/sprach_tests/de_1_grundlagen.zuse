@@ -1,0 +1,174 @@
+# de_1_grundlagen.zuse - Deutsch Programm 1: Grundlagen
+AUSGABE "=== DEUTSCH GRUNDLAGEN ==="
+
+# Variablen
+name = "Zuse"
+zahl = 42
+komma = 3.14
+wahrheit = wahr
+nichts_var = NICHTS
+
+AUSGABE "Name: " + name
+AUSGABE "Zahl: " + ALS_TEXT(zahl)
+AUSGABE "Kommazahl: " + ALS_TEXT(komma)
+AUSGABE "Wahrheit: " + ALS_TEXT(wahrheit)
+AUSGABE "Nichts: " + ALS_TEXT(nichts_var)
+
+# Bedingungen WENN / SONST WENN / SONST
+alter = 20
+WENN alter < 18 DANN
+    AUSGABE "Minderjährig"
+SONST WENN alter < 65 DANN
+    AUSGABE "Erwachsen"
+SONST
+    AUSGABE "Senior"
+ENDE WENN
+
+# Switch/Case
+tag = 3
+WÄHLE tag
+    FALL 1 DANN
+        AUSGABE "Montag"
+    FALL 2 DANN
+        AUSGABE "Dienstag"
+    FALL 3 DANN
+        AUSGABE "Mittwoch"
+    FALL 4 DANN
+        AUSGABE "Donnerstag"
+    SONST
+        AUSGABE "Anderer Tag"
+ENDE WÄHLE
+
+# FÜR-Schleife
+AUSGABE "--- FÜR-Schleife ---"
+SCHLEIFE FÜR i IN BEREICH(1, 6) MACHE
+    AUSGABE "i = " + ALS_TEXT(i)
+ENDE SCHLEIFE
+
+# SOLANGE-Schleife mit ABBRUCH und WEITER
+AUSGABE "--- SOLANGE-Schleife ---"
+n = 0
+SCHLEIFE SOLANGE n < 10 MACHE
+    n = n + 1
+    WENN n == 3 DANN
+        WEITER
+    ENDE WENN
+    WENN n == 7 DANN
+        ABBRUCH
+    ENDE WENN
+    AUSGABE "n = " + ALS_TEXT(n)
+ENDE SCHLEIFE
+
+# Funktionen mit Default-Parameter
+DEFINIERE begruesse(person, gruss="Hallo"):
+    ERGEBNIS IST gruss + ", " + person + "!"
+ENDE FUNKTION
+
+AUSGABE begruesse("Welt")
+AUSGABE begruesse("Klaus", "Guten Tag")
+
+# Lambda
+verdoppeln = AKTION(x): x * 2
+AUSGABE "Lambda: " + ALS_TEXT(verdoppeln(5))
+
+# Klassen mit Vererbung
+KLASSE Tier:
+    DEFINIERE ERSTELLE(name, art):
+        MEIN.name = name
+        MEIN.art = art
+    ENDE FUNKTION
+    DEFINIERE vorstellen():
+        ERGEBNIS IST MEIN.name + " ist ein " + MEIN.art
+    ENDE FUNKTION
+ENDE KLASSE
+
+KLASSE Hund(Tier):
+    DEFINIERE ERSTELLE(name):
+        ELTERN.ERSTELLE(name, "Hund")
+        MEIN.tricks = []
+    ENDE FUNKTION
+    DEFINIERE trick_lernen(trick):
+        MEIN.tricks = ANHAENGEN(MEIN.tricks, trick)
+    ENDE FUNKTION
+    DEFINIERE info():
+        ERGEBNIS IST MEIN.vorstellen() + " | Tricks: " + ALS_TEXT(LAENGE(MEIN.tricks))
+    ENDE FUNKTION
+ENDE KLASSE
+
+rex = Hund("Rex")
+rex.trick_lernen("Sitz")
+rex.trick_lernen("Platz")
+AUSGABE rex.info()
+
+# Fehlerbehandlung
+VERSUCHE
+    x = 1 / 0
+FANGE fehler
+    AUSGABE "Fehler abgefangen: " + ALS_TEXT(fehler)
+ENDE VERSUCHE
+
+# Listen
+zahlen = [5, 3, 1, 4, 2]
+zahlen = ANHAENGEN(zahlen, 6)
+sortiert = SORTIEREN(zahlen)
+umgekehrt = UMKEHREN(sortiert)
+AUSGABE "Liste: " + ALS_TEXT(zahlen)
+AUSGABE "Sortiert: " + ALS_TEXT(sortiert)
+AUSGABE "Umgekehrt: " + ALS_TEXT(umgekehrt)
+
+# Dicts
+person = {"name": "Anna", "alter": 30, "stadt": "Berlin"}
+AUSGABE "Person: " + ALS_TEXT(person)
+AUSGABE "Name: " + person["name"]
+
+# Slicing
+text_liste = ["a", "b", "c", "d", "e"]
+AUSGABE "Slice [1:3]: " + ALS_TEXT(text_liste[1:3])
+
+# GLOBAL
+zaehler = 0
+DEFINIERE erhoehe():
+    GLOBAL zaehler
+    zaehler = zaehler + 1
+ENDE FUNKTION
+erhoehe()
+erhoehe()
+AUSGABE "Globaler Zähler: " + ALS_TEXT(zaehler)
+
+# PASS
+DEFINIERE leere_funktion():
+    PASS
+ENDE FUNKTION
+leere_funktion()
+AUSGABE "PASS funktioniert"
+
+# String-Methoden
+s = "  Hallo Welt  "
+AUSGABE "Trimmen: '" + TRIMME(s) + "'"
+AUSGABE "Gross: " + GROSSBUCHSTABEN(TRIMME(s))
+AUSGABE "Klein: " + KLEINBUCHSTABEN(TRIMME(s))
+AUSGABE "Ersetze: " + ERSETZE(TRIMME(s), "Welt", "Zuse")
+teile = TEILE("a,b,c,d", ",")
+AUSGABE "Teile: " + ALS_TEXT(teile)
+AUSGABE "Enthält 'Hallo': " + ALS_TEXT(ENTHAELT(s, "Hallo"))
+AUSGABE "Finde 'Welt': " + ALS_TEXT(FINDE(TRIMME(s), "Welt"))
+AUSGABE "Beginnt mit 'Hallo': " + ALS_TEXT(BEGINNT_MIT(TRIMME(s), "Hallo"))
+AUSGABE "Endet mit 'Welt': " + ALS_TEXT(ENDET_MIT(TRIMME(s), "Welt"))
+
+# Grundlegende Builtins
+zahlen2 = [3, 1, 4, 1, 5, 9, 2, 6]
+AUSGABE "Länge: " + ALS_TEXT(LAENGE(zahlen2))
+AUSGABE "Maximum: " + ALS_TEXT(MAXIMUM(zahlen2))
+AUSGABE "Minimum: " + ALS_TEXT(MINIMUM(zahlen2))
+AUSGABE "Absolut(-5): " + ALS_TEXT(ABSOLUT(-5))
+AUSGABE "Runden(3.7): " + ALS_TEXT(RUNDEN(3.7))
+AUSGABE "Wurzel(16): " + ALS_TEXT(WURZEL(16))
+AUSGABE "ALS_ZAHL('42'): " + ALS_TEXT(ALS_ZAHL("42"))
+AUSGABE "IST_ZAHL(42): " + ALS_TEXT(IST_ZAHL(42))
+AUSGABE "IST_TEXT('hi'): " + ALS_TEXT(IST_TEXT("hi"))
+AUSGABE "IST_LISTE([]): " + ALS_TEXT(IST_LISTE([]))
+AUSGABE "IST_DICT({}): " + ALS_TEXT(IST_DICT({}))
+AUSGABE "IST_BOOL(wahr): " + ALS_TEXT(IST_BOOL(wahr))
+AUSGABE "IST_NICHTS(NICHTS): " + ALS_TEXT(IST_NICHTS(NICHTS))
+
+AUSGABE "=== DEUTSCH GRUNDLAGEN ENDE ==="

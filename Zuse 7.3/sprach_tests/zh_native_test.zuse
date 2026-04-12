@@ -1,0 +1,12 @@
+输出 "=== Test mit chinesischen Builtins ==="
+数字列 = [3, 1, 4, 1, 5, 9]
+输出 "Laenge: " + 转为_文字(长度(数字列))
+输出 "Sortiert: " + 转为_文字(排序(数字列))
+输出 "Summe: " + 转为_文字(求和(数字列))
+输出 "Wurzel 16: " + 转为_文字(平方根(16))
+输出 "Grossbuchst: " + 大写("hallo")
+文件名 = "test_zh.txt"
+写入_文件(文件名, "Zeile 1")
+输出 "Datei existiert: " + 转为_文字(存在(文件名))
+删除_文件(文件名)
+输出 "OK!"

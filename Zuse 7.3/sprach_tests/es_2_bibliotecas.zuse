@@ -1,0 +1,105 @@
+# es_2_bibliotecas.zuse - Español Programa 2: Bibliotecas
+IMPRIMIR "=== ESPAÑOL BIBLIOTECAS ==="
+
+# Importar bibliotecas Python
+USAR math COMO m
+USAR random COMO rnd
+USAR os COMO os_
+USAR re COMO regex
+USAR json COMO js
+USAR datetime COMO dt
+USAR sys COMO sys_
+
+IMPRIMIR "Plataforma: " + A_TEXTO(sys_.platform)
+
+# Operaciones de archivo
+nombre_archivo = "test_output_es.txt"
+ESCRIBIR_ARCHIVO(nombre_archivo, "Línea 1\nLínea 2\nLínea 3\n")
+IMPRIMIR "Archivo existe: " + A_TEXTO(EXISTE(nombre_archivo))
+contenido = LEER_ARCHIVO(nombre_archivo)
+IMPRIMIR "Contenido: " + RECORTAR(contenido)
+lineas = LEER_LINEAS(nombre_archivo)
+IMPRIMIR "Líneas: " + A_TEXTO(LONGITUD(lineas))
+AGREGAR_ARCHIVO(nombre_archivo, "Línea 4\n")
+lineas2 = LEER_LINEAS(nombre_archivo)
+IMPRIMIR "Después de añadir: " + A_TEXTO(LONGITUD(lineas2))
+BORRAR_ARCHIVO(nombre_archivo)
+IMPRIMIR "Archivo eliminado: " + A_TEXTO(NO EXISTE(nombre_archivo))
+
+# Builtins de listas
+numeros = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+IMPRIMIR "Suma: " + A_TEXTO(SUMA(numeros))
+IMPRIMIR "Únicos: " + A_TEXTO(UNICO(numeros))
+filtrado = FILTRAR(numeros, ACCION(x): x > 3)
+IMPRIMIR "Filtrado (>3): " + A_TEXTO(filtrado)
+mapeado = MAPEAR(numeros, ACCION(x): x * 2)
+IMPRIMIR "Mapeado (*2): " + A_TEXTO(mapeado)
+ordenado = ORDENAR(numeros)
+IMPRIMIR "Ordenado: " + A_TEXTO(ordenado)
+invertido = INVERTIR(ordenado)
+IMPRIMIR "Invertido: " + A_TEXTO(invertido)
+anidado = [[1, 2], [3, 4], [5, 6]]
+IMPRIMIR "Aplanado: " + A_TEXTO(APLANAR(anidado))
+enumerado = ENUMERAR([10, 20, 30])
+IMPRIMIR "Enumerado: " + A_TEXTO(enumerado)
+combinado = COMBINAR([1, 2, 3], ["a", "b", "c"])
+IMPRIMIR "Combinado: " + A_TEXTO(combinado)
+ampliado = AGREGAR([1, 2], 3, 4, 5)
+IMPRIMIR "Añadido: " + A_TEXTO(ampliado)
+IMPRIMIR "Todos > 0: " + A_TEXTO(TODOS([1, 2, 3]))
+IMPRIMIR "Alguno > 5: " + A_TEXTO(ALGUNO([falso, verdadero, falso]))
+
+# Builtins de cadena
+plantilla = "Hola {0}, tienes {1} años!"
+IMPRIMIR FORMATO(plantilla, "Carlos", 25)
+IMPRIMIR "CódigoChar 'A': " + A_TEXTO(CODIGO_CHAR("A"))
+IMPRIMIR "Char(65): " + CARACTER(65)
+IMPRIMIR "Hex(255): " + HEX(255)
+IMPRIMIR "Bin(10): " + BIN(10)
+IMPRIMIR "Oct(8): " + OCT(8)
+
+# Builtins matemáticos
+IMPRIMIR "PI: " + A_TEXTO(REDONDEAR(PI, 4))
+IMPRIMIR "E: " + A_TEXTO(REDONDEAR(E, 4))
+IMPRIMIR "Seno(0): " + A_TEXTO(SENO(0))
+IMPRIMIR "Coseno(0): " + A_TEXTO(COSENO(0))
+IMPRIMIR "Tangente(0): " + A_TEXTO(TANGENTE(0))
+IMPRIMIR "Logaritmo(1): " + A_TEXTO(LOGARITMO(1))
+IMPRIMIR "Piso(3.7): " + A_TEXTO(PISO(3.7))
+IMPRIMIR "Techo(3.2): " + A_TEXTO(TECHO(3.2))
+IMPRIMIR "Potencia(2,10): " + A_TEXTO(POTENCIA(2, 10))
+aleatorio = AZAR()
+IMPRIMIR "Aleatorio [0,1): " + A_TEXTO(REDONDEAR(aleatorio, 4))
+aleatorio_rango = AZAR_RANGO(1, 100)
+IMPRIMIR "Aleatorio [1,100]: " + A_TEXTO(aleatorio_rango)
+
+# Conversión de tipos
+IMPRIMIR "A_NUMERO('3.14'): " + A_TEXTO(A_NUMERO("3.14"))
+IMPRIMIR "A_TEXTO(42): " + A_TEXTO(A_TEXTO(42))
+IMPRIMIR "ES_NUMERO(3.14): " + A_TEXTO(ES_NUMERO(3.14))
+IMPRIMIR "ES_TEXTO('abc'): " + A_TEXTO(ES_TEXTO("abc"))
+IMPRIMIR "ES_LISTA([1]): " + A_TEXTO(ES_LISTA([1]))
+IMPRIMIR "ES_DICT({'a':1}): " + A_TEXTO(ES_DICT({"a": 1}))
+IMPRIMIR "ES_BOOL(verdadero): " + A_TEXTO(ES_BOOL(verdadero))
+IMPRIMIR "ES_NADA(NADA): " + A_TEXTO(ES_NADA(NADA))
+
+# Módulo math directo
+IMPRIMIR "math.pi: " + A_TEXTO(REDONDEAR(m.pi, 4))
+IMPRIMIR "math.sqrt(9): " + A_TEXTO(m.sqrt(9))
+
+# Módulo json
+datos = {"nombre": "Zuse", "version": 7, "activo": verdadero}
+json_texto = js.dumps(datos)
+IMPRIMIR "JSON: " + json_texto
+cargado = js.loads(json_texto)
+IMPRIMIR "Cargado: " + A_TEXTO(cargado)
+
+# datetime
+ahora = dt.datetime.now()
+IMPRIMIR "Fecha/Hora: " + A_TEXTO(ahora.year) + "-" + A_TEXTO(ahora.month) + "-" + A_TEXTO(ahora.day)
+
+# Módulo re
+coincidencias = regex.findall("[0-9]+", "abc123def456")
+IMPRIMIR "Coincidencias regex: " + A_TEXTO(coincidencias)
+
+IMPRIMIR "=== ESPAÑOL BIBLIOTECAS FIN ==="

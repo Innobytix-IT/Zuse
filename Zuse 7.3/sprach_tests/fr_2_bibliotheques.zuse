@@ -1,0 +1,105 @@
+# fr_2_bibliotheques.zuse - Français Programme 2: Bibliothèques
+IMPRIMER "=== FRANÇAIS BIBLIOTHÈQUES ==="
+
+# Importer bibliothèques Python
+UTILISER math COMME m
+UTILISER random COMME rnd
+UTILISER os COMME os_
+UTILISER re COMME regex
+UTILISER json COMME js
+UTILISER datetime COMME dt
+UTILISER sys COMME sys_
+
+IMPRIMER "Plateforme: " + EN_TEXTE(sys_.platform)
+
+# Opérations sur les fichiers
+nom_fichier = "test_output_fr.txt"
+ECRIRE_FICHIER(nom_fichier, "Ligne 1\nLigne 2\nLigne 3\n")
+IMPRIMER "Fichier existe: " + EN_TEXTE(EXISTE(nom_fichier))
+contenu = LIRE_FICHIER(nom_fichier)
+IMPRIMER "Contenu: " + ROGNER(contenu)
+lignes = LIRE_LIGNES(nom_fichier)
+IMPRIMER "Lignes: " + EN_TEXTE(LONGUEUR(lignes))
+AJOUTER_FICHIER(nom_fichier, "Ligne 4\n")
+lignes2 = LIRE_LIGNES(nom_fichier)
+IMPRIMER "Après ajout: " + EN_TEXTE(LONGUEUR(lignes2))
+SUPPRIMER_FICHIER(nom_fichier)
+IMPRIMER "Fichier supprimé: " + EN_TEXTE(PAS EXISTE(nom_fichier))
+
+# Builtins de listes
+nombres = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+IMPRIMER "Somme: " + EN_TEXTE(SOMME(nombres))
+IMPRIMER "Uniques: " + EN_TEXTE(UNIQUE(nombres))
+filtre = FILTRER(nombres, ACTION(x): x > 3)
+IMPRIMER "Filtré (>3): " + EN_TEXTE(filtre)
+transforme = TRANSFORMER(nombres, ACTION(x): x * 2)
+IMPRIMER "Transformé (*2): " + EN_TEXTE(transforme)
+trie = TRIER(nombres)
+IMPRIMER "Trié: " + EN_TEXTE(trie)
+inverse = INVERSER(trie)
+IMPRIMER "Inversé: " + EN_TEXTE(inverse)
+imbrique = [[1, 2], [3, 4], [5, 6]]
+IMPRIMER "Aplati: " + EN_TEXTE(APLATIR(imbrique))
+enumere = ENUMERER([10, 20, 30])
+IMPRIMER "Énuméré: " + EN_TEXTE(enumere)
+combine = COMBINER([1, 2, 3], ["a", "b", "c"])
+IMPRIMER "Combiné: " + EN_TEXTE(combine)
+ajoute = AJOUTER([1, 2], 3, 4, 5)
+IMPRIMER "Ajouté: " + EN_TEXTE(ajoute)
+IMPRIMER "Tous > 0: " + EN_TEXTE(TOUS([1, 2, 3]))
+IMPRIMER "L_un > 5: " + EN_TEXTE(L_UN([faux, vrai, faux]))
+
+# Builtins de chaîne
+modele = "Bonjour {0}, vous avez {1} ans!"
+IMPRIMER FORMAT(modele, "Marie", 25)
+IMPRIMER "CodeChar 'A': " + EN_TEXTE(CODE_CHAR("A"))
+IMPRIMER "Char(65): " + CARACTERE(65)
+IMPRIMER "Hex(255): " + HEX(255)
+IMPRIMER "Bin(10): " + BIN(10)
+IMPRIMER "Oct(8): " + OCT(8)
+
+# Builtins mathématiques
+IMPRIMER "PI: " + EN_TEXTE(ARRONDIR(PI, 4))
+IMPRIMER "E: " + EN_TEXTE(ARRONDIR(E, 4))
+IMPRIMER "Sinus(0): " + EN_TEXTE(SINUS(0))
+IMPRIMER "Cosinus(0): " + EN_TEXTE(COSINUS(0))
+IMPRIMER "Tangente(0): " + EN_TEXTE(TANGENTE(0))
+IMPRIMER "Logarithme(1): " + EN_TEXTE(LOGARITHME(1))
+IMPRIMER "Plancher(3.7): " + EN_TEXTE(PLANCHER(3.7))
+IMPRIMER "Plafond(3.2): " + EN_TEXTE(PLAFOND(3.2))
+IMPRIMER "Puissance(2,10): " + EN_TEXTE(PUISSANCE(2, 10))
+aleatoire = HASARD()
+IMPRIMER "Aléatoire [0,1): " + EN_TEXTE(ARRONDIR(aleatoire, 4))
+aleatoire_plage = HASARD_PLAGE(1, 100)
+IMPRIMER "Aléatoire [1,100]: " + EN_TEXTE(aleatoire_plage)
+
+# Conversion de types
+IMPRIMER "EN_NOMBRE('3.14'): " + EN_TEXTE(EN_NOMBRE("3.14"))
+IMPRIMER "EN_TEXTE(42): " + EN_TEXTE(EN_TEXTE(42))
+IMPRIMER "EST_NOMBRE(3.14): " + EN_TEXTE(EST_NOMBRE(3.14))
+IMPRIMER "EST_TEXTE('abc'): " + EN_TEXTE(EST_TEXTE("abc"))
+IMPRIMER "EST_LISTE([1]): " + EN_TEXTE(EST_LISTE([1]))
+IMPRIMER "EST_DICT({'a':1}): " + EN_TEXTE(EST_DICT({"a": 1}))
+IMPRIMER "EST_BOOL(vrai): " + EN_TEXTE(EST_BOOL(vrai))
+IMPRIMER "EST_RIEN(RIEN): " + EN_TEXTE(EST_RIEN(RIEN))
+
+# Module math direct
+IMPRIMER "math.pi: " + EN_TEXTE(ARRONDIR(m.pi, 4))
+IMPRIMER "math.sqrt(9): " + EN_TEXTE(m.sqrt(9))
+
+# Module json
+donnees = {"nom": "Zuse", "version": 7, "actif": vrai}
+json_texte = js.dumps(donnees)
+IMPRIMER "JSON: " + json_texte
+charge = js.loads(json_texte)
+IMPRIMER "Rechargé: " + EN_TEXTE(charge)
+
+# datetime
+maintenant = dt.datetime.now()
+IMPRIMER "Date/Heure: " + EN_TEXTE(maintenant.year) + "-" + EN_TEXTE(maintenant.month) + "-" + EN_TEXTE(maintenant.day)
+
+# Module re
+correspondances = regex.findall("[0-9]+", "abc123def456")
+IMPRIMER "Correspondances regex: " + EN_TEXTE(correspondances)
+
+IMPRIMER "=== FRANÇAIS BIBLIOTHÈQUES FIN ==="

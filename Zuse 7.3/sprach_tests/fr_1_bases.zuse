@@ -1,0 +1,174 @@
+# fr_1_bases.zuse - Français Programme 1: Bases
+IMPRIMER "=== FRANÇAIS BASES ==="
+
+# Variables
+nom = "Zuse"
+nombre = 42
+decimal = 3.14
+verite = vrai
+rien_var = RIEN
+
+IMPRIMER "Nom: " + nom
+IMPRIMER "Nombre: " + EN_TEXTE(nombre)
+IMPRIMER "Décimal: " + EN_TEXTE(decimal)
+IMPRIMER "Vérité: " + EN_TEXTE(verite)
+IMPRIMER "Rien: " + EN_TEXTE(rien_var)
+
+# Conditions SI / SINON SI / SINON
+age = 20
+SI age < 18 ALORS
+    IMPRIMER "Mineur"
+SINON SI age < 65 ALORS
+    IMPRIMER "Adulte"
+SINON
+    IMPRIMER "Sénior"
+FIN SI
+
+# Choisir/Cas
+jour = 3
+CHOISIR jour
+    CAS 1 ALORS
+        IMPRIMER "Lundi"
+    CAS 2 ALORS
+        IMPRIMER "Mardi"
+    CAS 3 ALORS
+        IMPRIMER "Mercredi"
+    CAS 4 ALORS
+        IMPRIMER "Jeudi"
+    SINON
+        IMPRIMER "Autre jour"
+FIN CHOISIR
+
+# Boucle POUR
+IMPRIMER "--- Boucle POUR ---"
+BOUCLE POUR i DANS PLAGE(1, 6) FAIRE
+    IMPRIMER "i = " + EN_TEXTE(i)
+FIN BOUCLE
+
+# Boucle TANTQUE avec ARRETER et CONTINUER
+IMPRIMER "--- Boucle TANTQUE ---"
+n = 0
+BOUCLE TANTQUE n < 10 FAIRE
+    n = n + 1
+    SI n == 3 ALORS
+        CONTINUER
+    FIN SI
+    SI n == 7 ALORS
+        ARRETER
+    FIN SI
+    IMPRIMER "n = " + EN_TEXTE(n)
+FIN BOUCLE
+
+# Fonctions avec paramètre par défaut
+DEFINIR saluer(personne, salutation="Bonjour"):
+    RETOURNER salutation + ", " + personne + "!"
+FIN FONCTION
+
+IMPRIMER saluer("Monde")
+IMPRIMER saluer("Pierre", "Bonsoir")
+
+# Lambda
+doubler = ACTION(x): x * 2
+IMPRIMER "Lambda: " + EN_TEXTE(doubler(5))
+
+# Classes avec héritage
+CLASSE Animal:
+    DEFINIR CREER(nom, espece):
+        MOI.nom = nom
+        MOI.espece = espece
+    FIN FONCTION
+    DEFINIR presenter():
+        RETOURNER MOI.nom + " est un " + MOI.espece
+    FIN FONCTION
+FIN CLASSE
+
+CLASSE Chien(Animal):
+    DEFINIR CREER(nom):
+        PARENTS.CREER(nom, "Chien")
+        MOI.tours = []
+    FIN FONCTION
+    DEFINIR apprendre_tour(tour):
+        MOI.tours = AJOUTER(MOI.tours, tour)
+    FIN FONCTION
+    DEFINIR info():
+        RETOURNER MOI.presenter() + " | Tours: " + EN_TEXTE(LONGUEUR(MOI.tours))
+    FIN FONCTION
+FIN CLASSE
+
+rex = Chien("Rex")
+rex.apprendre_tour("Assis")
+rex.apprendre_tour("Couche")
+IMPRIMER rex.info()
+
+# Gestion des erreurs
+ESSAYER
+    x = 1 / 0
+ATTRAPER erreur
+    IMPRIMER "Erreur attrapée: " + EN_TEXTE(erreur)
+FIN ESSAYER
+
+# Listes
+nombres = [5, 3, 1, 4, 2]
+nombres = AJOUTER(nombres, 6)
+trie = TRIER(nombres)
+inverse = INVERSER(trie)
+IMPRIMER "Liste: " + EN_TEXTE(nombres)
+IMPRIMER "Trié: " + EN_TEXTE(trie)
+IMPRIMER "Inversé: " + EN_TEXTE(inverse)
+
+# Dictionnaires
+personne = {"nom": "Marie", "age": 30, "ville": "Paris"}
+IMPRIMER "Personne: " + EN_TEXTE(personne)
+IMPRIMER "Nom: " + personne["nom"]
+
+# Slicing
+liste_texte = ["a", "b", "c", "d", "e"]
+IMPRIMER "Slice [1:3]: " + EN_TEXTE(liste_texte[1:3])
+
+# GLOBAL
+compteur = 0
+DEFINIR incrementer():
+    GLOBAL compteur
+    compteur = compteur + 1
+FIN FONCTION
+incrementer()
+incrementer()
+IMPRIMER "Compteur global: " + EN_TEXTE(compteur)
+
+# PASS
+DEFINIR fonction_vide():
+    PASS
+FIN FONCTION
+fonction_vide()
+IMPRIMER "PASS fonctionne"
+
+# Méthodes de chaîne
+s = "  Bonjour Monde  "
+IMPRIMER "Rogner: '" + ROGNER(s) + "'"
+IMPRIMER "Majuscules: " + MAJUSCULES(ROGNER(s))
+IMPRIMER "Minuscules: " + MINUSCULES(ROGNER(s))
+IMPRIMER "Remplacer: " + REMPLACER(ROGNER(s), "Monde", "Zuse")
+parties = DIVISER("a,b,c,d", ",")
+IMPRIMER "Diviser: " + EN_TEXTE(parties)
+IMPRIMER "Contient 'Bonjour': " + EN_TEXTE(CONTIENT(s, "Bonjour"))
+IMPRIMER "Trouver 'Monde': " + EN_TEXTE(CHERCHER(ROGNER(s), "Monde"))
+IMPRIMER "Commence par 'Bonjour': " + EN_TEXTE(COMMENCE_PAR(ROGNER(s), "Bonjour"))
+IMPRIMER "Finit par 'Monde': " + EN_TEXTE(FINIT_PAR(ROGNER(s), "Monde"))
+
+# Builtins de base
+nombres2 = [3, 1, 4, 1, 5, 9, 2, 6]
+IMPRIMER "Longueur: " + EN_TEXTE(LONGUEUR(nombres2))
+IMPRIMER "Maximum: " + EN_TEXTE(MAXIMUM(nombres2))
+IMPRIMER "Minimum: " + EN_TEXTE(MINIMUM(nombres2))
+IMPRIMER "Absolu(-5): " + EN_TEXTE(ABSOLU(-5))
+IMPRIMER "Arrondir(3.7): " + EN_TEXTE(ARRONDIR(3.7))
+IMPRIMER "Racine(16): " + EN_TEXTE(RACINE(16))
+IMPRIMER "EN_NOMBRE('42'): " + EN_TEXTE(EN_NOMBRE("42"))
+IMPRIMER "EST_NOMBRE(42): " + EN_TEXTE(EST_NOMBRE(42))
+IMPRIMER "EST_TEXTE('hi'): " + EN_TEXTE(EST_TEXTE("hi"))
+IMPRIMER "EST_LISTE([]): " + EN_TEXTE(EST_LISTE([]))
+IMPRIMER "EST_DICT({}): " + EN_TEXTE(EST_DICT({}))
+IMPRIMER "EST_BOOL(vrai): " + EN_TEXTE(EST_BOOL(vrai))
+IMPRIMER "EST_RIEN(RIEN): " + EN_TEXTE(EST_RIEN(RIEN))
+
+IMPRIMER "=== FRANÇAIS BASES FIN ==="

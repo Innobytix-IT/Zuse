@@ -1,0 +1,105 @@
+# it_2_librerie.zuse - Italiano Programma 2: Librerie
+STAMPA "=== ITALIANO LIBRERIE ==="
+
+# Importare librerie Python
+USARE math COME m
+USARE random COME rnd
+USARE os COME os_
+USARE re COME regex
+USARE json COME js
+USARE datetime COME dt
+USARE sys COME sys_
+
+STAMPA "Piattaforma: " + A_TESTO(sys_.platform)
+
+# Operazioni sui file
+nome_file = "test_output_it.txt"
+SCRIVI_FILE(nome_file, "Riga 1\nRiga 2\nRiga 3\n")
+STAMPA "File esiste: " + A_TESTO(ESISTE(nome_file))
+contenuto = LEGGI_FILE(nome_file)
+STAMPA "Contenuto: " + TAGLIARE(contenuto)
+righe = LEGGI_RIGHE(nome_file)
+STAMPA "Righe: " + A_TESTO(LUNGHEZZA(righe))
+AGGIUNGI_FILE(nome_file, "Riga 4\n")
+righe2 = LEGGI_RIGHE(nome_file)
+STAMPA "Dopo aggiunta: " + A_TESTO(LUNGHEZZA(righe2))
+ELIMINA_FILE(nome_file)
+STAMPA "File eliminato: " + A_TESTO(NON ESISTE(nome_file))
+
+# Builtins di liste
+numeri = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+STAMPA "Somma: " + A_TESTO(SOMMA(numeri))
+STAMPA "Unici: " + A_TESTO(UNICO(numeri))
+filtrato = FILTRARE(numeri, AZIONE(x): x > 3)
+STAMPA "Filtrato (>3): " + A_TESTO(filtrato)
+mappato = MAPPARE(numeri, AZIONE(x): x * 2)
+STAMPA "Mappato (*2): " + A_TESTO(mappato)
+ordinato = ORDINARE(numeri)
+STAMPA "Ordinato: " + A_TESTO(ordinato)
+invertito = INVERTIRE(ordinato)
+STAMPA "Invertito: " + A_TESTO(invertito)
+annidato = [[1, 2], [3, 4], [5, 6]]
+STAMPA "Appiattito: " + A_TESTO(APPIATTIRE(annidato))
+enumerato = ENUMERARE([10, 20, 30])
+STAMPA "Enumerato: " + A_TESTO(enumerato)
+combinato = COMBINARE([1, 2, 3], ["a", "b", "c"])
+STAMPA "Combinato: " + A_TESTO(combinato)
+aggiunto = AGGIUNGERE([1, 2], 3, 4, 5)
+STAMPA "Aggiunto: " + A_TESTO(aggiunto)
+STAMPA "Tutti > 0: " + A_TESTO(TUTTI([1, 2, 3]))
+STAMPA "Qualcuno > 5: " + A_TESTO(QUALCUNO([falso, vero, falso]))
+
+# Builtins di stringa
+modello = "Ciao {0}, hai {1} anni!"
+STAMPA FORMATO(modello, "Marco", 25)
+STAMPA "CodiceChar 'A': " + A_TESTO(CODICE_CHAR("A"))
+STAMPA "Char(65): " + CARATTERE(65)
+STAMPA "Hex(255): " + HEX(255)
+STAMPA "Bin(10): " + BIN(10)
+STAMPA "Oct(8): " + OCT(8)
+
+# Builtins matematici
+STAMPA "PI: " + A_TESTO(ARROTONDARE(PI, 4))
+STAMPA "E: " + A_TESTO(ARROTONDARE(m.e, 4))
+STAMPA "Seno(0): " + A_TESTO(SENO(0))
+STAMPA "Coseno(0): " + A_TESTO(COSENO(0))
+STAMPA "Tangente(0): " + A_TESTO(TANGENTE(0))
+STAMPA "Logaritmo(1): " + A_TESTO(LOGARITMO(1))
+STAMPA "Pavimento(3.7): " + A_TESTO(PAVIMENTO(3.7))
+STAMPA "Soffitto(3.2): " + A_TESTO(SOFFITTO(3.2))
+STAMPA "Potenza(2,10): " + A_TESTO(POTENZA(2, 10))
+casuale = CASUALE()
+STAMPA "Casuale [0,1): " + A_TESTO(ARROTONDARE(casuale, 4))
+casuale_range = CASUALE_INTERVALLO(1, 100)
+STAMPA "Casuale [1,100]: " + A_TESTO(casuale_range)
+
+# Conversione di tipi
+STAMPA "A_NUMERO('3.14'): " + A_TESTO(A_NUMERO("3.14"))
+STAMPA "A_TESTO(42): " + A_TESTO(A_TESTO(42))
+STAMPA "E_NUMERO(3.14): " + A_TESTO(E_NUMERO(3.14))
+STAMPA "E_TESTO('abc'): " + A_TESTO(E_TESTO("abc"))
+STAMPA "E_LISTA([1]): " + A_TESTO(E_LISTA([1]))
+STAMPA "E_DICT({'a':1}): " + A_TESTO(E_DICT({"a": 1}))
+STAMPA "E_BOOL(vero): " + A_TESTO(E_BOOL(vero))
+STAMPA "E_NIENTE(NIENTE): " + A_TESTO(E_NIENTE(NIENTE))
+
+# Modulo math diretto
+STAMPA "math.pi: " + A_TESTO(ARROTONDARE(m.pi, 4))
+STAMPA "math.sqrt(9): " + A_TESTO(m.sqrt(9))
+
+# Modulo json
+dati = {"nome": "Zuse", "versione": 7, "attivo": vero}
+json_testo = js.dumps(dati)
+STAMPA "JSON: " + json_testo
+caricato = js.loads(json_testo)
+STAMPA "Ricaricato: " + A_TESTO(caricato)
+
+# datetime
+adesso = dt.datetime.now()
+STAMPA "Data/Ora: " + A_TESTO(adesso.year) + "-" + A_TESTO(adesso.month) + "-" + A_TESTO(adesso.day)
+
+# Modulo re
+corrispondenze = regex.findall("[0-9]+", "abc123def456")
+STAMPA "Corrispondenze regex: " + A_TESTO(corrispondenze)
+
+STAMPA "=== ITALIANO LIBRERIE FINE ==="

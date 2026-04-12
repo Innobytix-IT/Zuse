@@ -1,0 +1,105 @@
+# en_2_libraries.zuse - English Program 2: Libraries
+PRINT "=== ENGLISH LIBRARIES ==="
+
+# Import Python libraries
+IMPORT math AS m
+IMPORT random AS rnd
+IMPORT os AS os_
+IMPORT re AS regex
+IMPORT json AS js
+IMPORT datetime AS dt
+IMPORT sys AS sys_
+
+PRINT "Platform: " + TO_TEXT(sys_.platform)
+
+# File operations
+filename = "test_output_en.txt"
+WRITE_FILE(filename, "Line 1\nLine 2\nLine 3\n")
+PRINT "File exists: " + TO_TEXT(EXISTS(filename))
+content = READ_FILE(filename)
+PRINT "Content: " + TRIM(content)
+lines = READ_LINES(filename)
+PRINT "Lines: " + TO_TEXT(LENGTH(lines))
+APPEND_FILE(filename, "Line 4\n")
+lines2 = READ_LINES(filename)
+PRINT "After append: " + TO_TEXT(LENGTH(lines2))
+DELETE_FILE(filename)
+PRINT "File deleted: " + TO_TEXT(NOT EXISTS(filename))
+
+# List builtins
+numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+PRINT "Sum: " + TO_TEXT(SUM(numbers))
+PRINT "Unique: " + TO_TEXT(UNIQUE(numbers))
+filtered = FILTER(numbers, LAMBDA(x): x > 3)
+PRINT "Filtered (>3): " + TO_TEXT(filtered)
+mapped = MAP(numbers, LAMBDA(x): x * 2)
+PRINT "Mapped (*2): " + TO_TEXT(mapped)
+sorted_n = SORT(numbers)
+PRINT "Sorted: " + TO_TEXT(sorted_n)
+reversed_n = REVERSE(sorted_n)
+PRINT "Reversed: " + TO_TEXT(reversed_n)
+nested = [[1, 2], [3, 4], [5, 6]]
+PRINT "Flat: " + TO_TEXT(FLAT(nested))
+enumerated = ENUMERATE([10, 20, 30])
+PRINT "Enumerated: " + TO_TEXT(enumerated)
+combined = ZIP([1, 2, 3], ["a", "b", "c"])
+PRINT "Combined: " + TO_TEXT(combined)
+appended = APPEND([1, 2], 3, 4, 5)
+PRINT "Appended: " + TO_TEXT(appended)
+PRINT "All > 0: " + TO_TEXT(ALL([1, 2, 3]))
+PRINT "Any > 5: " + TO_TEXT(ANY([false, true, false]))
+
+# String builtins
+template = "Hello {0}, you are {1} years old!"
+PRINT FORMAT(template, "Alice", 25)
+PRINT "CharCode 'A': " + TO_TEXT(CHARCODE("A"))
+PRINT "Char(65): " + CHAR(65)
+PRINT "Hex(255): " + HEX(255)
+PRINT "Bin(10): " + BIN(10)
+PRINT "Oct(8): " + OCT(8)
+
+# Math builtins
+PRINT "PI: " + TO_TEXT(ROUND(PI, 4))
+PRINT "E: " + TO_TEXT(ROUND(E, 4))
+PRINT "Sin(0): " + TO_TEXT(SIN(0))
+PRINT "Cos(0): " + TO_TEXT(COS(0))
+PRINT "Tan(0): " + TO_TEXT(TAN(0))
+PRINT "Log(1): " + TO_TEXT(LOG(1))
+PRINT "Floor(3.7): " + TO_TEXT(FLOOR(3.7))
+PRINT "Ceil(3.2): " + TO_TEXT(CEIL(3.2))
+PRINT "Power(2,10): " + TO_TEXT(POWER(2, 10))
+rand_val = RANDOM()
+PRINT "Random [0,1): " + TO_TEXT(ROUND(rand_val, 4))
+rand_range = RANDOM_RANGE(1, 100)
+PRINT "Random [1,100]: " + TO_TEXT(rand_range)
+
+# Type conversion
+PRINT "TO_NUMBER('3.14'): " + TO_TEXT(TO_NUMBER("3.14"))
+PRINT "TO_TEXT(42): " + TO_TEXT(TO_TEXT(42))
+PRINT "IS_NUMBER(3.14): " + TO_TEXT(IS_NUMBER(3.14))
+PRINT "IS_TEXT('abc'): " + TO_TEXT(IS_TEXT("abc"))
+PRINT "IS_LIST([1]): " + TO_TEXT(IS_LIST([1]))
+PRINT "IS_DICT({'a':1}): " + TO_TEXT(IS_DICT({"a": 1}))
+PRINT "IS_BOOL(true): " + TO_TEXT(IS_BOOL(true))
+PRINT "IS_NONE(NOTHING): " + TO_TEXT(IS_NONE(NOTHING))
+
+# math module direct
+PRINT "math.pi: " + TO_TEXT(ROUND(m.pi, 4))
+PRINT "math.sqrt(9): " + TO_TEXT(m.sqrt(9))
+
+# json module
+data = {"name": "Zuse", "version": 7, "active": true}
+json_text = js.dumps(data)
+PRINT "JSON: " + json_text
+loaded = js.loads(json_text)
+PRINT "Loaded back: " + TO_TEXT(loaded)
+
+# datetime
+now = dt.datetime.now()
+PRINT "Date/Time: " + TO_TEXT(now.year) + "-" + TO_TEXT(now.month) + "-" + TO_TEXT(now.day)
+
+# re module
+matches = regex.findall("[0-9]+", "abc123def456")
+PRINT "Regex matches: " + TO_TEXT(matches)
+
+PRINT "=== ENGLISH LIBRARIES END ==="

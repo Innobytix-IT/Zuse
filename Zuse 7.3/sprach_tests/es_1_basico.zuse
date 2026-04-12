@@ -1,0 +1,174 @@
+# es_1_basico.zuse - Español Programa 1: Básico
+IMPRIMIR "=== ESPAÑOL BÁSICO ==="
+
+# Variables
+nombre = "Zuse"
+numero = 42
+decimal = 3.14
+verdad = verdadero
+nada_var = NADA
+
+IMPRIMIR "Nombre: " + nombre
+IMPRIMIR "Número: " + A_TEXTO(numero)
+IMPRIMIR "Decimal: " + A_TEXTO(decimal)
+IMPRIMIR "Verdad: " + A_TEXTO(verdad)
+IMPRIMIR "Nada: " + A_TEXTO(nada_var)
+
+# Condiciones SI / SINO SI / SINO
+edad = 20
+SI edad < 18 ENTONCES
+    IMPRIMIR "Menor de edad"
+SINO SI edad < 65 ENTONCES
+    IMPRIMIR "Adulto"
+SINO
+    IMPRIMIR "Senior"
+FIN SI
+
+# Elegir/Caso
+dia = 3
+ELEGIR dia
+    CASO 1 ENTONCES
+        IMPRIMIR "Lunes"
+    CASO 2 ENTONCES
+        IMPRIMIR "Martes"
+    CASO 3 ENTONCES
+        IMPRIMIR "Miércoles"
+    CASO 4 ENTONCES
+        IMPRIMIR "Jueves"
+    SINO
+        IMPRIMIR "Otro día"
+FIN ELEGIR
+
+# Bucle PARA
+IMPRIMIR "--- Bucle PARA ---"
+BUCLE PARA i EN RANGO(1, 6) HACER
+    IMPRIMIR "i = " + A_TEXTO(i)
+FIN BUCLE
+
+# Bucle MIENTRAS con ROMPER y CONTINUAR
+IMPRIMIR "--- Bucle MIENTRAS ---"
+n = 0
+BUCLE MIENTRAS n < 10 HACER
+    n = n + 1
+    SI n == 3 ENTONCES
+        CONTINUAR
+    FIN SI
+    SI n == 7 ENTONCES
+        ROMPER
+    FIN SI
+    IMPRIMIR "n = " + A_TEXTO(n)
+FIN BUCLE
+
+# Funciones con parámetro por defecto
+DEFINIR saludar(persona, saludo="Hola"):
+    RETORNO saludo + ", " + persona + "!"
+FIN FUNCION
+
+IMPRIMIR saludar("Mundo")
+IMPRIMIR saludar("Carlos", "Buenos días")
+
+# Lambda
+doble = ACCION(x): x * 2
+IMPRIMIR "Lambda: " + A_TEXTO(doble(5))
+
+# Clases con herencia
+CLASE Animal:
+    DEFINIR CREAR(nombre, especie):
+        MIO.nombre = nombre
+        MIO.especie = especie
+    FIN FUNCION
+    DEFINIR presentar():
+        RETORNO MIO.nombre + " es un " + MIO.especie
+    FIN FUNCION
+FIN CLASE
+
+CLASE Perro(Animal):
+    DEFINIR CREAR(nombre):
+        PADRES.CREAR(nombre, "Perro")
+        MIO.trucos = []
+    FIN FUNCION
+    DEFINIR aprender_truco(truco):
+        MIO.trucos = AGREGAR(MIO.trucos, truco)
+    FIN FUNCION
+    DEFINIR info():
+        RETORNO MIO.presentar() + " | Trucos: " + A_TEXTO(LONGITUD(MIO.trucos))
+    FIN FUNCION
+FIN CLASE
+
+rex = Perro("Rex")
+rex.aprender_truco("Sentarse")
+rex.aprender_truco("Quedarse")
+IMPRIMIR rex.info()
+
+# Manejo de errores
+INTENTAR
+    x = 1 / 0
+CAPTURAR error
+    IMPRIMIR "Error capturado: " + A_TEXTO(error)
+FIN INTENTAR
+
+# Listas
+numeros = [5, 3, 1, 4, 2]
+numeros = AGREGAR(numeros, 6)
+ordenado = ORDENAR(numeros)
+invertido = INVERTIR(ordenado)
+IMPRIMIR "Lista: " + A_TEXTO(numeros)
+IMPRIMIR "Ordenado: " + A_TEXTO(ordenado)
+IMPRIMIR "Invertido: " + A_TEXTO(invertido)
+
+# Diccionarios
+persona = {"nombre": "Ana", "edad": 30, "ciudad": "Madrid"}
+IMPRIMIR "Persona: " + A_TEXTO(persona)
+IMPRIMIR "Nombre: " + persona["nombre"]
+
+# Slicing
+lista_texto = ["a", "b", "c", "d", "e"]
+IMPRIMIR "Slice [1:3]: " + A_TEXTO(lista_texto[1:3])
+
+# GLOBAL
+contador = 0
+DEFINIR incrementar():
+    GLOBAL contador
+    contador = contador + 1
+FIN FUNCION
+incrementar()
+incrementar()
+IMPRIMIR "Contador global: " + A_TEXTO(contador)
+
+# PASS
+DEFINIR funcion_vacia():
+    PASS
+FIN FUNCION
+funcion_vacia()
+IMPRIMIR "PASS funciona"
+
+# Métodos de cadena
+s = "  Hola Mundo  "
+IMPRIMIR "Recortar: '" + RECORTAR(s) + "'"
+IMPRIMIR "Mayúsculas: " + MAYUSCULAS(RECORTAR(s))
+IMPRIMIR "Minúsculas: " + MINUSCULAS(RECORTAR(s))
+IMPRIMIR "Reemplazar: " + REEMPLAZAR(RECORTAR(s), "Mundo", "Zuse")
+partes = DIVIDIR("a,b,c,d", ",")
+IMPRIMIR "Dividir: " + A_TEXTO(partes)
+IMPRIMIR "Contiene 'Hola': " + A_TEXTO(CONTIENE(s, "Hola"))
+IMPRIMIR "Encontrar 'Mundo': " + A_TEXTO(BUSCAR(RECORTAR(s), "Mundo"))
+IMPRIMIR "Empieza con 'Hola': " + A_TEXTO(EMPIEZA_CON(RECORTAR(s), "Hola"))
+IMPRIMIR "Termina con 'Mundo': " + A_TEXTO(TERMINA_CON(RECORTAR(s), "Mundo"))
+
+# Builtins básicos
+numeros2 = [3, 1, 4, 1, 5, 9, 2, 6]
+IMPRIMIR "Longitud: " + A_TEXTO(LONGITUD(numeros2))
+IMPRIMIR "Máximo: " + A_TEXTO(MAXIMO(numeros2))
+IMPRIMIR "Mínimo: " + A_TEXTO(MINIMO(numeros2))
+IMPRIMIR "Absoluto(-5): " + A_TEXTO(ABSOLUTO(-5))
+IMPRIMIR "Redondear(3.7): " + A_TEXTO(REDONDEAR(3.7))
+IMPRIMIR "Raíz(16): " + A_TEXTO(RAIZ(16))
+IMPRIMIR "A_NUMERO('42'): " + A_TEXTO(A_NUMERO("42"))
+IMPRIMIR "ES_NUMERO(42): " + A_TEXTO(ES_NUMERO(42))
+IMPRIMIR "ES_TEXTO('hi'): " + A_TEXTO(ES_TEXTO("hi"))
+IMPRIMIR "ES_LISTA([]): " + A_TEXTO(ES_LISTA([]))
+IMPRIMIR "ES_DICT({}): " + A_TEXTO(ES_DICT({}))
+IMPRIMIR "ES_BOOL(verdadero): " + A_TEXTO(ES_BOOL(verdadero))
+IMPRIMIR "ES_NADA(NADA): " + A_TEXTO(ES_NADA(NADA))
+
+IMPRIMIR "=== ESPAÑOL BÁSICO FIN ==="

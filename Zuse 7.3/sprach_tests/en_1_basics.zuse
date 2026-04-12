@@ -1,0 +1,174 @@
+# en_1_basics.zuse - English Program 1: Basics
+PRINT "=== ENGLISH BASICS ==="
+
+# Variables
+name = "Zuse"
+number = 42
+decimal = 3.14
+truth = true
+nothing_var = NOTHING
+
+PRINT "Name: " + name
+PRINT "Number: " + TO_TEXT(number)
+PRINT "Decimal: " + TO_TEXT(decimal)
+PRINT "Truth: " + TO_TEXT(truth)
+PRINT "Nothing: " + TO_TEXT(nothing_var)
+
+# Conditions IF / ELSE IF / ELSE
+age = 20
+IF age < 18 THEN
+    PRINT "Minor"
+ELSE IF age < 65 THEN
+    PRINT "Adult"
+ELSE
+    PRINT "Senior"
+END IF
+
+# Switch/Case
+day = 3
+SWITCH day
+    CASE 1 THEN
+        PRINT "Monday"
+    CASE 2 THEN
+        PRINT "Tuesday"
+    CASE 3 THEN
+        PRINT "Wednesday"
+    CASE 4 THEN
+        PRINT "Thursday"
+    ELSE
+        PRINT "Other day"
+END SWITCH
+
+# FOR Loop
+PRINT "--- FOR Loop ---"
+LOOP FOR i IN RANGE(1, 6) DO
+    PRINT "i = " + TO_TEXT(i)
+END LOOP
+
+# WHILE Loop with BREAK and CONTINUE
+PRINT "--- WHILE Loop ---"
+n = 0
+LOOP WHILE n < 10 DO
+    n = n + 1
+    IF n == 3 THEN
+        CONTINUE
+    END IF
+    IF n == 7 THEN
+        BREAK
+    END IF
+    PRINT "n = " + TO_TEXT(n)
+END LOOP
+
+# Functions with default parameter
+DEFINE greet(person, greeting="Hello"):
+    RETURN greeting + ", " + person + "!"
+END FUNCTION
+
+PRINT greet("World")
+PRINT greet("Alice", "Good day")
+
+# Lambda
+double = LAMBDA(x): x * 2
+PRINT "Lambda: " + TO_TEXT(double(5))
+
+# Classes with inheritance
+CLASS Animal:
+    DEFINE CREATE(name, species):
+        SELF.name = name
+        SELF.species = species
+    END FUNCTION
+    DEFINE introduce():
+        RETURN SELF.name + " is a " + SELF.species
+    END FUNCTION
+END CLASS
+
+CLASS Dog(Animal):
+    DEFINE CREATE(name):
+        SUPER.CREATE(name, "Dog")
+        SELF.tricks = []
+    END FUNCTION
+    DEFINE learn_trick(trick):
+        SELF.tricks = APPEND(SELF.tricks, trick)
+    END FUNCTION
+    DEFINE info():
+        RETURN SELF.introduce() + " | Tricks: " + TO_TEXT(LENGTH(SELF.tricks))
+    END FUNCTION
+END CLASS
+
+rex = Dog("Rex")
+rex.learn_trick("Sit")
+rex.learn_trick("Stay")
+PRINT rex.info()
+
+# Error handling
+TRY
+    x = 1 / 0
+CATCH error
+    PRINT "Error caught: " + TO_TEXT(error)
+END TRY
+
+# Lists
+numbers = [5, 3, 1, 4, 2]
+numbers = APPEND(numbers, 6)
+sorted_list = SORT(numbers)
+reversed_list = REVERSE(sorted_list)
+PRINT "List: " + TO_TEXT(numbers)
+PRINT "Sorted: " + TO_TEXT(sorted_list)
+PRINT "Reversed: " + TO_TEXT(reversed_list)
+
+# Dicts
+person = {"name": "Alice", "age": 30, "city": "London"}
+PRINT "Person: " + TO_TEXT(person)
+PRINT "Name: " + person["name"]
+
+# Slicing
+text_list = ["a", "b", "c", "d", "e"]
+PRINT "Slice [1:3]: " + TO_TEXT(text_list[1:3])
+
+# GLOBAL
+counter = 0
+DEFINE increment():
+    GLOBAL counter
+    counter = counter + 1
+END FUNCTION
+increment()
+increment()
+PRINT "Global counter: " + TO_TEXT(counter)
+
+# PASS
+DEFINE empty_function():
+    PASS
+END FUNCTION
+empty_function()
+PRINT "PASS works"
+
+# String methods
+s = "  Hello World  "
+PRINT "Trim: '" + TRIM(s) + "'"
+PRINT "Upper: " + UPPERCASE(TRIM(s))
+PRINT "Lower: " + LOWERCASE(TRIM(s))
+PRINT "Replace: " + REPLACE(TRIM(s), "World", "Zuse")
+parts = SPLIT("a,b,c,d", ",")
+PRINT "Split: " + TO_TEXT(parts)
+PRINT "Contains 'Hello': " + TO_TEXT(CONTAINS(s, "Hello"))
+PRINT "Find 'World': " + TO_TEXT(FIND(TRIM(s), "World"))
+PRINT "Starts with 'Hello': " + TO_TEXT(STARTS_WITH(TRIM(s), "Hello"))
+PRINT "Ends with 'World': " + TO_TEXT(ENDS_WITH(TRIM(s), "World"))
+
+# Basic Builtins
+numbers2 = [3, 1, 4, 1, 5, 9, 2, 6]
+PRINT "Length: " + TO_TEXT(LENGTH(numbers2))
+PRINT "Maximum: " + TO_TEXT(MAX(numbers2))
+PRINT "Minimum: " + TO_TEXT(MIN(numbers2))
+PRINT "Absolute(-5): " + TO_TEXT(ABS(-5))
+PRINT "Round(3.7): " + TO_TEXT(ROUND(3.7))
+PRINT "Sqrt(16): " + TO_TEXT(SQRT(16))
+PRINT "TO_NUMBER('42'): " + TO_TEXT(TO_NUMBER("42"))
+PRINT "IS_NUMBER(42): " + TO_TEXT(IS_NUMBER(42))
+PRINT "IS_TEXT('hi'): " + TO_TEXT(IS_TEXT("hi"))
+PRINT "IS_LIST([]): " + TO_TEXT(IS_LIST([]))
+PRINT "IS_DICT({}): " + TO_TEXT(IS_DICT({}))
+PRINT "IS_BOOL(true): " + TO_TEXT(IS_BOOL(true))
+PRINT "IS_NONE(NOTHING): " + TO_TEXT(IS_NONE(NOTHING))
+
+PRINT "=== ENGLISH BASICS END ==="

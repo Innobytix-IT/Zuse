@@ -1,0 +1,105 @@
+# pt_2_bibliotecas.zuse - Português Programa 2: Bibliotecas
+IMPRIMIR "=== PORTUGUÊS BIBLIOTECAS ==="
+
+# Importar bibliotecas Python
+USAR math COMO m
+USAR random COMO rnd
+USAR os COMO os_
+USAR re COMO regex
+USAR json COMO js
+USAR datetime COMO dt
+USAR sys COMO sys_
+
+IMPRIMIR "Plataforma: " + PARA_TEXTO(sys_.platform)
+
+# Operações de arquivo
+nome_arquivo = "test_output_pt.txt"
+ESCREVER_ARQUIVO(nome_arquivo, "Linha 1\nLinha 2\nLinha 3\n")
+IMPRIMIR "Arquivo existe: " + PARA_TEXTO(EXISTE(nome_arquivo))
+conteudo = LER_ARQUIVO(nome_arquivo)
+IMPRIMIR "Conteúdo: " + APARAR(conteudo)
+linhas = LER_LINHAS(nome_arquivo)
+IMPRIMIR "Linhas: " + PARA_TEXTO(COMPRIMENTO(linhas))
+ADICIONAR_ARQUIVO(nome_arquivo, "Linha 4\n")
+linhas2 = LER_LINHAS(nome_arquivo)
+IMPRIMIR "Após acrescentar: " + PARA_TEXTO(COMPRIMENTO(linhas2))
+APAGAR_ARQUIVO(nome_arquivo)
+IMPRIMIR "Arquivo excluído: " + PARA_TEXTO(NAO EXISTE(nome_arquivo))
+
+# Builtins de listas
+numeros = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+IMPRIMIR "Soma: " + PARA_TEXTO(SOMA(numeros))
+IMPRIMIR "Únicos: " + PARA_TEXTO(UNICO(numeros))
+filtrado = FILTRAR(numeros, ACAO(x): x > 3)
+IMPRIMIR "Filtrado (>3): " + PARA_TEXTO(filtrado)
+mapeado = MAPEAR(numeros, ACAO(x): x * 2)
+IMPRIMIR "Mapeado (*2): " + PARA_TEXTO(mapeado)
+ordenado = ORDENAR(numeros)
+IMPRIMIR "Ordenado: " + PARA_TEXTO(ordenado)
+invertido = INVERTER(ordenado)
+IMPRIMIR "Invertido: " + PARA_TEXTO(invertido)
+aninhado = [[1, 2], [3, 4], [5, 6]]
+IMPRIMIR "Achatado: " + PARA_TEXTO(ACHATAR(aninhado))
+enumerado = ENUMERAR([10, 20, 30])
+IMPRIMIR "Enumerado: " + PARA_TEXTO(enumerado)
+combinado = COMBINAR([1, 2, 3], ["a", "b", "c"])
+IMPRIMIR "Combinado: " + PARA_TEXTO(combinado)
+adicionado = ADICIONAR([1, 2], 3, 4, 5)
+IMPRIMIR "Adicionado: " + PARA_TEXTO(adicionado)
+IMPRIMIR "Todos > 0: " + PARA_TEXTO(TODOS([1, 2, 3]))
+IMPRIMIR "Algum > 5: " + PARA_TEXTO(ALGUM([falso, verdadeiro, falso]))
+
+# Builtins de string
+modelo = "Olá {0}, você tem {1} anos!"
+IMPRIMIR FORMATO(modelo, "Ana", 25)
+IMPRIMIR "CódigoChar 'A': " + PARA_TEXTO(CODIGO_CHAR("A"))
+IMPRIMIR "Char(65): " + CARACTER(65)
+IMPRIMIR "Hex(255): " + HEX(255)
+IMPRIMIR "Bin(10): " + BIN(10)
+IMPRIMIR "Oct(8): " + OCT(8)
+
+# Builtins matemáticos
+IMPRIMIR "PI: " + PARA_TEXTO(ARREDONDAR(PI, 4))
+IMPRIMIR "E: " + PARA_TEXTO(ARREDONDAR(m.e, 4))
+IMPRIMIR "Seno(0): " + PARA_TEXTO(SENO(0))
+IMPRIMIR "Cosseno(0): " + PARA_TEXTO(COSENO(0))
+IMPRIMIR "Tangente(0): " + PARA_TEXTO(TANGENTE(0))
+IMPRIMIR "Logaritmo(1): " + PARA_TEXTO(LOGARITMO(1))
+IMPRIMIR "Chão(3.7): " + PARA_TEXTO(PISO(3.7))
+IMPRIMIR "Teto(3.2): " + PARA_TEXTO(TETO(3.2))
+IMPRIMIR "Potência(2,10): " + PARA_TEXTO(POTENCIA(2, 10))
+aleatorio = ACASO()
+IMPRIMIR "Aleatório [0,1): " + PARA_TEXTO(ARREDONDAR(aleatorio, 4))
+aleatorio_intervalo = ACASO_INTERVALO(1, 100)
+IMPRIMIR "Aleatório [1,100]: " + PARA_TEXTO(aleatorio_intervalo)
+
+# Conversão de tipos
+IMPRIMIR "PARA_NUMERO('3.14'): " + PARA_TEXTO(PARA_NUMERO("3.14"))
+IMPRIMIR "PARA_TEXTO(42): " + PARA_TEXTO(PARA_TEXTO(42))
+IMPRIMIR "E_NUMERO(3.14): " + PARA_TEXTO(E_NUMERO(3.14))
+IMPRIMIR "E_TEXTO('abc'): " + PARA_TEXTO(E_TEXTO("abc"))
+IMPRIMIR "E_LISTA([1]): " + PARA_TEXTO(E_LISTA([1]))
+IMPRIMIR "E_DICT({'a':1}): " + PARA_TEXTO(E_DICT({"a": 1}))
+IMPRIMIR "E_BOOL(verdadeiro): " + PARA_TEXTO(E_BOOL(verdadeiro))
+IMPRIMIR "E_NADA(NADA): " + PARA_TEXTO(E_NADA(NADA))
+
+# Módulo math direto
+IMPRIMIR "math.pi: " + PARA_TEXTO(ARREDONDAR(m.pi, 4))
+IMPRIMIR "math.sqrt(9): " + PARA_TEXTO(m.sqrt(9))
+
+# Módulo json
+dados = {"nome": "Zuse", "versao": 7, "ativo": verdadeiro}
+json_texto = js.dumps(dados)
+IMPRIMIR "JSON: " + json_texto
+carregado = js.loads(json_texto)
+IMPRIMIR "Recarregado: " + PARA_TEXTO(carregado)
+
+# datetime
+agora = dt.datetime.now()
+IMPRIMIR "Data/Hora: " + PARA_TEXTO(agora.year) + "-" + PARA_TEXTO(agora.month) + "-" + PARA_TEXTO(agora.day)
+
+# Módulo re
+correspondencias = regex.findall("[0-9]+", "abc123def456")
+IMPRIMIR "Correspondências regex: " + PARA_TEXTO(correspondencias)
+
+IMPRIMIR "=== PORTUGUÊS BIBLIOTECAS FIM ==="

@@ -1,0 +1,105 @@
+# de_2_bibliotheken.zuse - Deutsch Programm 2: Bibliotheken
+AUSGABE "=== DEUTSCH BIBLIOTHEKEN ==="
+
+# Python-Bibliotheken importieren
+BENUTZE math ALS m
+BENUTZE random ALS rnd
+BENUTZE os ALS os_
+BENUTZE re ALS regex
+BENUTZE json ALS js
+BENUTZE datetime ALS dt
+BENUTZE sys ALS sys_
+
+AUSGABE "Platform: " + ALS_TEXT(sys_.platform)
+
+# Dateioperationen
+dateiname = "test_output_de.txt"
+SCHREIBE_DATEI(dateiname, "Zeile 1\nZeile 2\nZeile 3\n")
+AUSGABE "Datei existiert: " + ALS_TEXT(EXISTIERT(dateiname))
+inhalt = LESE_DATEI(dateiname)
+AUSGABE "Inhalt: " + TRIMME(inhalt)
+zeilen = LESE_ZEILEN(dateiname)
+AUSGABE "Zeilen: " + ALS_TEXT(LAENGE(zeilen))
+ERGAENZE_DATEI(dateiname, "Zeile 4\n")
+zeilen2 = LESE_ZEILEN(dateiname)
+AUSGABE "Nach Ergänzen: " + ALS_TEXT(LAENGE(zeilen2))
+LOESCHE_DATEI(dateiname)
+AUSGABE "Datei gelöscht: " + ALS_TEXT(NICHT EXISTIERT(dateiname))
+
+# Listen-Builtins
+zahlen = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+AUSGABE "Summe: " + ALS_TEXT(SUMME(zahlen))
+AUSGABE "Eindeutig: " + ALS_TEXT(EINDEUTIG(zahlen))
+gefiltert = FILTERN(zahlen, AKTION(x): x > 3)
+AUSGABE "Gefiltert (>3): " + ALS_TEXT(gefiltert)
+umgewandelt = UMWANDELN(zahlen, AKTION(x): x * 2)
+AUSGABE "Umgewandelt (*2): " + ALS_TEXT(umgewandelt)
+sortiert = SORTIEREN(zahlen)
+AUSGABE "Sortiert: " + ALS_TEXT(sortiert)
+umgekehrt = UMKEHREN(sortiert)
+AUSGABE "Umgekehrt: " + ALS_TEXT(umgekehrt)
+verschachtelt = [[1, 2], [3, 4], [5, 6]]
+AUSGABE "Flach: " + ALS_TEXT(FLACH(verschachtelt))
+aufgezaehlt = AUFZAEHLEN([10, 20, 30])
+AUSGABE "Aufgezählt: " + ALS_TEXT(aufgezaehlt)
+kombiniert = KOMBINIEREN([1, 2, 3], ["a", "b", "c"])
+AUSGABE "Kombiniert: " + ALS_TEXT(kombiniert)
+erweiterter = ANHAENGEN([1, 2], 3, 4, 5)
+AUSGABE "Angehängt: " + ALS_TEXT(erweiterter)
+AUSGABE "Alle > 0: " + ALS_TEXT(ALLE([1, 2, 3]))
+AUSGABE "Irgendein > 5: " + ALS_TEXT(IRGENDEIN([falsch, wahr, falsch]))
+
+# String-Builtins
+vorlage = "Hallo {0}, du bist {1} Jahre alt!"
+AUSGABE FORMAT(vorlage, "Anna", 25)
+AUSGABE "Zeichencode 'A': " + ALS_TEXT(ZEICHENCODE("A"))
+AUSGABE "Zeichen(65): " + ZEICHEN(65)
+AUSGABE "Hex(255): " + HEX(255)
+AUSGABE "Bin(10): " + BIN(10)
+AUSGABE "Okt(8): " + OKT(8)
+
+# Mathe-Builtins
+AUSGABE "PI: " + ALS_TEXT(RUNDEN(PI, 4))
+AUSGABE "E: " + ALS_TEXT(RUNDEN(E, 4))
+AUSGABE "Sinus(0): " + ALS_TEXT(SINUS(0))
+AUSGABE "Cosinus(0): " + ALS_TEXT(COSINUS(0))
+AUSGABE "Tangens(0): " + ALS_TEXT(TANGENS(0))
+AUSGABE "Logarithmus(1): " + ALS_TEXT(LOGARITHMUS(1))
+AUSGABE "Boden(3.7): " + ALS_TEXT(BODEN(3.7))
+AUSGABE "Decke(3.2): " + ALS_TEXT(DECKE(3.2))
+AUSGABE "Potenz(2,10): " + ALS_TEXT(POTENZ(2, 10))
+zufallszahl = ZUFALL()
+AUSGABE "Zufall [0,1): " + ALS_TEXT(RUNDEN(zufallszahl, 4))
+zufallsbereich = ZUFALL_BEREICH(1, 100)
+AUSGABE "Zufall [1,100]: " + ALS_TEXT(zufallsbereich)
+
+# Typkonvertierung
+AUSGABE "ALS_ZAHL('3.14'): " + ALS_TEXT(ALS_ZAHL("3.14"))
+AUSGABE "ALS_TEXT(42): " + ALS_TEXT(ALS_TEXT(42))
+AUSGABE "IST_ZAHL(3.14): " + ALS_TEXT(IST_ZAHL(3.14))
+AUSGABE "IST_TEXT('abc'): " + ALS_TEXT(IST_TEXT("abc"))
+AUSGABE "IST_LISTE([1]): " + ALS_TEXT(IST_LISTE([1]))
+AUSGABE "IST_DICT({'a':1}): " + ALS_TEXT(IST_DICT({"a": 1}))
+AUSGABE "IST_BOOL(wahr): " + ALS_TEXT(IST_BOOL(wahr))
+AUSGABE "IST_NICHTS(NICHTS): " + ALS_TEXT(IST_NICHTS(NICHTS))
+
+# math-Modul direkt
+AUSGABE "math.pi: " + ALS_TEXT(RUNDEN(m.pi, 4))
+AUSGABE "math.sqrt(9): " + ALS_TEXT(m.sqrt(9))
+
+# json-Modul
+daten = {"name": "Zuse", "version": 7, "aktiv": wahr}
+json_text = js.dumps(daten)
+AUSGABE "JSON: " + json_text
+zurueck = js.loads(json_text)
+AUSGABE "Zurück geladen: " + ALS_TEXT(zurueck)
+
+# datetime
+jetzt = dt.datetime.now()
+AUSGABE "Datum/Zeit: " + ALS_TEXT(jetzt.year) + "-" + ALS_TEXT(jetzt.month) + "-" + ALS_TEXT(jetzt.day)
+
+# re-Modul
+treffer = regex.findall("[0-9]+", "abc123def456")
+AUSGABE "Regex-Treffer: " + ALS_TEXT(treffer)
+
+AUSGABE "=== DEUTSCH BIBLIOTHEKEN ENDE ==="

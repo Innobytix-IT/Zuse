@@ -1,0 +1,174 @@
+# it_1_base.zuse - Italiano Programma 1: Base
+STAMPA "=== ITALIANO BASE ==="
+
+# Variabili
+nome = "Zuse"
+numero = 42
+decimale = 3.14
+verita = vero
+niente_var = NIENTE
+
+STAMPA "Nome: " + nome
+STAMPA "Numero: " + A_TESTO(numero)
+STAMPA "Decimale: " + A_TESTO(decimale)
+STAMPA "Verita: " + A_TESTO(verita)
+STAMPA "Niente: " + A_TESTO(niente_var)
+
+# Condizioni SE / ALTRIMENTI SE / ALTRIMENTI
+eta = 20
+SE eta < 18 ALLORA
+    STAMPA "Minorenne"
+ALTRIMENTI SE eta < 65 ALLORA
+    STAMPA "Adulto"
+ALTRIMENTI
+    STAMPA "Anziano"
+FINE SE
+
+# Scegli/Caso
+giorno = 3
+SCEGLI giorno
+    CASO 1 ALLORA
+        STAMPA "Lunedi"
+    CASO 2 ALLORA
+        STAMPA "Martedi"
+    CASO 3 ALLORA
+        STAMPA "Mercoledi"
+    CASO 4 ALLORA
+        STAMPA "Giovedi"
+    ALTRIMENTI
+        STAMPA "Altro giorno"
+FINE SCEGLI
+
+# Ciclo PER
+STAMPA "--- Ciclo PER ---"
+CICLO PER i IN INTERVALLO(1, 6) FARE
+    STAMPA "i = " + A_TESTO(i)
+FINE CICLO
+
+# Ciclo MENTRE con FERMA e CONTINUA
+STAMPA "--- Ciclo MENTRE ---"
+n = 0
+CICLO MENTRE n < 10 FARE
+    n = n + 1
+    SE n == 3 ALLORA
+        CONTINUA
+    FINE SE
+    SE n == 7 ALLORA
+        FERMA
+    FINE SE
+    STAMPA "n = " + A_TESTO(n)
+FINE CICLO
+
+# Funzioni con parametro predefinito
+DEFINIRE salutare(persona, saluto="Ciao"):
+    RITORNA saluto + ", " + persona + "!"
+FINE FUNZIONE
+
+STAMPA salutare("Mondo")
+STAMPA salutare("Marco", "Buongiorno")
+
+# Lambda
+raddoppiare = AZIONE(x): x * 2
+STAMPA "Lambda: " + A_TESTO(raddoppiare(5))
+
+# Classi con ereditarietà
+CLASSE Animale:
+    DEFINIRE CREA(nome, specie):
+        MIO.nome = nome
+        MIO.specie = specie
+    FINE FUNZIONE
+    DEFINIRE presentare():
+        RITORNA MIO.nome + " e un " + MIO.specie
+    FINE FUNZIONE
+FINE CLASSE
+
+CLASSE Cane(Animale):
+    DEFINIRE CREA(nome):
+        GENITORI.CREA(nome, "Cane")
+        MIO.trucchi = []
+    FINE FUNZIONE
+    DEFINIRE imparare_trucco(trucco):
+        MIO.trucchi = AGGIUNGERE(MIO.trucchi, trucco)
+    FINE FUNZIONE
+    DEFINIRE info():
+        RITORNA MIO.presentare() + " | Trucchi: " + A_TESTO(LUNGHEZZA(MIO.trucchi))
+    FINE FUNZIONE
+FINE CLASSE
+
+rex = Cane("Rex")
+rex.imparare_trucco("Seduto")
+rex.imparare_trucco("Fermo")
+STAMPA rex.info()
+
+# Gestione degli errori
+PROVA
+    x = 1 / 0
+CATTURA errore
+    STAMPA "Errore catturato: " + A_TESTO(errore)
+FINE PROVA
+
+# Liste
+numeri = [5, 3, 1, 4, 2]
+numeri = AGGIUNGERE(numeri, 6)
+ordinato = ORDINARE(numeri)
+invertito = INVERTIRE(ordinato)
+STAMPA "Lista: " + A_TESTO(numeri)
+STAMPA "Ordinato: " + A_TESTO(ordinato)
+STAMPA "Invertito: " + A_TESTO(invertito)
+
+# Dizionari
+persona = {"nome": "Giulia", "eta": 30, "citta": "Roma"}
+STAMPA "Persona: " + A_TESTO(persona)
+STAMPA "Nome: " + persona["nome"]
+
+# Slicing
+lista_testo = ["a", "b", "c", "d", "e"]
+STAMPA "Slice [1:3]: " + A_TESTO(lista_testo[1:3])
+
+# GLOBALE
+contatore = 0
+DEFINIRE incrementare():
+    GLOBALE contatore
+    contatore = contatore + 1
+FINE FUNZIONE
+incrementare()
+incrementare()
+STAMPA "Contatore globale: " + A_TESTO(contatore)
+
+# PASS
+DEFINIRE funzione_vuota():
+    PASS
+FINE FUNZIONE
+funzione_vuota()
+STAMPA "PASS funziona"
+
+# Metodi delle stringhe
+s = "  Ciao Mondo  "
+STAMPA "Tagliare: '" + TAGLIARE(s) + "'"
+STAMPA "Maiuscolo: " + MAIUSCOLO(TAGLIARE(s))
+STAMPA "Minuscolo: " + MINUSCOLO(TAGLIARE(s))
+STAMPA "Sostituire: " + SOSTITUIRE(TAGLIARE(s), "Mondo", "Zuse")
+parti = DIVIDERE("a,b,c,d", ",")
+STAMPA "Dividere: " + A_TESTO(parti)
+STAMPA "Contiene 'Ciao': " + A_TESTO(CONTIENE(s, "Ciao"))
+STAMPA "Trovare 'Mondo': " + A_TESTO(CERCARE(TAGLIARE(s), "Mondo"))
+STAMPA "Inizia con 'Ciao': " + A_TESTO(INIZIA_CON(TAGLIARE(s), "Ciao"))
+STAMPA "Finisce con 'Mondo': " + A_TESTO(FINISCE_CON(TAGLIARE(s), "Mondo"))
+
+# Builtins di base
+numeri2 = [3, 1, 4, 1, 5, 9, 2, 6]
+STAMPA "Lunghezza: " + A_TESTO(LUNGHEZZA(numeri2))
+STAMPA "Massimo: " + A_TESTO(MASSIMO(numeri2))
+STAMPA "Minimo: " + A_TESTO(MINIMO(numeri2))
+STAMPA "Assoluto(-5): " + A_TESTO(ASSOLUTO(-5))
+STAMPA "Arrotondare(3.7): " + A_TESTO(ARROTONDARE(3.7))
+STAMPA "Radice(16): " + A_TESTO(RADICE(16))
+STAMPA "A_NUMERO('42'): " + A_TESTO(A_NUMERO("42"))
+STAMPA "E_NUMERO(42): " + A_TESTO(E_NUMERO(42))
+STAMPA "E_TESTO('hi'): " + A_TESTO(E_TESTO("hi"))
+STAMPA "E_LISTA([]): " + A_TESTO(E_LISTA([]))
+STAMPA "E_DICT({}): " + A_TESTO(E_DICT({}))
+STAMPA "E_BOOL(vero): " + A_TESTO(E_BOOL(vero))
+STAMPA "E_NIENTE(NIENTE): " + A_TESTO(E_NIENTE(NIENTE))
+
+STAMPA "=== ITALIANO BASE FINE ==="
