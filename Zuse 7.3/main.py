@@ -7,6 +7,12 @@ from error_i18n import set_language
 import sys
 import os
 
+# UTF-8 Ausgabe sicherstellen (wichtig für Hindi, Chinesisch etc. auf Windows)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 def main():
     if len(sys.argv) < 2:
         print("Benutzung: python main.py <datei.zuse> [sprache]")

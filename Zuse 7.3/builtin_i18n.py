@@ -131,6 +131,21 @@ BUILTIN_TRANSLATIONS = {
     'VERBINDE': {
         'de': 'VERBINDE', 'en': 'JOIN', 'es': 'UNIR', 'fr': 'JOINDRE', 'it': 'UNIRE', 'pt': 'JUNTAR', 'hi': 'जोड़ो', 'zh': '连接'
     },
+    'ZEICHENCODE': {
+        'de': 'ZEICHENCODE', 'en': 'CHARCODE', 'es': 'CODIGO_CHAR', 'fr': 'CODE_CHAR', 'it': 'CODICE_CHAR', 'pt': 'CODIGO_CHAR', 'hi': 'वर्ण_कोड', 'zh': '字符码'
+    },
+    'ZEICHEN': {
+        'de': 'ZEICHEN', 'en': 'CHAR', 'es': 'CARACTER', 'fr': 'CARACTERE', 'it': 'CARATTERE', 'pt': 'CARACTER', 'hi': 'वर्ण', 'zh': '字符'
+    },
+    'HEX': {
+        'de': 'HEX', 'en': 'HEX', 'es': 'HEX', 'fr': 'HEX', 'it': 'HEX', 'pt': 'HEX', 'hi': 'HEX', 'zh': 'HEX'
+    },
+    'BIN': {
+        'de': 'BIN', 'en': 'BIN', 'es': 'BIN', 'fr': 'BIN', 'it': 'BIN', 'pt': 'BIN', 'hi': 'BIN', 'zh': 'BIN'
+    },
+    'OKT': {
+        'de': 'OKT', 'en': 'OCT', 'es': 'OCT', 'fr': 'OCT', 'it': 'OCT', 'pt': 'OCT', 'hi': 'OCT', 'zh': 'OCT'
+    },
 
     # ─── Listen ───────────────────────────────────────────────────────
     'SORTIEREN': {
@@ -159,6 +174,12 @@ BUILTIN_TRANSLATIONS = {
     },
     'ANHAENGEN': {
         'de': 'ANHAENGEN', 'en': 'APPEND', 'es': 'AGREGAR', 'fr': 'AJOUTER', 'it': 'AGGIUNGERE', 'pt': 'ADICIONAR', 'hi': 'जोड़ो_अंत', 'zh': '追加'
+    },
+    'ALLE': {
+        'de': 'ALLE', 'en': 'ALL', 'es': 'TODOS', 'fr': 'TOUS', 'it': 'TUTTI', 'pt': 'TODOS', 'hi': 'सभी', 'zh': '所有'
+    },
+    'IRGENDEIN': {
+        'de': 'IRGENDEIN', 'en': 'ANY', 'es': 'ALGUNO', 'fr': 'L_UN', 'it': 'QUALCUNO', 'pt': 'ALGUM', 'hi': 'कोई', 'zh': '任何'
     },
 
     # ─── Dateien ──────────────────────────────────────────────────────
