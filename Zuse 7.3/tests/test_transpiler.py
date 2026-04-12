@@ -385,6 +385,74 @@ class TestJavaBackend:
         code = java_code("KLASSE A:\n    DEFINIERE test():\n        MEIN.x = 1\n    ENDE FUNKTION\nENDE KLASSE")
         assert "this.x = 1" in code
 
+    # ─── Semikolon-Tests (Bug #1: generic_visit fehlte) ───────
+
+    def test_methoden_aufruf_hat_semikolon(self):
+        """Statement-Level Methodenaufruf MUSS Semikolon haben."""
+        code = java_code("pinsel = Maler()\npinsel.farbe(\"blau\")")
+        # Finde die Zeile mit .color( und prüfe auf ;
+        lines = [l.strip() for l in code.split('\n') if '.color(' in l]
+        assert len(lines) > 0, "Kein .color()-Aufruf im generierten Code"
+        for line in lines:
+            assert line.endswith(';'), f"Semikolon fehlt: {line}"
+
+    def test_funktions_aufruf_hat_semikolon(self):
+        """Statement-Level Funktionsaufruf MUSS Semikolon haben."""
+        code = java_code('AUSGABE "Test"')
+        # Nur die main()-Ausgabe prüfen, nicht die Stub-Methoden
+        lines = [l.strip() for l in code.split('\n')
+                 if 'System.out.println("Test")' in l]
+        assert len(lines) > 0, "Kein println(\"Test\") im generierten Code"
+        for line in lines:
+            assert line.endswith(';'), f"Semikolon fehlt: {line}"
+
+    def test_methoden_aufruf_in_schleife_hat_semikolon(self):
+        """Methodenaufrufe in Schleifen brauchen auch Semikolons."""
+        code = java_code(
+            "pinsel = Maler()\n"
+            "SCHLEIFE FÜR i IN [1, 2, 3] MACHE\n"
+            "    pinsel.farbe(\"rot\")\n"
+            "    pinsel.gehe(100)\n"
+            "ENDE SCHLEIFE"
+        )
+        lines = [l.strip() for l in code.split('\n') if '.color(' in l or '.forward(' in l]
+        assert len(lines) > 0, "Keine Maler-Aufrufe im generierten Code"
+        for line in lines:
+            assert line.endswith(';'), f"Semikolon fehlt in Schleife: {line}"
+
+    def test_mehrere_statement_methodenaufrufe_semikolon(self):
+        """Mehrere aufeinanderfolgende Methodenaufrufe brauchen alle ein Semikolon."""
+        code = java_code(
+            "pinsel = Maler()\n"
+            "pinsel.farbe(\"blau\")\n"
+            "pinsel.gehe(100)\n"
+            "pinsel.links(90)\n"
+            "pinsel.gehe(50)"
+        )
+        for method in ['.color(', '.forward(', '.left(']:
+            lines = [l.strip() for l in code.split('\n') if method in l]
+            for line in lines:
+                assert line.endswith(';'), f"Semikolon fehlt bei {method}: {line}"
+
+    # ─── Typ-Tests (Bug #2: Object statt _ZuseMaler) ─────────
+
+    def test_maler_zuweisung_hat_richtigen_typ(self):
+        """Maler() muss als _ZuseMaler deklariert werden, nicht als Object."""
+        code = java_code("pinsel = Maler()")
+        assert "_ZuseMaler pinsel" in code, f"Falscher Typ für Maler: {code}"
+        assert "Object pinsel" not in code, "Object statt _ZuseMaler für Maler-Zuweisung"
+
+    def test_fenster_zuweisung_hat_richtigen_typ(self):
+        """Fenster() muss als _ZuseFenster deklariert werden, nicht als Object."""
+        code = java_code('f = Fenster("Test", 800, 600)')
+        assert "_ZuseFenster f = new _ZuseFenster" in code, \
+            f"Falscher Typ für Fenster-Zuweisung"
+
+    def test_normale_variable_bleibt_object(self):
+        """Nicht-Maler/Fenster Variablen sollen weiterhin Object sein."""
+        code = java_code("x = 42")
+        assert "Object x = 42;" in code
+
 
 # ─── 5. C#-Backend ────────────────────────────────────────────
 
@@ -479,6 +547,44 @@ class TestCSharpBackend:
         code = csharp_code("AUSGABE x[1:3]")
         assert "GetRange(" in code
 
+    # ─── Semikolon-Tests (Bug #1: generic_visit fehlte) ───────
+
+    def test_methoden_aufruf_hat_semikolon(self):
+        """Statement-Level Methodenaufruf MUSS Semikolon haben."""
+        code = csharp_code("pinsel = Maler()\npinsel.farbe(\"blau\")")
+        lines = [l.strip() for l in code.split('\n') if '.color(' in l]
+        assert len(lines) > 0, "Kein .color()-Aufruf im generierten Code"
+        for line in lines:
+            assert line.endswith(';'), f"Semikolon fehlt: {line}"
+
+    def test_methoden_aufruf_in_schleife_hat_semikolon(self):
+        """Methodenaufrufe in Schleifen brauchen auch Semikolons."""
+        code = csharp_code(
+            "pinsel = Maler()\n"
+            "SCHLEIFE FÜR i IN [1, 2, 3] MACHE\n"
+            "    pinsel.farbe(\"rot\")\n"
+            "    pinsel.gehe(100)\n"
+            "ENDE SCHLEIFE"
+        )
+        lines = [l.strip() for l in code.split('\n') if '.color(' in l or '.forward(' in l]
+        assert len(lines) > 0, "Keine Maler-Aufrufe im generierten Code"
+        for line in lines:
+            assert line.endswith(';'), f"Semikolon fehlt in Schleife: {line}"
+
+    def test_mehrere_statement_methodenaufrufe_semikolon(self):
+        """Mehrere aufeinanderfolgende Methodenaufrufe brauchen alle ein Semikolon."""
+        code = csharp_code(
+            "pinsel = Maler()\n"
+            "pinsel.farbe(\"blau\")\n"
+            "pinsel.gehe(100)\n"
+            "pinsel.links(90)\n"
+            "pinsel.gehe(50)"
+        )
+        for method in ['.color(', '.forward(', '.left(']:
+            lines = [l.strip() for l in code.split('\n') if method in l]
+            for line in lines:
+                assert line.endswith(';'), f"Semikolon fehlt bei {method}: {line}"
+
 
 # ─── 6. Cross-Backend: Gleicher Zuse-Code, alle Backends ──────
 
@@ -557,3 +663,91 @@ class TestPythonAusfuehrbar:
     def test_liste_zugriff(self):
         out = self._exec_python("x = [10, 20, 30]\nAUSGABE x[1]")
         assert out == ["20"]
+
+
+# ─── 8. Syntaktische Validierung Java/C# ─────────────────────
+
+class TestSyntaxValidierung:
+    """Prüft, dass Java/C#-Code syntaktisch korrekte Statements erzeugt.
+
+    Diese Testklasse wurde hinzugefügt, nachdem entdeckt wurde, dass die
+    existierenden Tests nur Keyword-Präsenz prüften (z.B. 'System.out.println' in code),
+    aber NICHT ob Semikolons, Klammern etc. korrekt gesetzt waren.
+    """
+
+    SEMIKOLON_BACKENDS = ["java", "csharp"]
+
+    @staticmethod
+    def _ist_valide_zeile(stripped):
+        """Prüft ob eine Zeile ein gültiges Java/C#-Statement-Ende hat."""
+        if not stripped:
+            return True
+        # Kommentare, Imports, Direktiven überspringen
+        if stripped.startswith('//') or stripped.startswith('import ') \
+           or stripped.startswith('using ') or stripped.startswith('package ') \
+           or stripped.startswith('namespace '):
+            return True
+        # Klassen/Struct/Enum-Deklarationen (C# setzt { auf nächste Zeile)
+        if stripped.startswith('class ') or stripped.startswith('static class ') \
+           or stripped.startswith('public class ') or stripped.startswith('struct ') \
+           or stripped.startswith('enum '):
+            return True
+        # Gültige Zeilenenden für Java/C#
+        valid_endings = (';', '{', '}', ')', '(')
+        return stripped[-1] in valid_endings or stripped.endswith('*/')
+
+    @pytest.mark.parametrize("backend", SEMIKOLON_BACKENDS)
+    def test_jede_zeile_im_body_hat_semikolon_oder_klammer(self, backend):
+        """Jede Statement-Zeile in Java/C# muss mit ; { oder } enden."""
+        code = transpiliere(
+            "x = 42\n"
+            'AUSGABE "Hallo"\n'
+            "WENN x > 5 DANN\n"
+            "    AUSGABE x\n"
+            "ENDE WENN",
+            backend=backend
+        )
+        for line in code.split('\n'):
+            stripped = line.strip()
+            assert self._ist_valide_zeile(stripped), \
+                f"[{backend}] Ungültiges Statement-Ende: '{stripped}'"
+
+    @pytest.mark.parametrize("backend", SEMIKOLON_BACKENDS)
+    def test_maler_programm_syntaktisch_korrekt(self, backend):
+        """Ein vollständiges Maler-Programm muss syntaktisch korrekte Statements erzeugen."""
+        code = transpiliere(
+            'pinsel = Maler()\n'
+            'pinsel.farbe("blau")\n'
+            'pinsel.stiftbreite(5)\n'
+            'SCHLEIFE FÜR i IN [1, 2, 3, 4] MACHE\n'
+            '    pinsel.gehe(100)\n'
+            '    pinsel.rechts(90)\n'
+            'ENDE SCHLEIFE\n'
+            'AUSGABE "Fertig"',
+            backend=backend
+        )
+        for line in code.split('\n'):
+            stripped = line.strip()
+            assert self._ist_valide_zeile(stripped), \
+                f"[{backend}] Ungültiges Statement-Ende in Maler-Programm: '{stripped}'"
+
+    @pytest.mark.parametrize("backend", SEMIKOLON_BACKENDS)
+    def test_klasse_mit_methoden_syntaktisch_korrekt(self, backend):
+        """Klassen mit Methoden müssen syntaktisch korrekte Statements erzeugen."""
+        code = transpiliere(
+            'KLASSE Hund:\n'
+            '    DEFINIERE ERSTELLE(name):\n'
+            '        MEIN.name = name\n'
+            '    ENDE FUNKTION\n'
+            '    DEFINIERE bellen():\n'
+            '        AUSGABE MEIN.name\n'
+            '    ENDE FUNKTION\n'
+            'ENDE KLASSE\n'
+            'rex = Hund("Rex")\n'
+            'rex.bellen()',
+            backend=backend
+        )
+        for line in code.split('\n'):
+            stripped = line.strip()
+            assert self._ist_valide_zeile(stripped), \
+                f"[{backend}] Ungültiges Statement-Ende in Klassen-Programm: '{stripped}'"
