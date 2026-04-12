@@ -687,6 +687,8 @@ AUSGABE LOGARITHMUS(100, 10) # 2.0 (Log Basis 10)
 | `PI` | 3.14159... | Kreiszahl Pi |
 | `E` | 2.71828... | Eulersche Zahl |
 
+> **Hinweis für Italiano & Portugues:** In diesen Sprachen ist `E` das Schlüsselwort für UND (`AND`). Die Eulersche Zahl ist dort über `m.e` erreichbar (nach `USAR math COMO m`).
+
 ### 11.4 Zufall
 
 ```zuse
