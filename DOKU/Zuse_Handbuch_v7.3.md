@@ -32,7 +32,7 @@
 
 ## 1. Was ist Zuse?
 
-Zuse ist eine Programmiersprache, die entwickelt wurde, um die englische Sprachbarriere beim Programmierenlernen einzureißen. In Zuse programmierst du in deiner Muttersprache — ob Deutsch, Englisch, Spanisch, Französisch, Italienisch oder Portugiesisch.
+Zuse ist eine Programmiersprache, die entwickelt wurde, um die englische Sprachbarriere beim Programmierenlernen einzureißen. In Zuse programmierst du in deiner Muttersprache — ob Deutsch, Englisch, Spanisch, Französisch, Italienisch, Portugiesisch, Hindi oder Chinesisch.
 
 Gleichzeitig ist Zuse kein reines Spielzeug: Unter der Haube arbeitet ein moderner Transpiler, der deinen Zuse-Code in produktionsreifes **Python**, **JavaScript**, **Java**, **C#** oder **WebAssembly** übersetzt.
 
@@ -40,7 +40,7 @@ Gleichzeitig ist Zuse kein reines Spielzeug: Unter der Haube arbeitet ein modern
 
 | Eigenschaft | Beschreibung |
 |---|---|
-| Sprachen | 6 (DE, EN, ES, FR, IT, PT) |
+| Sprachen | 8 (DE, EN, ES, FR, IT, PT, HI, ZH) |
 | Transpiler-Ziele | Python, JavaScript, Java, C#, WebAssembly |
 | Grafik | Turtle-Grafik (Maler) + Spielfeld-Engine |
 | IDE | Zuse Studio mit Debugger |
@@ -100,10 +100,10 @@ AUSGABE "Hallo Welt!"
 AUSGABE "Dein Name ist: " + name
 
 # Den Benutzer nach Text fragen
-benutzer = EINGABE_TEXT "Wie heißt du? "
+benutzer = EINGABE_TEXT("Wie heißt du? ")
 
 # Den Benutzer nach einer Zahl fragen
-alter = EINGABE_ZAHL "Wie alt bist du? "
+alter = EINGABE_ZAHL("Wie alt bist du? ")
 ```
 
 > **Tipp:** `ZEIGE` ist ein Alias für `AUSGABE` — beide funktionieren identisch.
@@ -262,7 +262,7 @@ ENDE SCHLEIFE
 Wenn du Code mehrfach brauchst, verpacke ihn in eine Funktion:
 
 ```zuse
-DEFINIERE addiere(zahl1, zahl2)
+DEFINIERE addiere(zahl1, zahl2):
     summe = zahl1 + zahl2
     ERGEBNIS IST summe
 ENDE FUNKTION
@@ -275,7 +275,7 @@ AUSGABE addiere(10, 5)    # Gibt 15 aus
 Parameter können Standardwerte haben:
 
 ```zuse
-DEFINIERE begruessung(name, gruss="Hallo")
+DEFINIERE begruessung(name, gruss="Hallo"):
     AUSGABE gruss + ", " + name + "!"
 ENDE FUNKTION
 
@@ -307,7 +307,7 @@ Standardmäßig sind Variablen in Funktionen lokal. Mit `GLOBAL` kannst du auf g
 ```zuse
 zaehler = 0
 
-DEFINIERE erhoehe()
+DEFINIERE erhoehe():
     GLOBAL zaehler
     zaehler = zaehler + 1
 ENDE FUNKTION
@@ -322,7 +322,7 @@ AUSGABE zaehler    # 2
 `PASS` ist ein Platzhalter, wenn ein Block noch leer ist:
 
 ```zuse
-DEFINIERE spaeter_implementieren()
+DEFINIERE spaeter_implementieren():
     PASS
 ENDE FUNKTION
 ```
@@ -578,7 +578,7 @@ ENDE VERSUCHE
 ### 9.2 Praktisches Beispiel
 
 ```zuse
-DEFINIERE sichere_division(a, b)
+DEFINIERE sichere_division(a, b):
     VERSUCHE
         ERGEBNIS IST a / b
     FANGE fehler
@@ -595,7 +595,7 @@ AUSGABE sichere_division(10, 0)    # Division durch 0 ist nicht erlaubt! → NIC
 
 ```zuse
 VERSUCHE
-    alter = EINGABE_ZAHL "Wie alt bist du? "
+    alter = EINGABE_ZAHL("Wie alt bist du? ")
     WENN alter < 0 DANN
         AUSGABE "Alter kann nicht negativ sein!"
     SONST
@@ -903,7 +903,7 @@ spiel = bib.Spielfeld("Fangspiel", 800, 600, "schwarz")
 spieler = spiel.neuer_sprite(400, 300, 30, 30, "blau")
 punkte = 0
 
-DEFINIERE aktualisiere()
+DEFINIERE aktualisiere():
     GLOBAL punkte
 
     # Steuerung
@@ -966,7 +966,7 @@ Du hast ein Zuse-Programm geschrieben — was nun? Mit dem **Zuse Transpiler** k
 
 ```zuse
 # Dieses Zuse-Programm...
-DEFINIERE fakultaet(n)
+DEFINIERE fakultaet(n):
     WENN n <= 1 DANN
         ERGEBNIS IST 1
     SONST
@@ -993,19 +993,26 @@ console.log(fakultaet(10));
 ...oder zu diesem **Java**:
 
 ```java
-public class Main {
+// Generiert von Zuse Transpiler — Java 11+
+public class ZuseProgramm {
+    // ... (Hilfsmethoden _add, _mul, _sub, _truthy etc. werden automatisch generiert)
+
     static Object fakultaet(Object n) {
-        if ((int)n <= 1) {
+        if (_truthy((_cmp(n, 1) <= 0))) {
             return 1;
         } else {
-            return (int)n * (int)fakultaet((int)n - 1);
+            return _mul(n, fakultaet(_sub(n, 1)));
         }
+        return null;
     }
+
     public static void main(String[] args) {
         System.out.println(fakultaet(10));
     }
 }
 ```
+
+> **Hinweis:** Da Zuse dynamisch typisiert ist, nutzt der Java-Transpiler `Object` als universellen Typ und generiert automatisch Hilfsmethoden wie `_mul()`, `_sub()` und `_truthy()` für arithmetische und logische Operationen.
 
 ---
 
@@ -1161,40 +1168,42 @@ Der **Zuse Web Playground** ermöglicht es, Zuse direkt im Browser auszuführen 
 
 ## 20. Mehrsprachigkeit
 
-Zuse unterstützt **6 Sprachen**. Alle Schlüsselwörter, Fehlermeldungen und eingebauten Funktionen sind vollständig übersetzt.
+Zuse unterstützt **8 Sprachen**. Alle Schlüsselwörter, Fehlermeldungen und eingebauten Funktionen sind vollständig übersetzt.
 
 ### 20.1 Sprachvergleich — Schlüsselwörter
 
-| Konzept | Deutsch | English | Español | Français | Italiano | Português |
-|---|---|---|---|---|---|---|
-| Ausgabe | `AUSGABE` | `PRINT` | `MOSTRAR` | `AFFICHER` | `MOSTRA` | `MOSTRAR` |
-| Wenn | `WENN` | `IF` | `SI` | `SI` | `SE` | `SE` |
-| Dann | `DANN` | `THEN` | `ENTONCES` | `ALORS` | `ALLORA` | `ENTAO` |
-| Sonst | `SONST` | `ELSE` | `SINO` | `SINON` | `ALTRIMENTI` | `SENAO` |
-| Schleife | `SCHLEIFE` | `LOOP` | `BUCLE` | `BOUCLE` | `CICLO` | `CICLO` |
-| Für | `FÜR` | `FOR` | `PARA` | `POUR` | `PER` | `PARA` |
-| Solange | `SOLANGE` | `WHILE` | `MIENTRAS` | `TANT_QUE` | `FINCHE` | `ENQUANTO` |
-| Funktion | `DEFINIERE` | `DEFINE` | `DEFINIR` | `DEFINIR` | `DEFINISCI` | `DEFINIR` |
-| Klasse | `KLASSE` | `CLASS` | `CLASE` | `CLASSE` | `CLASSE` | `CLASSE` |
-| Wahr | `wahr` | `true` | `verdadero` | `vrai` | `vero` | `verdadeiro` |
-| Falsch | `falsch` | `false` | `falso` | `faux` | `falso` | `falso` |
-| Und | `UND` | `AND` | `Y` | `ET` | `E` | `E` |
-| Oder | `ODER` | `OR` | `O` | `OU` | `O` | `OU` |
-| Nicht | `NICHT` | `NOT` | `NO` | `NON` | `NON` | `NAO` |
-| Ergebnis | `ERGEBNIS IST` | `RESULT IS` | `RESULTADO ES` | `RESULTAT EST` | `RISULTATO E` | `RESULTADO E` |
-| Versuche | `VERSUCHE` | `TRY` | `INTENTAR` | `ESSAYER` | `PROVA` | `TENTAR` |
-| Fange | `FANGE` | `CATCH` | `CAPTURAR` | `ATTRAPER` | `CATTURA` | `CAPTURAR` |
-| Wähle | `WÄHLE` | `SWITCH` | `ELEGIR` | `CHOISIR` | `SCEGLI` | `ESCOLHER` |
-| Fall | `FALL` | `CASE` | `CASO` | `CAS` | `CASO` | `CASO` |
-| Abbruch | `ABBRUCH` | `BREAK` | `ROMPER` | `ARRETER` | `INTERROMPI` | `PARAR` |
-| Weiter | `WEITER` | `CONTINUE` | `CONTINUAR` | `CONTINUER` | `CONTINUA` | `CONTINUAR` |
-| Lambda | `AKTION` | `LAMBDA` | `ACCION` | `ACTION` | `AZIONE` | `ACAO` |
+*(Jede Sprache hat außerdem einen Alias für Ausgabe: `ZEIGE`/`SHOW`/`MOSTRAR`/`AFFICHER`/`MOSTRA`/`MOSTRAR`/`दर्शाओ`/`显示`)*
+
+| Konzept | Deutsch | English | Español | Français | Italiano | Português | हिंदी | 中文 |
+|---|---|---|---|---|---|---|---|---|
+| Ausgabe | `AUSGABE` | `PRINT` | `IMPRIMIR` | `IMPRIMER` | `STAMPA` | `IMPRIMIR` | `दिखाओ` | `输出` |
+| Wenn | `WENN` | `IF` | `SI` | `SI` | `SE` | `SE` | `अगर` | `如果` |
+| Dann | `DANN` | `THEN` | `ENTONCES` | `ALORS` | `ALLORA` | `ENTAO` | `तो` | `则` |
+| Sonst | `SONST` | `ELSE` | `SINO` | `SINON` | `ALTRIMENTI` | `SENAO` | `वरना` | `否则` |
+| Schleife | `SCHLEIFE` | `LOOP` | `BUCLE` | `BOUCLE` | `CICLO` | `CICLO` | `चक्र` | `循环` |
+| Für | `FÜR` | `FOR` | `PARA` | `POUR` | `PER` | `PARA` | `हर` | `每个` |
+| Solange | `SOLANGE` | `WHILE` | `MIENTRAS` | `TANTQUE` | `MENTRE` | `ENQUANTO` | `जबतक` | `当` |
+| Funktion | `DEFINIERE` | `DEFINE` | `DEFINIR` | `DEFINIR` | `DEFINIRE` | `DEFINIR` | `परिभाषा` | `定义` |
+| Klasse | `KLASSE` | `CLASS` | `CLASE` | `CLASSE` | `CLASSE` | `CLASSE` | `वर्ग` | `类` |
+| Wahr | `wahr` | `true` | `verdadero` | `vrai` | `vero` | `verdadeiro` | `सत्य` | `真` |
+| Falsch | `falsch` | `false` | `falso` | `faux` | `falso` | `falso` | `असत्य` | `假` |
+| Und | `UND` | `AND` | `Y` | `ET` | `E` | `E` | `और` | `且` |
+| Oder | `ODER` | `OR` | `O` | `OU` | `O` | `OU` | `या` | `或` |
+| Nicht | `NICHT` | `NOT` | `NO` | `PAS` | `NON` | `NAO` | `नहीं` | `非` |
+| Ergebnis | `ERGEBNIS IST` | `RETURN` | `RETORNO` | `RETOURNER` | `RITORNA` | `RETORNO` | `परिणाम है` | `返回` |
+| Versuche | `VERSUCHE` | `TRY` | `INTENTAR` | `ESSAYER` | `PROVA` | `TENTAR` | `प्रयास` | `尝试` |
+| Fange | `FANGE` | `CATCH` | `CAPTURAR` | `ATTRAPER` | `CATTURA` | `PEGAR` | `पकड़ो` | `捕获` |
+| Wähle | `WÄHLE` | `SWITCH` | `ELEGIR` | `CHOISIR` | `SCEGLI` | `ESCOLHER` | `चुनो` | `选择` |
+| Fall | `FALL` | `CASE` | `CASO` | `CAS` | `CASO` | `CASO` | `स्थिति` | `情况` |
+| Abbruch | `ABBRUCH` | `BREAK` | `ROMPER` | `ARRETER` | `FERMA` | `PARAR` | `रुको` | `中断` |
+| Weiter | `WEITER` | `CONTINUE` | `CONTINUAR` | `CONTINUER` | `CONTINUA` | `CONTINUAR` | `जारी` | `继续` |
+| Lambda | `AKTION` | `LAMBDA` | `ACCION` | `ACTION` | `AZIONE` | `ACAO` | `क्रिया` | `匿名` |
 
 ### 20.2 Beispiel: Das gleiche Programm in 3 Sprachen
 
 **Deutsch:**
 ```zuse
-DEFINIERE begruessung(name)
+DEFINIERE begruessung(name):
     AUSGABE "Hallo, " + name + "!"
 ENDE FUNKTION
 begruessung("Welt")
@@ -1202,7 +1211,7 @@ begruessung("Welt")
 
 **English:**
 ```zuse
-DEFINE greeting(name)
+DEFINE greeting(name):
     PRINT "Hello, " + name + "!"
 END FUNCTION
 greeting("World")
@@ -1210,8 +1219,8 @@ greeting("World")
 
 **Español:**
 ```zuse
-DEFINIR saludo(nombre)
-    MOSTRAR "Hola, " + nombre + "!"
+DEFINIR saludo(nombre):
+    IMPRIMIR "Hola, " + nombre + "!"
 FIN FUNCION
 saludo("Mundo")
 ```
@@ -1225,8 +1234,8 @@ saludo("Mundo")
 | Konzept | Zuse Syntax |
 |---|---|
 | Ausgabe | `AUSGABE wert` |
-| Texteingabe | `x = EINGABE_TEXT "Frage: "` |
-| Zahleingabe | `x = EINGABE_ZAHL "Frage: "` |
+| Texteingabe | `x = EINGABE_TEXT("Frage: ")` |
+| Zahleingabe | `x = EINGABE_ZAHL("Frage: ")` |
 | Kommentar | `# Dies ist ein Kommentar` |
 | Nichts/Null | `NICHTS` |
 | Wahrheitswerte | `wahr` / `falsch` |
