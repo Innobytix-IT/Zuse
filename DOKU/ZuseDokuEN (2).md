@@ -5,13 +5,13 @@
 
 **Zuse** is an object-oriented, transpiling programming language designed to break the barrier between "Learning Languages" (like Scratch) and "Pro Languages" (like Python/C++).
 
-It enables programming in your native language (DE, EN, ES, FR, IT, PT), offers a seamless transition from simple graphics programming to controlling complex hardware, and transpiles Zuse code into 5 target languages.
+It enables programming in your native language (DE, EN, ES, FR, IT, PT, HI, ZH), offers a seamless transition from simple graphics programming to controlling complex hardware, and transpiles Zuse code into 5 target languages.
 
 ---
 
 ## Features
 
-*   **Multilingual:** The interpreter understands 6 languages natively (German, English, Spanish, French, Italian, Portuguese).
+*   **Multilingual:** The interpreter understands 8 languages natively (German, English, Spanish, French, Italian, Portuguese, Hindi, Chinese).
 *   **Dual Mode:**
     *   **Learning Mode:** Sandbox environment for kids/beginners (safe commands only).
     *   **Pro Mode ("God Mode"):** Full access to the Python Runtime (including hardware control).
@@ -26,7 +26,7 @@ It enables programming in your native language (DE, EN, ES, FR, IT, PT), offers 
 *   **Package Manager (zpkg):** Install and share packages with SemVer versioning.
 *   **Environment Aware:** Zuse automatically detects whether it is running inside the IDE, as a standalone application, or in the browser, and adapts dynamically.
 *   **50+ built-in functions:** Math, text, lists, files, random, type checking, formatting.
-*   **1086+ automated tests** across 31 test modules.
+*   **1102+ automated tests** across 31 test modules.
 
 ---
 
@@ -46,8 +46,8 @@ The AST is translated by specialized backends into **Python**, **JavaScript**, *
 ### 4. The IDE (Zuse Studio)
 The Studio (`zuse_studio.py`) is thread-safe and features learning/pro mode, a **debugger** with breakpoints, **pre-flight check** logic, and integrated transpiler controls.
 
-### 5. The Standard Library (6 Languages)
-The `.zuse` files in the `bibliothek/` folder provide **Painter** (turtle graphics) and **Game Engine** (2D games) in all 6 languages.
+### 5. The Standard Library (8 Languages)
+The `.zuse` files in the `bibliothek/` folder provide **Painter** (turtle graphics) and **Game Engine** (2D games) in all 8 languages.
 
 ### 6. Additional Tools
 *   **LSP Server** (`zuse_lsp_server.py`) for editor integration
@@ -80,8 +80,8 @@ END LOOP
 
 ### Functions with Lambda
 ```zuse
-DEFINE square(x)
-    RESULT IS x ^ 2
+DEFINE square(x):
+    RETURN x ^ 2
 END FUNCTION
 
 numbers = [1, 2, 3, 4, 5]
@@ -93,17 +93,17 @@ PRINT even    # [2, 4]
 ```zuse
 CLASS Animal:
     DEFINE CREATE(name):
-        MY.name = name
+        SELF.name = name
     END FUNCTION
 
     DEFINE speak():
-        PRINT MY.name + " makes a sound."
+        PRINT SELF.name + " makes a sound."
     END FUNCTION
 END CLASS
 
 CLASS Dog(Animal):
     DEFINE speak():
-        PRINT MY.name + " says: Woof!"
+        PRINT SELF.name + " says: Woof!"
     END FUNCTION
 END CLASS
 
@@ -195,11 +195,11 @@ led.write(1)
 
 ```zuse
 # This Zuse program...
-DEFINE factorial(n)
+DEFINE factorial(n):
     IF n <= 1 THEN
-        RESULT IS 1
+        RETURN 1
     ELSE
-        RESULT IS n * factorial(n - 1)
+        RETURN n * factorial(n - 1)
     END IF
 END FUNCTION
 ```
@@ -225,7 +225,7 @@ static Object factorial(Object n) {
 ## Roadmap (Zuse: The Universal Vision)
 
 *   [x] **v6.9:** Stable interpreter, IDE, libraries (DE/EN/ES/PT/FR/IT).
-*   [x] **v7.3:** 5 transpiler backends (Python, JS, Java, C#, WASM), game engine, debugger, LSP server, web playground, package manager, semantic analysis, 1086+ tests.
+*   [x] **v7.3:** 8 languages (DE/EN/ES/FR/IT/PT/HI/ZH), 5 transpiler backends (Python, JS, Java, C#, WASM), game engine, debugger, LSP server, web playground, package manager, semantic analysis, 1102+ tests.
 *   [ ] **vNext (Zuse Universal):** Further optimization, additional languages, extended IDE features.
 
 <img width="585" height="584" alt="image" src="https://github.com/user-attachments/assets/4b5ab1b0-38c5-4da5-9b72-8daa45b87e40" />

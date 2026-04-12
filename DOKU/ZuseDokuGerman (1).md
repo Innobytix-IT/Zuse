@@ -5,13 +5,13 @@
 
 **Zuse** ist eine objektorientierte, transpilierende Programmiersprache, die entwickelt wurde, um die Barriere zwischen "Lern-Sprachen" (wie Scratch) und "Profi-Sprachen" (wie Python/C++) zu durchbrechen.
 
-Sie ermöglicht Programmierung in der Muttersprache (DE, EN, ES, FR, IT, PT), bietet einen nahtlosen Übergang von einfacher Grafik-Programmierung zur Steuerung komplexer Hardware und übersetzt Zuse-Code in 5 Zielsprachen.
+Sie ermöglicht Programmierung in der Muttersprache (DE, EN, ES, FR, IT, PT, HI, ZH), bietet einen nahtlosen Übergang von einfacher Grafik-Programmierung zur Steuerung komplexer Hardware und übersetzt Zuse-Code in 5 Zielsprachen.
 
 ---
 
 ## Features
 
-*   **Multilingual:** Der Interpreter versteht 6 Sprachen nativ (Deutsch, Englisch, Spanisch, Französisch, Italienisch, Portugiesisch).
+*   **Multilingual:** Der Interpreter versteht 8 Sprachen nativ (Deutsch, Englisch, Spanisch, Französisch, Italienisch, Portugiesisch, Hindi, Chinesisch).
 *   **Dual Mode:**
     *   **Lern-Modus:** Sandbox-Umgebung für Kinder/Anfänger (nur sichere Befehle).
     *   **Profi-Modus ("God Mode"):** Vollständiger Zugriff auf die Python-Runtime (inkl. Hardware-Steuerung).
@@ -26,7 +26,7 @@ Sie ermöglicht Programmierung in der Muttersprache (DE, EN, ES, FR, IT, PT), bi
 *   **Paketmanager (zpkg):** Pakete installieren und teilen mit SemVer-Versionierung.
 *   **Environment Aware:** Zuse erkennt automatisch, ob es in der IDE, als Standalone oder im Browser läuft und passt sich dynamisch an.
 *   **50+ eingebaute Funktionen:** Mathematik, Text, Listen, Dateien, Zufall, Typprüfung, Formatierung.
-*   **1086+ automatisierte Tests** in 31 Testmodulen.
+*   **1102+ automatisierte Tests** in 31 Testmodulen.
 
 ---
 
@@ -46,8 +46,8 @@ Der AST wird von spezialisierten Backends in **Python**, **JavaScript**, **Java*
 ### 4. Die IDE (Zuse Studio)
 Das Studio (`zuse_studio.py`) ist Thread-Safe und verfügt über Lern-/Profi-Modus, **Debugger** mit Breakpoints, **Pre-Flight-Check**-Logik und integrierte Transpiler-Steuerung.
 
-### 5. Die Standard-Bibliothek (6 Sprachen)
-Die `.zuse`-Dateien im Ordner `bibliothek/` stellen **Maler** (Turtle-Grafik) und **Spielfeld** (2D-Game-Engine) in allen 6 Sprachen bereit.
+### 5. Die Standard-Bibliothek (8 Sprachen)
+Die `.zuse`-Dateien im Ordner `bibliothek/` stellen **Maler** (Turtle-Grafik) und **Spielfeld** (2D-Game-Engine) in allen 8 Sprachen bereit.
 
 ### 6. Weitere Werkzeuge
 *   **LSP-Server** (`zuse_lsp_server.py`) für Editor-Integration
@@ -80,7 +80,7 @@ ENDE SCHLEIFE
 
 ### Funktionen mit Lambda
 ```zuse
-DEFINIERE quadrat(x)
+DEFINIERE quadrat(x):
     ERGEBNIS IST x ^ 2
 ENDE FUNKTION
 
@@ -195,7 +195,7 @@ led.write(1)
 
 ```zuse
 # Dieses Zuse-Programm...
-DEFINIERE fakultaet(n)
+DEFINIERE fakultaet(n):
     WENN n <= 1 DANN
         ERGEBNIS IST 1
     SONST
@@ -225,7 +225,7 @@ static Object fakultaet(Object n) {
 ## Roadmap (Zuse: The Universal Vision)
 
 *   [x] **v6.9:** Stabiler Interpreter, IDE, Bibliotheken (DE/EN/ES/PT/FR/IT).
-*   [x] **v7.3:** 5 Transpiler-Backends (Python, JS, Java, C#, WASM), Spielfeld-Engine, Debugger, LSP-Server, Web Playground, Paketmanager, Semantische Analyse, 1086+ Tests.
+*   [x] **v7.3:** 8 Sprachen (DE/EN/ES/FR/IT/PT/HI/ZH), 5 Transpiler-Backends (Python, JS, Java, C#, WASM), Spielfeld-Engine, Debugger, LSP-Server, Web Playground, Paketmanager, Semantische Analyse, 1102+ Tests.
 *   [ ] **vNext (Zuse Universal):** Weitere Optimierung, zusätzliche Sprachen, erweiterte IDE-Features.
 
 <img width="585" height="584" alt="image" src="https://github.com/user-attachments/assets/1e5649a9-1c79-4b5c-8149-b0f0329211a7" />
