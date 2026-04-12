@@ -54,7 +54,21 @@ def main():
         parser = Parser(tokens)
         ast = parser.parse()
         
-        interpreter = Interpreter(output_callback=print, sprache=sprache)
+        def _cli_input(prompt, modus):
+            """CLI-Input-Wrapper: ignoriert 'modus', gibt Rohtext zurück."""
+            try:
+                val = input(prompt)
+            except EOFError:
+                val = ""
+            if modus == 'zahl':
+                try:
+                    f = float(val)
+                    return int(f) if f.is_integer() else f
+                except (ValueError, TypeError):
+                    return 0
+            return val
+
+        interpreter = Interpreter(output_callback=print, input_callback=_cli_input, sprache=sprache)
         interpreter.working_dir = os.path.dirname(os.path.abspath(dateiname))
         interpreter.interpretiere(ast)
 

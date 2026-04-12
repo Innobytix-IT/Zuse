@@ -23,7 +23,7 @@ ALLOWED_MODULES = {
 }
 
 # Unsere eigenen Sprach-Bibliotheken (diese sind sicher!)
-ZUSE_LIBS = {'deutsch', 'english', 'espanol', 'francais', 'italiano', 'portugues', 'hindi', 'zhongwen'}
+ZUSE_LIBS = {'deutsch', 'english', 'espaniol', 'espanol', 'francais', 'italiano', 'portugues', 'hindi', 'zhongwen'}
 
 # Whitelist für Lernmodus
 SAFE_MODULES_WHITELIST = {

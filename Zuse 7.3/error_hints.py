@@ -13,6 +13,8 @@ KEY_HINTS = {
         "fr": "Conseil: Le mot ALORS manque apres une condition SI.\nCorrect: SI x > 5 ALORS",
         "it": "Suggerimento: Manca la parola ALLORA dopo una condizione SE.\nCorretto: SE x > 5 ALLORA",
         "pt": "Dica: Falta a palavra ENTAO depois de uma condicao SE.\nCorreto: SE x > 5 ENTAO",
+        "hi": "सुझाव: अगर-शर्त के बाद 'तो' शब्द गायब है।\nसही: अगर x > 5 तो",
+        "zh": "提示: 如果-条件后缺少'则'。\n正确写法: 如果 x > 5 则",
     },
     "ERR_SYNTAX_EXPECTED_TYPE:KW_MACHE": {
         "de": "Tipp: Nach SOLANGE/FÜR fehlt das Wort MACHE.\nRichtig: SOLANGE x > 0 MACHE",
@@ -21,6 +23,8 @@ KEY_HINTS = {
         "fr": "Conseil: Le mot FAIRE manque apres TANT_QUE/POUR.\nCorrect: TANT_QUE x > 0 FAIRE",
         "it": "Suggerimento: Manca la parola FAI dopo FINCHE/PER.\nCorretto: FINCHE x > 0 FAI",
         "pt": "Dica: Falta a palavra FACA depois de ENQUANTO/PARA.\nCorreto: ENQUANTO x > 0 FACA",
+        "hi": "सुझाव: जबतक/हर के बाद 'करो' शब्द गायब है।\nसही: जबतक x > 0 करो",
+        "zh": "提示: 当/每个 后缺少'执行'。\n正确写法: 当 x > 0 执行",
     },
     "ERR_SYNTAX_EXPECTED_TYPE:KW_ENDE_WENN": {
         "de": "Tipp: Du hast vergessen, deine WENN-Bedingung mit ENDE WENN abzuschliessen.\nJeder WENN-Block braucht am Ende: ENDE WENN",
@@ -29,6 +33,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu as oublie de fermer ta condition SI avec FIN SI.\nChaque bloc SI a besoin de: FIN SI",
         "it": "Suggerimento: Hai dimenticato di chiudere la condizione SE con FINE SE.\nOgni blocco SE ha bisogno di: FINE SE",
         "pt": "Dica: Voce esqueceu de fechar a condicao SE com FIM SE.\nCada bloco SE precisa de: FIM SE",
+        "hi": "सुझाव: आप अगर-ब्लॉक को 'अंत अगर' से बंद करना भूल गए।\nहर अगर-ब्लॉक को अंत में चाहिए: अंत अगर",
+        "zh": "提示: 你忘记用'结束 如果'关闭 如果 语块。\n每个 如果 语块末尾需要: 结束 如果",
     },
     "ERR_SYNTAX_EXPECTED_TYPE:KW_ENDE_FUNKTION": {
         "de": "Tipp: Du hast vergessen, deine Funktion mit ENDE FUNKTION abzuschliessen.\nJeder DEFINIERE-Block braucht am Ende: ENDE FUNKTION",
@@ -37,6 +43,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu as oublie de fermer ta fonction avec FIN FONCTION.\nChaque bloc DEFINIR a besoin de: FIN FONCTION",
         "it": "Suggerimento: Hai dimenticato di chiudere la funzione con FINE FUNZIONE.\nOgni blocco DEFINISCI ha bisogno di: FINE FUNZIONE",
         "pt": "Dica: Voce esqueceu de fechar a funcao com FIM FUNCAO.\nCada bloco DEFINIR precisa de: FIM FUNCAO",
+        "hi": "सुझाव: आप फ़ंक्शन को 'अंत फलन' से बंद करना भूल गए।\nहर परिभाषा-ब्लॉक को अंत में चाहिए: अंत फलन",
+        "zh": "提示: 你忘记用'结束 函数'关闭函数。\n每个 定义 语块末尾需要: 结束 函数",
     },
     "ERR_SYNTAX_EXPECTED_TYPE:KW_ENDE_SCHLEIFE": {
         "de": "Tipp: Du hast vergessen, deine Schleife mit ENDE SCHLEIFE abzuschliessen.\nJede Schleife braucht am Ende: ENDE SCHLEIFE",
@@ -45,6 +53,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu as oublie de fermer ta boucle avec FIN BOUCLE.\nChaque boucle a besoin de: FIN BOUCLE",
         "it": "Suggerimento: Hai dimenticato di chiudere il ciclo con FINE CICLO.\nOgni ciclo ha bisogno di: FINE CICLO",
         "pt": "Dica: Voce esqueceu de fechar o laco com FIM LACO.\nCada laco precisa de: FIM LACO",
+        "hi": "सुझाव: आप चक्र को 'अंत चक्र' से बंद करना भूल गए।\nहर चक्र-ब्लॉक को अंत में चाहिए: अंत चक्र",
+        "zh": "提示: 你忘记用'结束 循环'关闭循环。\n每个循环末尾需要: 结束 循环",
     },
     "ERR_SYNTAX_EXPECTED_TYPE:KW_ENDE_KLASSE": {
         "de": "Tipp: Du hast vergessen, deine Klasse mit ENDE KLASSE abzuschliessen.\nJede KLASSE braucht am Ende: ENDE KLASSE",
@@ -53,6 +63,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu as oublie de fermer ta classe avec FIN CLASSE.\nChaque CLASSE a besoin de: FIN CLASSE",
         "it": "Suggerimento: Hai dimenticato di chiudere la classe con FINE CLASSE.\nOgni CLASSE ha bisogno di: FINE CLASSE",
         "pt": "Dica: Voce esqueceu de fechar a classe com FIM CLASSE.\nCada CLASSE precisa de: FIM CLASSE",
+        "hi": "सुझाव: आप वर्ग को 'अंत वर्ग' से बंद करना भूल गए।\nहर वर्ग-ब्लॉक को अंत में चाहिए: अंत वर्ग",
+        "zh": "提示: 你忘记用'结束 类'关闭类。\n每个 类 末尾需要: 结束 类",
     },
     "ERR_LOOP_EXPECTED_FOR_WHILE": {
         "de": "Tipp: Nach SCHLEIFE muss entweder FÜR oder SOLANGE kommen.\nBeispiel: SCHLEIFE FÜR i IN BEREICH(10) MACHE",
@@ -61,6 +73,8 @@ KEY_HINTS = {
         "fr": "Conseil: Apres BOUCLE, il faut POUR ou TANT_QUE.\nExemple: BOUCLE POUR i DANS PLAGE(10) FAIRE",
         "it": "Suggerimento: Dopo CICLO, deve seguire PER o FINCHE.\nEsempio: CICLO PER i IN INTERVALLO(10) FAI",
         "pt": "Dica: Depois de LACO, deve seguir PARA ou ENQUANTO.\nExemplo: LACO PARA i EM INTERVALO(10) FACA",
+        "hi": "सुझाव: चक्र के बाद 'हर' या 'जबतक' आना चाहिए।\nउदाहरण: चक्र हर i में श्रेणी(10) करो",
+        "zh": "提示: 循环 后必须跟 每个 或 当。\n示例: 循环 每个 i 在 范围(10) 执行",
     },
     "ERR_UNEXPECTED_TOKEN": {
         "de": "Tipp: In dieser Zeile steht etwas, das Zuse nicht versteht.\nPruefe Rechtschreibung und Einrueckung.",
@@ -69,6 +83,8 @@ KEY_HINTS = {
         "fr": "Conseil: Il y a quelque chose sur cette ligne que Zuse ne comprend pas.\nVerifie l'orthographe et l'indentation.",
         "it": "Suggerimento: C'e qualcosa in questa riga che Zuse non capisce.\nControlla l'ortografia e l'indentazione.",
         "pt": "Dica: Ha algo nesta linha que Zuse nao entende.\nVerifique a ortografia e a indentacao.",
+        "hi": "सुझाव: इस पंक्ति में कुछ ऐसा है जो ज़ूज़ समझ नहीं सकता।\nवर्तनी और इंडेंटेशन जाँचें।",
+        "zh": "提示: 这一行有些东西Zuse无法理解。\n请检查拼写和缩进。",
     },
     "ERR_VAR_NOT_DEFINED": {
         "de": "Tipp: Die Variable existiert noch nicht.\nWeise ihr zuerst einen Wert zu: variable = ...",
@@ -77,6 +93,8 @@ KEY_HINTS = {
         "fr": "Conseil: La variable n'existe pas encore.\nAssigne-lui d'abord une valeur: variable = ...",
         "it": "Suggerimento: La variabile non esiste ancora.\nAssegnale prima un valore: variabile = ...",
         "pt": "Dica: A variavel ainda nao existe.\nAtribua um valor primeiro: variavel = ...",
+        "hi": "सुझाव: यह चर अभी तक मौजूद नहीं है।\nपहले इसे एक मान दें: चर = ...",
+        "zh": "提示: 这个变量还不存在。\n请先赋值: 变量 = ...",
     },
     "ERR_DIVISION_BY_ZERO": {
         "de": "Tipp: Du versuchst durch 0 zu teilen — das ist mathematisch nicht erlaubt.\nPruefe den Wert des Nenners mit einer WENN-Abfrage.",
@@ -85,6 +103,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu essaies de diviser par 0 — c'est interdit en mathematiques.\nVerifie la valeur du denominateur avec une instruction SI.",
         "it": "Suggerimento: Stai cercando di dividere per 0 — non e consentito in matematica.\nControlla il valore del denominatore con un'istruzione SE.",
         "pt": "Dica: Voce esta tentando dividir por 0 — nao e permitido em matematica.\nVerifique o valor do denominador com uma instrucao SE.",
+        "hi": "सुझाव: आप 0 से भाग देने की कोशिश कर रहे हैं — गणित में यह अनुमत नहीं है।\nभाजक का मान एक अगर-कथन से जाँचें।",
+        "zh": "提示: 你在尝试除以0 — 数学上这是不允许的。\n用 如果 语句检查除数的值。",
     },
     "ERR_INCOMPATIBLE_TYPES": {
         "de": "Tipp: Du versuchst verschiedene Datentypen zu kombinieren.\nNutze str() um Zahlen in Text umzuwandeln: \"Ergebnis: \" + str(42)",
@@ -93,6 +113,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu essaies de combiner differents types de donnees.\nUtilise str() pour convertir les nombres en texte: \"Resultat: \" + str(42)",
         "it": "Suggerimento: Stai cercando di combinare tipi di dati diversi.\nUsa str() per convertire i numeri in testo: \"Risultato: \" + str(42)",
         "pt": "Dica: Voce esta tentando combinar diferentes tipos de dados.\nUse str() para converter numeros em texto: \"Resultado: \" + str(42)",
+        "hi": "सुझाव: आप अलग-अलग डेटा प्रकारों को जोड़ने की कोशिश कर रहे हैं।\nसंख्याओं को पाठ में बदलने के लिए str() उपयोग करें: \"परिणाम: \" + str(42)",
+        "zh": "提示: 你在尝试组合不同的数据类型。\n使用str()将数字转为文字: \"结果: \" + str(42)",
     },
     "ERR_NOT_ITERABLE": {
         "de": "Tipp: Du versuchst ueber etwas zu schleifen, das keine Liste ist.\nNutze BEREICH() fuer Zahlen: SCHLEIFE FÜR i IN BEREICH(10) MACHE",
@@ -101,6 +123,8 @@ KEY_HINTS = {
         "fr": "Conseil: Tu essaies de boucler sur quelque chose qui n'est pas une liste.\nUtilise PLAGE() pour les nombres: BOUCLE POUR i DANS PLAGE(10) FAIRE",
         "it": "Suggerimento: Stai cercando di iterare su qualcosa che non e una lista.\nUsa INTERVALLO() per i numeri: CICLO PER i IN INTERVALLO(10) FAI",
         "pt": "Dica: Voce esta tentando iterar sobre algo que nao e uma lista.\nUse INTERVALO() para numeros: LACO PARA i EM INTERVALO(10) FACA",
+        "hi": "सुझाव: आप किसी ऐसी चीज़ पर लूप चलाने की कोशिश कर रहे हैं जो सूची नहीं है।\nसंख्याओं के लिए श्रेणी() उपयोग करें: चक्र हर i में श्रेणी(10) करो",
+        "zh": "提示: 你在尝试遍历一个不是列表的东西。\n用 范围() 遍历数字: 循环 每个 i 在 范围(10) 执行",
     },
     "ERR_MAX_RECURSION": {
         "de": "Tipp: Deine Funktion ruft sich selbst zu oft auf (Endlosrekursion).\nPruefe deine Abbruchbedingung — wann soll die Rekursion stoppen?",
@@ -109,6 +133,8 @@ KEY_HINTS = {
         "fr": "Conseil: Ta fonction s'appelle elle-meme trop souvent (recursion infinie).\nVerifie ta condition d'arret — quand la recursion doit-elle s'arreter?",
         "it": "Suggerimento: La tua funzione chiama se stessa troppo spesso (ricorsione infinita).\nControlla il caso base — quando deve fermarsi la ricorsione?",
         "pt": "Dica: Sua funcao chama a si mesma muitas vezes (recursao infinita).\nVerifique o caso base — quando a recursao deve parar?",
+        "hi": "सुझाव: आपका फ़ंक्शन खुद को बहुत ज़्यादा बार बुला रहा है (अनंत पुनरावृत्ति)।\nआधार स्थिति जाँचें — पुनरावृत्ति कब रुकनी चाहिए?",
+        "zh": "提示: 你的函数调用自身太多次（无限递归）。\n检查基本情况 — 递归什么时候应该停止？",
     },
     "ERR_NOT_A_CLASS": {
         "de": "Tipp: Dieses Objekt wurde nicht als KLASSE definiert.\nKlassen werden so definiert: KLASSE Name: ... ENDE KLASSE",
@@ -117,6 +143,8 @@ KEY_HINTS = {
         "fr": "Conseil: Cet objet n'a pas ete defini comme une CLASSE.\nLes classes se definissent: CLASSE Nom: ... FIN CLASSE",
         "it": "Suggerimento: Questo oggetto non e stato definito come una CLASSE.\nLe classi si definiscono: CLASSE Nome: ... FINE CLASSE",
         "pt": "Dica: Este objeto nao foi definido como uma CLASSE.\nClasses sao definidas assim: CLASSE Nome: ... FIM CLASSE",
+        "hi": "सुझाव: इस ऑब्जेक्ट को वर्ग के रूप में परिभाषित नहीं किया गया था।\nवर्ग इस तरह परिभाषित होते हैं: वर्ग नाम: ... अंत वर्ग",
+        "zh": "提示: 这个对象没有被定义为类。\n类的定义方式: 类 名称: ... 结束 类",
     },
     "ERR_MODULE_NOT_FOUND": {
         "de": "Tipp: Das Modul konnte nicht geladen werden.\nIst es installiert? Nutze zpkg fuer Zuse-Pakete.",
@@ -125,6 +153,8 @@ KEY_HINTS = {
         "fr": "Conseil: Le module n'a pas pu etre charge.\nEst-il installe? Utilise zpkg pour les paquets Zuse.",
         "it": "Suggerimento: Il modulo non puo essere caricato.\nE installato? Usa zpkg per i pacchetti Zuse.",
         "pt": "Dica: O modulo nao pode ser carregado.\nEsta instalado? Use zpkg para pacotes Zuse.",
+        "hi": "सुझाव: मॉड्यूल लोड नहीं हो सका।\nक्या यह इंस्टॉल है? ज़ूज़ पैकेज के लिए zpkg उपयोग करें।",
+        "zh": "提示: 模块无法加载。\n是否已安装？使用zpkg获取Zuse包。",
     },
     "ERR_SECURITY_BLOCK": {
         "de": "Tipp: Im Lernmodus ist dieses Modul gesperrt.\nWechsle in den Profi-Modus um alle Module zu nutzen.",
@@ -133,6 +163,8 @@ KEY_HINTS = {
         "fr": "Conseil: Ce module est bloque en mode apprentissage.\nPasse en mode expert pour utiliser tous les modules.",
         "it": "Suggerimento: Questo modulo e bloccato in modalita apprendimento.\nPassa alla modalita esperto per usare tutti i moduli.",
         "pt": "Dica: Este modulo esta bloqueado no modo aprendizagem.\nMude para o modo especialista para usar todos os modulos.",
+        "hi": "सुझाव: सीखने के मोड में यह मॉड्यूल अवरुद्ध है।\nसभी मॉड्यूल उपयोग करने के लिए विशेषज्ञ मोड पर जाएँ।",
+        "zh": "提示: 在学习模式下此模块被禁用。\n切换到专家模式以使用所有模块。",
     },
     "ERR_MULTI_ASSIGN_MISMATCH": {
         "de": "Tipp: Links und rechts vom = muessen gleich viele Werte stehen.",
@@ -141,6 +173,8 @@ KEY_HINTS = {
         "fr": "Conseil: Le nombre de cibles et de valeurs de chaque cote du = doit correspondre.",
         "it": "Suggerimento: Il numero di obiettivi e valori su ogni lato del = deve corrispondere.",
         "pt": "Dica: O numero de alvos e valores de cada lado do = deve ser igual.",
+        "hi": "सुझाव: = के बाईं और दाईं ओर समान संख्या में मान होने चाहिए।",
+        "zh": "提示: = 两侧的变量数量和值数量必须相等。",
     },
     "ERR_CANNOT_SET_ATTR": {
         "de": "Tipp: Das Attribut kann nicht gesetzt werden.\nIst das Objekt vom richtigen Typ?",
@@ -149,6 +183,8 @@ KEY_HINTS = {
         "fr": "Conseil: L'attribut ne peut pas etre defini.\nL'objet est-il du bon type?",
         "it": "Suggerimento: L'attributo non puo essere impostato.\nL'oggetto e del tipo corretto?",
         "pt": "Dica: O atributo nao pode ser definido.\nO objeto e do tipo correto?",
+        "hi": "सुझाव: यह विशेषता सेट नहीं की जा सकती।\nक्या ऑब्जेक्ट सही प्रकार का है?",
+        "zh": "提示: 无法设置该属性。\n对象的类型是否正确？",
     },
 }
 
